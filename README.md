@@ -7,6 +7,10 @@ Simple forum written in Python using Django.
 1. Install the packages in requirements.txt.
 1. Run the server! :)
 
+## Admin panel
+Username: root  
+Password: password
+
 ## Getting MySQL to work with Django
 You may stumble upon problems (again) when trying to hook MySQL with Django. Most of the solutions you'll find won't work like:
 - Installing mysqlclient
