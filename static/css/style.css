@@ -1,0 +1,46 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    color: var(--text-color);
+    background: var(--background);
+}
+
+header, footer {
+    padding: 12px;
+    color: var(--text-color-light);
+}
+
+header {
+    background: var(--special);
+}
+
+footer {
+    background: var(--background-mid);
+}
+
+::selection {
+    background: #2E86AB;
+}
+
+a {
+    color: red;
+}
+
+a:hover {
+    color: darkred;
+}
+
+/* -------------------------------------- */
+/* Objects
+/* -------------------------------------- */
+.social {
+    text-align: center;
+}
+
+.social-item {
+    display: inline;
+    margin: 0 5px;
+}
