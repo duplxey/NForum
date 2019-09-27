@@ -9,28 +9,40 @@ body {
 }
 
 header, footer {
-    padding: 12px;
     color: var(--text-color-light);
 }
 
+footer a {
+    color: var(--text-color-light);
+    transition: 0.2s;
+}
+
+footer a:hover {
+    color: var(--text-color-light-hover);
+    transition: 0.2s;
+}
+
+.card {
+    margin-bottom: 12px;
+}
+
 header {
+    margin-bottom: 12px;
+}
+
+.logo-container {
     background: var(--special);
+    padding: 12px;
 }
 
 footer {
+    padding: 12px;
     background: var(--background-mid);
+    margin-top: 12px;
 }
 
 ::selection {
     background: #2E86AB;
-}
-
-a {
-    color: red;
-}
-
-a:hover {
-    color: darkred;
 }
 
 /* -------------------------------------- */
