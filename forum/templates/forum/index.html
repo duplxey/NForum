@@ -6,46 +6,44 @@
 			<div class="col-12 col-md-9">
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="#">Home</a></li>
+						<li class="breadcrumb-item"><a href="{% url "home-index" %}">Home</a></li>
 						<li class="breadcrumb-item active" aria-current="page">Forums</li>
 					</ol>
 				</nav>
-				<div class="card">
-					<div class="card-body">
-						<h3>Category 1</h3>
-						<p>Lorem ipsum dolor sit amet.</p>
-						<hr>
-						<a href="#"><i class="fas fa-bookmark"></i> Subcategory 1</a>
-						<hr>
-						<a href="#"><i class="fas fa-bookmark"></i> Subcategory 2</a>
+				{% for category in categories %}
+					<div class="card">
+						<div class="card-body">
+							<h3>{{ category.title }}</h3>
+							<p>{{ category.description }}</p>
+							{% for subcategory in category.subcategories.all %}
+								<hr>
+								<a href="#"><i class="fas fa-bookmark"></i> {{ subcategory.title }}</a> | {{ subcategory.description }}
+							{% endfor %}
+						</div>
 					</div>
-				</div>
-				<div class="card">
-					<div class="card-body">
-						<h3>Category 2</h3>
-						<p>Lorem ipsum dolor sit amet.</p>
-						<hr>
-						<a href="#"><i class="fas fa-bookmark"></i> Subcategory 1</a>
-						<hr>
-						<a href="#"><i class="fas fa-bookmark"></i> Subcategory 2</a>
-					</div>
-				</div>
+				{% endfor %}
 			</div>
 			<div class="col-12 col-md-3">
 				<div class="card">
-					<div class="card-header">
-						Module 1
-					</div>
+					<div class="card-header"><i class="fas fa-folder-open"></i> Recent posts</div>
 					<div class="card-body">
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+						Post 1 | posted by Johnny
+						<hr>
+						Post 2 | posted by Johnny
+						<hr>
+						Post 3 | posted by Johnny
+						<hr>
+						Post 4 | posted by Johnny
+						<hr>
+						Post 5 | posted by Johnny
 					</div>
 				</div>
 				<div class="card">
-					<div class="card-header">
-						Module 2
-					</div>
+					<div class="card-header"><i class="fas fa-signal"></i> Statistics</div>
 					<div class="card-body">
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+						Threads: x<br>
+						Messages: x<br>
+						Users: x<br>
 					</div>
 				</div>
 			</div>
