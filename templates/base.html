@@ -1,3 +1,5 @@
+{% load static %}
+
 {% include "copyright.html" %}
 <!DOCTYPE html>
 <html lang="en">
@@ -7,7 +9,7 @@
         <title>NForum | {% block subtitle %}Woop woop!{% endblock %}</title>
         <meta name="description" content="{% block description %}Simple forum written in Python using Django.{% endblock %}"/>
         <meta name="keywords" content="{% block keywords %}nforum, forum, python, django{% endblock %}"/>
-        <link rel="shortcut icon" type="image/png" href="{{ WROOT }}img/favicon.png"/>
+        <link rel="shortcut icon" type="image/png" href="{% static "img/favicon.png" %}"/>
         {% include "imports.html" %}
     </head>
     <body>

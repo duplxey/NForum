@@ -26,6 +26,15 @@ footer a:hover {
     margin-bottom: 12px;
 }
 
+.avatar {
+    width: 100px;
+    height: 100px;
+}
+
+.center {
+    text-align: center;
+}
+
 header {
     margin-bottom: 12px;
 }
