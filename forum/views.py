@@ -7,3 +7,7 @@ def index(request):
 
 def thread(request):
     return render(request, 'forum/thread.html', {})
+
+
+def subcategory(request):
+    return render(request, 'forum/subcategory.html', {})
