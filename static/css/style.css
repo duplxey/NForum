@@ -36,7 +36,6 @@ footer a:hover {
 }
 
 header {
-    margin-bottom: 12px;
 }
 
 .logo-container {
@@ -47,11 +46,30 @@ header {
 footer {
     padding: 12px;
     background: var(--background-mid);
-    margin-top: 12px;
 }
 
 ::selection {
     background: #2E86AB;
+}
+
+.section {
+    padding: 30px 0;
+}
+
+.marged {
+    margin: 25px;
+}
+
+.bg-mid {
+    background: var(--background-mid);
+}
+
+.bg-special {
+    background: var(--special);
+}
+
+.text-light {
+    color: var(--text-color-light);
 }
 
 /* -------------------------------------- */

@@ -3,65 +3,67 @@
 {% load static %}
 
 {% block body %}
-	<nav aria-label="breadcrumb">
-		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="#">Home</a></li>
-			<li class="breadcrumb-item"><a href="#">Forums</a></li>
-			<li class="breadcrumb-item"><a href="#">Thread category</a></li>
-			<li class="breadcrumb-item"><a href="#">Thread subcategory</a></li>
-			<li class="breadcrumb-item active" aria-current="page">Thread title</li>
-		</ol>
-	</nav>
-	<h3><span class="badge badge-success">Answered</span> Why is grass green?</h3>
-	<div class="card">
-		<div class="card-body">
-			<div class="row">
-				<div class="col-6 col-md-2 center">
-					<img src="{% static "img/user-logo.jpg" %}" class="img-fluid avatar" alt="User logo"><br>
-					Johnny<br>
-				</div>
-				<div class="col-6 col-md-9">
-					<p>Lorem ipsum dolor sit amet.</p>
-					<small>Username, posted on dd/mm/yyyy (last edited: dd/mm/yyyy + time)</small>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="card">
-		<div class="card-body">
-			<div class="row">
-				<div class="col-6 col-md-2 center">
-					<img src="{% static "img/mike.png" %}" class="img-fluid avatar" alt="User logo"><br>
-					Mike<br>
-				</div>
-				<div class="col-6 col-md-9">
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-					<small>Username, posted on dd/mm/yyyy (last edited: dd/mm/yyyy + time)</small>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="card">
-		<div class="card-body">
-			<div class="row">
-				<div class="col-6 col-md-2 center">
-					<img src="{% static "img/user-logo.jpg" %}" class="img-fluid avatar" alt="User logo"><br>
-					Johhny<br>
-				</div>
-				<div class="col-6 col-md-9">
-					<p>Wow, thanks Mike. You are a really wise man.</p>
-					<small>Username, posted on dd/mm/yyyy (last edited: dd/mm/yyyy + time)</small>
-				</div>
-			</div>
-		</div>
-	</div>
+	<div class="container">
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="#">Home</a></li>
+				<li class="breadcrumb-item"><a href="#">Forums</a></li>
+				<li class="breadcrumb-item"><a href="#">Thread category</a></li>
+				<li class="breadcrumb-item"><a href="#">Thread subcategory</a></li>
+				<li class="breadcrumb-item active" aria-current="page">Thread title</li>
+			</ol>
+		</nav>
+		<h3><span class="badge badge-success">Answered</span> Why is grass green?</h3>
 		<div class="card">
-		<div class="card-body">
-		  <div class="form-group">
-			<label for="exampleFormControlTextarea1">Your reply</label>
-			<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-		  </div>
-		  <button type="submit" class="btn btn-primary mb-2">Send</button>
+			<div class="card-body">
+				<div class="row">
+					<div class="col-6 col-md-2 center">
+						<img src="{% static "img/user-logo.jpg" %}" class="img-fluid avatar" alt="User logo"><br>
+						Johnny<br>
+					</div>
+					<div class="col-6 col-md-9">
+						<p>Lorem ipsum dolor sit amet.</p>
+						<small>Username, posted on dd/mm/yyyy (last edited: dd/mm/yyyy + time)</small>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="card">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-6 col-md-2 center">
+						<img src="{% static "img/mike.png" %}" class="img-fluid avatar" alt="User logo"><br>
+						Mike<br>
+					</div>
+					<div class="col-6 col-md-9">
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+						<small>Username, posted on dd/mm/yyyy (last edited: dd/mm/yyyy + time)</small>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="card">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-6 col-md-2 center">
+						<img src="{% static "img/user-logo.jpg" %}" class="img-fluid avatar" alt="User logo"><br>
+						Johhny<br>
+					</div>
+					<div class="col-6 col-md-9">
+						<p>Wow, thanks Mike. You are a really wise man.</p>
+						<small>Username, posted on dd/mm/yyyy (last edited: dd/mm/yyyy + time)</small>
+					</div>
+				</div>
+			</div>
+		</div>
+			<div class="card">
+			<div class="card-body">
+			  <div class="form-group">
+				<label for="exampleFormControlTextarea1">Your reply</label>
+				<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+			  </div>
+			  <button type="submit" class="btn btn-primary mb-2">Send</button>
+			</div>
 		</div>
 	</div>
 {% endblock %}

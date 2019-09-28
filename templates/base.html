@@ -14,10 +14,8 @@
     </head>
     <body>
         {% include "components/header.html" %}
-        <div class="container">
-            {% block body %}
-            {% endblock %}
-        </div>
+		{% block body %}
+		{% endblock %}
         {% include "components/footer.html" %}
     </body>
 </html>

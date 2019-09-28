@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block body %}
+	<div class="section">
+		<div class="container">
+			<div class="row">
+				<div class="col-12 col-md-3">
+					<img src="{% static "img/logo-cap.png" %}" class="img-fluid" alt="NForum capitals">
+				</div>
+				<div class="col-12 col-md-9">
+					<div class="marged">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="section">
+		<div class="container">
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+		</div>
+	</div>
+	<div class="section bg-special text-light">
+		<div class="container">
+			<div class="row">
+				<div class="col-12 col-md-4 center">
+					<i class="fas fa-dollar-sign fa-5x"></i>
+					<h3>Free</h3>
+					<p>Forum is completely free!</p>
+				</div>
+				<div class="col-12 col-md-4 center">
+					<i class="fas fa-user-secret fa-5x"></i>
+					<h3>Anonymous</h3>
+					<p>Uncensored, invisible, untracked.</p>
+				</div>
+				<div class="col-12 col-md-4 center">
+					<i class="far fa-dizzy fa-5x"></i>
+					<h3>No smileys</h3>
+					<p>Crazy, right?</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="section center" style="background: url('{% static "img/section-bg.png" %}');">
+		<div class="container">
+			<h2>Join NForum today!</h2>
+			<a href="#" class="btn btn-primary">Sign up - it's free!</a>
+		</div>
+	</div>
+{% endblock %}
