@@ -67,6 +67,11 @@ header, footer {
     height: 100px;
 }
 
+.avatar-mini {
+    width: 25px;
+    height: 25px;
+}
+
 .section {
     padding: 30px 0;
 }

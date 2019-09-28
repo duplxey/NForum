@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block body %}
 	<div class="container">
 		<div class="row">
@@ -27,23 +29,22 @@
 				<div class="card">
 					<div class="card-header"><i class="fas fa-folder-open"></i> Recent posts</div>
 					<div class="card-body">
-						Post 1 | posted by Johnny
+						<img src="{% static "img/user-logo.jpg" %}" class="avatar-mini" alt="Johnny profile picture"> Why is grass green?<br><small>Last reply: Mike<br>Subcategory: Random<br>by Johnny (dd/mm/yyyy)</small>
 						<hr>
-						Post 2 | posted by Johnny
+						<img src="{% static "img/user-logo.jpg" %}" class="avatar-mini" alt="Johnny profile picture"> Why is grass green?<br><small>Last reply: Mike<br>Subcategory: Random<br>by Johnny (dd/mm/yyyy)</small>
 						<hr>
-						Post 3 | posted by Johnny
+						<img src="{% static "img/user-logo.jpg" %}" class="avatar-mini" alt="Johnny profile picture"> Why is grass green?<br><small>Last reply: Mike<br>Subcategory: Random<br>by Johnny (dd/mm/yyyy)</small>
 						<hr>
-						Post 4 | posted by Johnny
-						<hr>
-						Post 5 | posted by Johnny
+						<img src="{% static "img/user-logo.jpg" %}" class="avatar-mini" alt="Johnny profile picture"> Why is grass green?<br><small>Last reply: Mike<br>Subcategory: Random<br>by Johnny (dd/mm/yyyy)</small>
 					</div>
 				</div>
 				<div class="card">
 					<div class="card-header"><i class="fas fa-signal"></i> Statistics</div>
 					<div class="card-body">
-						Threads: x<br>
-						Messages: x<br>
-						Users: x<br>
+						Threads: 12.321<br>
+						Messages: 202.321<br>
+						Active users: 32<br>
+						Registered users: 2412<br>
 					</div>
 				</div>
 			</div>
