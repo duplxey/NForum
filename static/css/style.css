@@ -1,6 +1,7 @@
 * {
     margin: 0;
     padding: 0;
+    font-family: 'Poppins', sans-serif;
 }
 
 body {
@@ -10,25 +11,44 @@ body {
 
 header, footer {
     color: var(--text-color-light);
+    background: var(--special);
 }
 
-footer a {
+.header-top {
+    padding: 12px 0;
+}
+
+.header-navigation {
+
+}
+
+.footer-top {
+    padding: 12px;
+    background: var(--special);
+}
+
+.footer-bottom {
+    padding: 12px;
+    background: var(--background-dark);
+}
+
+::selection {
+    background: var(--special);
+}
+
+.light-link {
     color: var(--text-color-light);
-    transition: 0.2s;
 }
 
-footer a:hover {
+.light-link:hover {
     color: var(--text-color-light-hover);
-    transition: 0.2s;
 }
 
-.card {
-    margin-bottom: 12px;
-}
-
-.avatar {
-    width: 100px;
-    height: 100px;
+/*------------------------------*\
+* Misc
+\*------------------------------*/
+.marged {
+    margin: 25px;
 }
 
 .center {
@@ -39,29 +59,16 @@ footer a:hover {
     text-align: right;
 }
 
-header {
-}
-
-.logo-container {
-    background: var(--special);
-    padding: 12px;
-}
-
-footer {
-    padding: 12px;
-    background: var(--background-mid);
-}
-
-::selection {
-    background: #2E86AB;
+/*------------------------------*\
+* Objects
+\*------------------------------*/
+.avatar {
+    width: 100px;
+    height: 100px;
 }
 
 .section {
     padding: 30px 0;
-}
-
-.marged {
-    margin: 25px;
 }
 
 .bg-mid {
@@ -76,9 +83,6 @@ footer {
     color: var(--text-color-light);
 }
 
-/* -------------------------------------- */
-/* Objects
-/* -------------------------------------- */
 .social {
     text-align: center;
 }
