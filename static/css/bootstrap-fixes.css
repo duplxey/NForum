@@ -1,3 +1,11 @@
 .bg-dark {
     background: var(--background-mid) !important;
 }
+
+.breadcrumb {
+    margin-top: 12px;
+}
+
+.card {
+    margin-top: 12px;
+}
