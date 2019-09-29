@@ -2,29 +2,48 @@
 
 {% block body %}
 	<div class="container">
-		<nav aria-label="breadcrumb">
-			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><a href="#">Home</a></li>
-				<li class="breadcrumb-item"><a href="#">Wiki</a></li>
-				<li class="breadcrumb-item active" aria-current="page">{{ wiki_page.title }}</li>
-			</ol>
-		</nav>
-		<h3>{{ wiki_page.title }}</h3>
-		<div class="card">
-			<div class="card-body">
-				{{ wiki_page.content }}
+		<div class="row">
+			<div class="col-12 col-md-9">
+				<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url "home-index" %}">Home</a></li>
+					<li class="breadcrumb-item"><a href="{% url "wiki-index" %}">Wiki</a></li>
+					<li class="breadcrumb-item active" aria-current="page">{{ wiki_page.title }}</li>
+				</ol>
+				</nav>
+				<h3>{{ wiki_page.title }}</h3>
+				<div class="card">
+					<div class="card-body">
+						{{ wiki_page.content|safe }}
+						<div class="right">
+							<small>Created by @author (mm/dd/yyyy hh:mm) | Last edited by @author (mm/dd/yyyy hh:mm)</small>
+						</div>
+					</div>
+				</div>
+				<nav aria-label="Wiki navigation">
+					<ul class="pagination justify-content-center">
+						{% if previous_wiki_page is not None %}
+							<li class="page-item"><a class="page-link" href="{% url 'wiki-page' url=previous_wiki_page.url %}">Previous</a></li>
+						{% endif %}
+						<li class="page-item"><a class="page-link active" href="#">{{ wiki_page.pk }}</a></li>
+						{% if next_wiki_page is not None %}
+							<li class="page-item"><a class="page-link" href="{% url 'wiki-page' url=next_wiki_page.url %}">Next</a></li>
+						{% endif %}
+					</ul>
+				</nav>
+			</div>
+			<div class="col-12 col-md-3">
+				<div class="card">
+					<div class="card-header">Wiki navigation</div>
+					<div class="card-body">
+						<ol>
+							{% for wiki_page in wiki_pages %}
+								<li><a href="{% url "wiki-page" url=wiki_page.url %}">{{ wiki_page }}</a></li>
+							{% endfor %}
+						</ol>
+					</div>
+				</div>
 			</div>
 		</div>
-		<nav aria-label="Wiki navigation">
-			<ul class="pagination justify-content-center">
-				{% if previous_wiki_page is not None %}
-					<li class="page-item"><a class="page-link" href="{% url 'wiki-page' url=previous_wiki_page.url %}">Previous</a></li>
-				{% endif %}
-				<li class="page-item"><a class="page-link active" href="#">{{ wiki_page.pk }}</a></li>
-				{% if next_wiki_page is not None %}
-					<li class="page-item"><a class="page-link" href="{% url 'wiki-page' url=next_wiki_page.url %}">Next</a></li>
-				{% endif %}
-			</ul>
-		</nav>
 	</div>
 {% endblock %}

@@ -4,6 +4,10 @@
     font-family: 'Poppins', sans-serif;
 }
 
+ol, ul {
+    list-style-position: inside;
+}
+
 body {
     color: var(--text-color);
     background: var(--background);

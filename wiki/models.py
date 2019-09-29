@@ -1,12 +1,13 @@
 from django.db import models
 from django.utils import timezone
+from tinymce import HTMLField
 
 
 class WikiPage(models.Model):
     display_index = models.IntegerField()
     url = models.CharField(max_length=64)
     title = models.CharField(max_length=64)
-    content = models.TextField(max_length=2500)
+    content = HTMLField('Content')
     # TODO: add the author
     # TODO: add the editors
     created_datetime = models.DateTimeField(default=timezone.now)
