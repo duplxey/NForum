@@ -1,9 +1,11 @@
 {% extends 'layout/auth.html' %}
 
+{% load crispy_forms_tags %}
+
 {% block card-body %}
-	<form action="{% url 'accounts-login' %}" method="post">
+	<form action="{% url 'accounts-login' %}" method="post" novalidate>
 		{% csrf_token %}
-		{{ form }}
+    	{{ form|crispy }}
 		<div class="center">
 			<button class="btn btn-primary" type="submit">Login</button>
 		</div>
