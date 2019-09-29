@@ -4,6 +4,7 @@ from django.utils import timezone
 
 class WikiPage(models.Model):
     display_index = models.IntegerField()
+    url = models.CharField(max_length=64)
     title = models.CharField(max_length=64)
     content = models.TextField(max_length=2500)
     # TODO: add the author
