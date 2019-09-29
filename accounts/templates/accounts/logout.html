@@ -1,0 +1,10 @@
+{% extends 'layout/auth.html' %}
+
+{% block card-body %}
+	<h3>Logging out...</h3>
+	<p>Please wait 2 seconds, you'll be redirected.</p>
+{% endblock %}
+
+{% block card-under %}
+	Haven't been redirected yet? <a href="{% url "home-index" %}" class="light-link">Click here</a>!
+{% endblock %}
