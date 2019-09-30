@@ -28,12 +28,21 @@
 				</ul>
 				<form class="form-inline my-2 my-lg-0">
 					<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-						<li class="nav-item">
-							<a class="nav-link" href="{% url 'accounts-login' %}"><i class="fas fa-sign-in-alt"></i> Login</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="{% url 'accounts-signup' %}"><i class="fas fa-user-plus"></i> Sign up</a>
-						</li>
+						{% if user.is_authenticated %}
+							<li class="nav-item">
+								<a class="nav-link" href="#">Logged in as {{ user.username }}</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="{% url 'accounts-logout' %}"><i class="fas fa-sign-in-alt"></i> Logout</a>
+							</li>
+						{% else %}
+							<li class="nav-item">
+								<a class="nav-link" href="{% url 'accounts-login' %}"><i class="fas fa-sign-in-alt"></i> Login</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="{% url 'accounts-signup' %}"><i class="fas fa-user-plus"></i> Sign up</a>
+							</li>
+						{% endif %}
 						<li class="nav-item">
 							<a class="nav-link" href="#"></a>
 						</li>

@@ -2,7 +2,19 @@
 
 {% block card-body %}
 	<h3>Logging out...</h3>
-	<p>Please wait 2 seconds, you'll be redirected.</p>
+	<p>Please wait another <span id="seconds-left">3</span> second(s).</p>
+	<script>
+	$(document).ready(function() {
+		var span = $("#seconds-left");
+		var left = span.text();
+		setInterval(function() {
+			span.text(--left);
+			if (left == 0) {
+			    window.location.href="{% url "home-index" %}";
+			}
+		}, 1000);
+	});
+</script>
 {% endblock %}
 
 {% block card-under %}
