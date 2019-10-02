@@ -63,3 +63,10 @@ def home(request):
         return render(request, 'accounts/home.html', {})
     else:
         return render(request, 'home/index.html', {})
+
+
+def profile(request):
+    if request.user.is_authenticated:
+        return render(request, 'accounts/profile.html', {})
+    else:
+        return render(request, 'home/index.html', {})

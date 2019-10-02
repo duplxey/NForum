@@ -1,0 +1,70 @@
+{% extends "layout/default.html" %}
+
+{% load static %}
+
+{% block content %}
+	<div class="container">
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="{% url "home-index" %}">Home</a></li>
+				<li class="breadcrumb-item active" aria-current="page">Account</li>
+				<li class="breadcrumb-item active" aria-current="page">Profile</li>
+			</ol>
+		</nav>
+		<div class="row">
+			<div class="col-12 col-md-3">
+				<div class="card">
+					<div class="card-body">
+						<div class="center">
+							<img src="{% static "img/cat.jpg" %}" class="img-fluid" alt="Catty">
+							<h3>{{ user.username }}</h3>
+							<hr>
+							<h3><span class="badge badge-primary">Admin</span></h3>
+							<hr>
+							Registered: dd/mm/yyyy<br>
+							Last online: x time ago<br>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-12 col-md-9">
+				<div class="card">
+					<div class="card-header">Description</div>
+					<div class="card-body">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12 col-md-6">
+						<div class="card">
+							<div class="card-header">Recent posts</div>
+							<div class="card-body">
+								<img src="{% static "img/user-logo.jpg" %}" class="avatar-mini" alt="Johnny profile picture"> Why is grass green?<br><small>Last reply: Mike<br>Subcategory: Random<br>by Johnny (dd/mm/yyyy)</small>
+								<hr>
+								<img src="{% static "img/user-logo.jpg" %}" class="avatar-mini" alt="Johnny profile picture"> Why is grass green?<br><small>Last reply: Mike<br>Subcategory: Random<br>by Johnny (dd/mm/yyyy)</small>
+								<hr>
+								<img src="{% static "img/user-logo.jpg" %}" class="avatar-mini" alt="Johnny profile picture"> Why is grass green?<br><small>Last reply: Mike<br>Subcategory: Random<br>by Johnny (dd/mm/yyyy)</small>
+								<hr>
+								<img src="{% static "img/user-logo.jpg" %}" class="avatar-mini" alt="Johnny profile picture"> Why is grass green?<br><small>Last reply: Mike<br>Subcategory: Random<br>by Johnny (dd/mm/yyyy)</small>
+							</div>
+						</div>
+					</div>
+					<div class="col-12 col-md-6">
+						<div class="card">
+							<div class="card-header">Recent threads</div>
+							<div class="card-body">
+								<img src="{% static "img/user-logo.jpg" %}" class="avatar-mini" alt="Johnny profile picture"> Why is grass green?<br><small>Last reply: Mike<br>Subcategory: Random<br>by Johnny (dd/mm/yyyy)</small>
+								<hr>
+								<img src="{% static "img/user-logo.jpg" %}" class="avatar-mini" alt="Johnny profile picture"> Why is grass green?<br><small>Last reply: Mike<br>Subcategory: Random<br>by Johnny (dd/mm/yyyy)</small>
+								<hr>
+								<img src="{% static "img/user-logo.jpg" %}" class="avatar-mini" alt="Johnny profile picture"> Why is grass green?<br><small>Last reply: Mike<br>Subcategory: Random<br>by Johnny (dd/mm/yyyy)</small>
+								<hr>
+								<img src="{% static "img/user-logo.jpg" %}" class="avatar-mini" alt="Johnny profile picture"> Why is grass green?<br><small>Last reply: Mike<br>Subcategory: Random<br>by Johnny (dd/mm/yyyy)</small>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
