@@ -70,3 +70,11 @@ def profile(request):
         return render(request, 'accounts/profile.html', {})
     else:
         return render(request, 'home/index.html', {})
+
+
+def profile_specific(request, username):
+    return render(request, 'layout/message.html', {
+        'message_type': "error",
+        'message_title': "User cannot be found.",
+        'message_content': "This user does not exist!"
+    })
