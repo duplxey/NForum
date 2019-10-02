@@ -25,7 +25,7 @@ def login_view(request):
     return render(request, 'accounts/login.html', {'form': form})
 
 
-def signup(request):
+def signup_view(request):
     if request.method == 'POST':
         form = SignupForm(request.POST)
         if form.is_valid():
@@ -58,21 +58,21 @@ def logout_view(request):
     return render(request, 'accounts/logout.html', {})
 
 
-def home(request):
+def home_view(request):
     if request.user.is_authenticated:
         return render(request, 'accounts/home.html', {})
     else:
         return render(request, 'home/index.html', {})
 
 
-def profile(request):
+def profile_view(request):
     if request.user.is_authenticated:
         return render(request, 'accounts/profile.html', {})
     else:
         return render(request, 'home/index.html', {})
 
 
-def profile_specific(request, username):
+def profile_specific_view(request, username):
     return render(request, 'layout/message.html', {
         'message_type': "error",
         'message_title': "User cannot be found.",

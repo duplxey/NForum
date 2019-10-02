@@ -3,13 +3,13 @@ from django.shortcuts import render
 from .models import *
 
 
-def index(request):
+def index_view(request):
     return render(request, 'forum/index.html', {'categories': Category.objects.all()})
 
 
-def thread(request):
+def thread_view(request):
     return render(request, 'forum/thread.html', {})
 
 
-def subcategory(request):
+def subcategory_view(request):
     return render(request, 'forum/subcategory.html', {})

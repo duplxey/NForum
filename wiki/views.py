@@ -2,11 +2,11 @@ from django.shortcuts import render
 from .models import WikiPage
 
 
-def index(request):
-    return page(request, 'wiki-index')
+def index_view(request):
+    return page_view(request, 'wiki-index')
 
 
-def page(request, url):
+def page_view(request, url):
     passed = dict()
 
     wiki_page = WikiPage.objects.get(url=url)
