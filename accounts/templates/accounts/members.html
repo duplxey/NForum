@@ -1,0 +1,21 @@
+{% extends "layout/default.html" %}
+
+{% load static %}
+
+{% block content %}
+	<div class="container">
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="{% url "home-index" %}">Home</a></li>
+				<li class="breadcrumb-item" aria-current="page">Members</li>
+			</ol>
+		</nav>
+		<div class="card">
+			<div class="card-body">
+				{% for member in members %}
+					{{ member.username }}<br>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

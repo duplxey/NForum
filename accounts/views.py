@@ -67,14 +67,25 @@ def home_view(request):
 
 def profile_view(request):
     if request.user.is_authenticated:
-        return render(request, 'accounts/profile.html', {})
+        return render(request, 'accounts/profile.html', {'passed_user': request.user})
     else:
-        return render(request, 'home/index.html', {})
+        return render(request, 'layout/message.html', {
+            'message_type': "error",
+            'message_title': "Not logged in.",
+            'message_content': "You need to be logged in in order to view this page."
+        })
 
 
 def profile_specific_view(request, username):
-    return render(request, 'layout/message.html', {
-        'message_type': "error",
-        'message_title': "User cannot be found.",
-        'message_content': "This user does not exist!"
-    })
+    if User.objects.filter(username=username).exists():
+        return render(request, 'accounts/profile.html', {'passed_user': User.objects.get(username=username)})
+    else:
+        return render(request, 'layout/message.html', {
+            'message_type': "error",
+            'message_title': "User cannot be found.",
+            'message_content': "This user does not exist!"
+        })
+
+
+def members_view(request):
+    return render(request, 'accounts/members.html', {'members': User.objects.all()})

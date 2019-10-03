@@ -7,7 +7,7 @@
 		<nav aria-label="breadcrumb">
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="{% url "home-index" %}">Home</a></li>
-				<li class="breadcrumb-item active" aria-current="page">Account</li>
+				<li class="breadcrumb-item"><a href="{% url "accounts-members" %}">Members</a></li>
 				<li class="breadcrumb-item active" aria-current="page">Profile</li>
 			</ol>
 		</nav>
@@ -17,12 +17,17 @@
 					<div class="card-body">
 						<div class="center">
 							<img src="{% static "img/cat.jpg" %}" class="img-fluid" alt="Catty">
-							<h3>{{ user.username }}</h3>
 							<hr>
-							<h3><span class="badge badge-primary">Admin</span></h3>
+							<h3>{{ passed_user.username }}</h3>
+							{% for group in passed_user.groups.all %}
+								{% if forloop.counter == 1 %}
+									<hr>
+								{% endif %}
+								<h4><span class="badge badge-primary">{{ group }}</span></h4>
+							{% endfor %}
 							<hr>
-							Registered: dd/mm/yyyy<br>
-							Last online: x time ago<br>
+							Registered: {{ passed_user.date_joined|date }}<br>
+							Last online: {{ passed_user.last_login|timesince }} ago<br>
 						</div>
 					</div>
 				</div>
