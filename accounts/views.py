@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render
 
 from accounts.forms import LoginForm, SignupForm
+from accounts.models import Profile
 
 
 def login_view(request):
@@ -45,6 +46,9 @@ def signup_view(request):
             user = User.objects.create_user(username=username, email=email, password=password)
             user.save()
 
+            profile = Profile.objects.create(user=user)
+            profile.save()
+
             return render(request, 'accounts/signup.html', {'form': form})
         else:
             return render(request, 'accounts/signup.html', {'form': form})
@@ -67,7 +71,7 @@ def home_view(request):
 
 def profile_view(request):
     if request.user.is_authenticated:
-        return render(request, 'accounts/profile.html', {'passed_user': request.user})
+        return render(request, 'accounts/profile.html', {'passed_user': request.user, 'profile': Profile.objects.get(user=request.user)})
     else:
         return render(request, 'layout/message.html', {
             'message_type': "error",
@@ -78,7 +82,8 @@ def profile_view(request):
 
 def profile_specific_view(request, username):
     if User.objects.filter(username=username).exists():
-        return render(request, 'accounts/profile.html', {'passed_user': User.objects.get(username=username)})
+        user = User.objects.get(username=username)
+        return render(request, 'accounts/profile.html', {'passed_user': user, 'profile': Profile.objects.get(user=user)})
     else:
         return render(request, 'layout/message.html', {
             'message_type': "error",

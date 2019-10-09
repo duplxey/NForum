@@ -1,3 +1,7 @@
 from django.contrib import admin
 
-# Register your models here.
+
+# TODO: delete me after you've done testing
+from accounts.models import Profile
+
+admin.site.register(Profile)
