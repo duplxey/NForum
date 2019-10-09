@@ -19,7 +19,14 @@
 							<p>{{ category.description }}</p>
 							{% for subcategory in category.subcategories.all %}
 								<hr>
-								<a href="#"><i class="fas fa-bookmark"></i> {{ subcategory.title }}</a> | {{ subcategory.description }}
+								<div class="row">
+									<div class="col-9">
+										<a href="#"><i class="fas fa-bookmark"></i> {{ subcategory.title }}</a><br>{{ subcategory.description }}<br><span class="transparent">(Threads: x, Messages: y)</span>
+									</div>
+									<div class="col-3">
+										<small>Latest thread:<br><img src="{% static "img/user-logo.jpg" %}" class="img-fluid avatar-mini" alt="Logo">Title by Little_Jimmy (datetime)</small>
+									</div>
+								</div>
 							{% endfor %}
 						</div>
 					</div>
