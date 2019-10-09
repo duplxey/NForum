@@ -21,10 +21,14 @@
 								<hr>
 								<div class="row">
 									<div class="col-9">
-										<a href="#"><i class="fas fa-bookmark"></i> {{ subcategory.title }}</a><br>{{ subcategory.description }}<br><span class="transparent">(Threads: x, Messages: y)</span>
+										<a href="#"><i class="fas fa-bookmark"></i> {{ subcategory.title }}</a><br>{{ subcategory.description }}<br><span class="transparent">(Threads: {{ subcategory.get_thread_count }}, Messages: {{ subcategory.get_message_count }})</span>
 									</div>
 									<div class="col-3">
-										<small>Latest thread:<br><img src="{% static "img/user-logo.jpg" %}" class="img-fluid avatar-mini" alt="Logo">Title by Little_Jimmy (datetime)</small>
+										{% if subcategory.get_latest_thread == null %}
+											<small>No threads found.</small>
+										{% else %}
+											<small>Latest thread:<br><img src="{% static "img/user-logo.jpg" %}" class="img-fluid avatar-mini" alt="Logo">{{ subcategory.get_latest_thread.title }} by {{ subcategory.get_latest_thread.author }}</small>
+										{% endif %}
 									</div>
 								</div>
 							{% endfor %}
