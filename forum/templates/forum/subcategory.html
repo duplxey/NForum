@@ -1,6 +1,7 @@
 {% extends "layout/default.html" %}
 
 {% load static %}
+{% load account_filters %}
 
 {% block content %}
 	<div class="container">
@@ -42,9 +43,9 @@
 							{% for thread in threads reversed %}
 								<tr>
 									<td><a href="{% url 'forum-thread' thread_title=thread.title %}">{{ thread.title }}</a></td>
-									<td>{{ thread.author }}</td>
+									<td><img src="{{ thread.author|avatar }}" class="img-fluid avatar-mini" alt="{{ subcategory.get_latest_thread.author.username }}'s avatar"> {{ thread.author }}</td>
 									<td>{{ thread.get_first_message.date_posted }}</td>
-									<td>{% if thread.get_last_message == thread.get_first_message  %}/{% else %}{{ thread.get_last_message.author }}{% endif %}</td>
+									<td>{% if thread.get_last_message == thread.get_first_message  %}/{% else %}<img src="{{ thread.get_last_message.author|avatar }}" class="img-fluid avatar-mini" alt="{{ subcategory.get_latest_thread.author.username }}'s avatar"> {{ thread.get_last_message.author }}{% endif %}</td>
 									<td>{% if thread.get_last_message == thread.get_first_message  %}/{% else %}{{ thread.get_last_message.date_posted }}{% endif %}</td>
 								</tr>
 							{% endfor %}

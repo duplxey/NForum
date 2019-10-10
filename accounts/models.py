@@ -9,6 +9,10 @@ class Profile(models.Model):
     avatar = models.ImageField(upload_to='images/')
 
     @staticmethod
+    def get_profile(user):
+        return Profile.objects.get(user=user)
+
+    @staticmethod
     def get_registered_user_count():
         return Profile.objects.all().count()
 
