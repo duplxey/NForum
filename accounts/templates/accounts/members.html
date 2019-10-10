@@ -25,14 +25,14 @@
 					<tbody>
 						{% for member in members %}
 							<tr>
-								<td><img src="{{ member|avatar }}" class="img-fluid avatar-mini" alt="{{ subcategory.get_latest_thread.author.username }}'s avatar"> <a href="{% url 'accounts-profile-specific' username=member.username %}">{{ member.username }}</a></td>
+								<td><img src="{{ member|avatar }}" class="img-fluid avatar-mini" alt="{{ subcategory.get_latest_thread.author.username }}'s avatar"> <a href="{% url 'accounts-profile' username=member.username %}">{{ member.username }}</a></td>
 								<td>
 									{% for group in member.groups.all %}
 										<span class="badge badge-primary">{{ group }}</span>
 									{% endfor %}
 								</td>
-								<td>0</td>
-								<td>0</td>
+								<td>{{ member|post_count }}</td>
+								<td>{{ member|thread_count }}</td>
 							</tr>
 						{% endfor %}
 					</tbody>

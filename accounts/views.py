@@ -4,6 +4,7 @@ from django.shortcuts import render
 
 from accounts.forms import LoginForm, SignupForm
 from accounts.models import Profile
+from forum.models import Message, Thread
 
 
 def login_view(request):
@@ -69,21 +70,10 @@ def home_view(request):
         return render(request, 'home/index.html', {})
 
 
-def profile_view(request):
-    if request.user.is_authenticated:
-        return render(request, 'accounts/profile.html', {'passed_user': request.user, 'profile': Profile.objects.get(user=request.user)})
-    else:
-        return render(request, 'layout/message.html', {
-            'message_type': "error",
-            'message_title': "Not logged in.",
-            'message_content': "You need to be logged in in order to view this page."
-        })
-
-
 def profile_specific_view(request, username):
     if User.objects.filter(username=username).exists():
         user = User.objects.get(username=username)
-        return render(request, 'accounts/profile.html', {'passed_user': user, 'profile': Profile.objects.get(user=user)})
+        return render(request, 'accounts/profile.html', {'passed_user': user, 'profile': Profile.objects.get(user=user), 'recent_posts': Message.objects.filter(author=user), 'recent_threads': Thread.objects.filter(author=user)})
     else:
         return render(request, 'layout/message.html', {
             'message_type': "error",

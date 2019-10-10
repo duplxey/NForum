@@ -1,6 +1,7 @@
 {% extends "layout/default.html" %}
 
 {% load static %}
+{% load account_filters %}
 
 {% block content %}
 	<div class="container">
@@ -44,13 +45,10 @@
 						<div class="card">
 							<div class="card-header">Recent posts</div>
 							<div class="card-body">
-								<img src="{% static "img/user-logo.jpg" %}" class="avatar-mini" alt="Johnny profile picture"> Why is grass green?<br><small>Last reply: Mike<br>Subcategory: Random<br>by Johnny (dd/mm/yyyy)</small>
-								<hr>
-								<img src="{% static "img/user-logo.jpg" %}" class="avatar-mini" alt="Johnny profile picture"> Why is grass green?<br><small>Last reply: Mike<br>Subcategory: Random<br>by Johnny (dd/mm/yyyy)</small>
-								<hr>
-								<img src="{% static "img/user-logo.jpg" %}" class="avatar-mini" alt="Johnny profile picture"> Why is grass green?<br><small>Last reply: Mike<br>Subcategory: Random<br>by Johnny (dd/mm/yyyy)</small>
-								<hr>
-								<img src="{% static "img/user-logo.jpg" %}" class="avatar-mini" alt="Johnny profile picture"> Why is grass green?<br><small>Last reply: Mike<br>Subcategory: Random<br>by Johnny (dd/mm/yyyy)</small>
+								{% for recent_post in recent_posts %}
+									{% if forloop.counter is not 1 %}<hr>{% endif %}
+									<img src="{{ recent_post.thread.author|avatar }}" class="avatar-mini" alt="{{ recent_post.thread.author.username }}'s avatar"> {{ recent_post.thread.title }}<br><small>Subcategory: {{ recent_post.thread.subcategory }}<br>{{ recent_post.date_posted }}</small>
+								{% endfor %}
 							</div>
 						</div>
 					</div>
@@ -58,13 +56,10 @@
 						<div class="card">
 							<div class="card-header">Recent threads</div>
 							<div class="card-body">
-								<img src="{% static "img/user-logo.jpg" %}" class="avatar-mini" alt="Johnny profile picture"> Why is grass green?<br><small>Last reply: Mike<br>Subcategory: Random<br>by Johnny (dd/mm/yyyy)</small>
-								<hr>
-								<img src="{% static "img/user-logo.jpg" %}" class="avatar-mini" alt="Johnny profile picture"> Why is grass green?<br><small>Last reply: Mike<br>Subcategory: Random<br>by Johnny (dd/mm/yyyy)</small>
-								<hr>
-								<img src="{% static "img/user-logo.jpg" %}" class="avatar-mini" alt="Johnny profile picture"> Why is grass green?<br><small>Last reply: Mike<br>Subcategory: Random<br>by Johnny (dd/mm/yyyy)</small>
-								<hr>
-								<img src="{% static "img/user-logo.jpg" %}" class="avatar-mini" alt="Johnny profile picture"> Why is grass green?<br><small>Last reply: Mike<br>Subcategory: Random<br>by Johnny (dd/mm/yyyy)</small>
+								{% for recent_thread in recent_threads %}
+									{% if forloop.counter is not 1 %}<hr>{% endif %}
+									<img src="{{ recent_thread.author|avatar }}" class="avatar-mini" alt="{{ recent_thread.author.username }}'s avatar"> {{ recent_thread.title }}<br><small>Subcategory: {{ recent_thread.subcategory }}<br>{{ recent_thread.get_first_message.date_posted }}</small>
+								{% endfor %}
 							</div>
 						</div>
 					</div>
