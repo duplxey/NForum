@@ -6,6 +6,7 @@ class Profile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     description = models.TextField(max_length=300, default="Another cool user.")
     online = models.BooleanField(default=True)
+    avatar = models.ImageField(upload_to='images/')
 
     @staticmethod
     def get_registered_user_count():
