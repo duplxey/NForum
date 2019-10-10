@@ -21,7 +21,7 @@
 								<hr>
 								<div class="row">
 									<div class="col-9">
-										<a href="#"><i class="fas fa-bookmark"></i> {{ subcategory.title }}</a><br>{{ subcategory.description }}<br><span class="transparent">(Threads: {{ subcategory.get_thread_count }}, Messages: {{ subcategory.get_message_count }})</span>
+										<a href="{% url 'forum-subcategory' subcategory_name=subcategory.title %}"><i class="fas fa-bookmark"></i> {{ subcategory.title }}</a><br>{{ subcategory.description }}<br><span class="transparent">(Threads: {{ subcategory.get_thread_count }}, Messages: {{ subcategory.get_message_count }})</span>
 									</div>
 									<div class="col-3">
 										{% if subcategory.get_latest_thread == null %}
@@ -40,22 +40,19 @@
 				<div class="card">
 					<div class="card-header"><i class="fas fa-folder-open"></i> Recent posts</div>
 					<div class="card-body">
-						<img src="{% static "img/user-logo.jpg" %}" class="avatar-mini" alt="Johnny profile picture"> Why is grass green?<br><small>Last reply: Mike<br>Subcategory: Random<br>by Johnny (dd/mm/yyyy)</small>
-						<hr>
-						<img src="{% static "img/user-logo.jpg" %}" class="avatar-mini" alt="Johnny profile picture"> Why is grass green?<br><small>Last reply: Mike<br>Subcategory: Random<br>by Johnny (dd/mm/yyyy)</small>
-						<hr>
-						<img src="{% static "img/user-logo.jpg" %}" class="avatar-mini" alt="Johnny profile picture"> Why is grass green?<br><small>Last reply: Mike<br>Subcategory: Random<br>by Johnny (dd/mm/yyyy)</small>
-						<hr>
-						<img src="{% static "img/user-logo.jpg" %}" class="avatar-mini" alt="Johnny profile picture"> Why is grass green?<br><small>Last reply: Mike<br>Subcategory: Random<br>by Johnny (dd/mm/yyyy)</small>
+						{% for recent_message in recent_messages %}
+							{% if forloop.counter is not 1 %}<hr>{% endif %}
+							<img src="{% static "img/user-logo.jpg" %}" class="avatar-mini" alt="Johnny profile picture"> {{ recent_message.thread.title }}<br><small>Last reply: {{ recent_message.author.username }} ({{ recent_message.date_posted }})<br>Subcategory: {{ recent_message.thread.subcategory.title }}</small>
+						{% endfor %}
 					</div>
 				</div>
 				<div class="card">
 					<div class="card-header"><i class="fas fa-signal"></i> Statistics</div>
 					<div class="card-body">
-						Threads: 12.321<br>
-						Messages: 202.321<br>
-						Active users: 32<br>
-						Registered users: 2412<br>
+						Threads: {{ thread_count }}<br>
+						Messages: {{ message_count }}<br>
+						Active users: {{ active_user_count }}<br>
+						Registered users: {{ registered_user_count }}<br>
 					</div>
 				</div>
 			</div>

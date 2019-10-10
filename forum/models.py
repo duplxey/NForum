@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User
 from django.db import models
-from django.utils.timezone import now
 
 
 class Subcategory(models.Model):
@@ -12,12 +11,12 @@ class Subcategory(models.Model):
 
     def get_latest_thread(self):
         latest_thread = None
-        dt = now()
+        latest_thread_date = None
         for thread in Thread.objects.filter(subcategory=self):
-            message = Message.objects.filter(thread=thread).order_by('date_posted')[0]
-            if message.date_posted < dt:
+            first_message = Message.objects.filter(thread=thread).order_by('date_posted')[0]
+            if latest_thread_date is None or first_message.date_posted > latest_thread_date:
                 latest_thread = thread
-                dt = message.date_posted
+                latest_thread_date = first_message.date_posted
         return latest_thread
 
     def get_thread_count(self):
@@ -50,8 +49,21 @@ class Thread(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE)
 
+    @staticmethod
+    def get_thread_count():
+        return Thread.objects.all().count()
+
+    def get_messages(self):
+        return Message.objects.filter(thread=self)
+
+    def get_first_message(self):
+        return self.get_messages().order_by('date_posted')[0]
+
+    def get_last_message(self):
+        return self.get_messages().order_by('-date_posted')[0]
+
     def get_message_count(self):
-        return Message.objects.filter(thread=self).count()
+        return self.get_messages().count()
 
     def __str__(self):
         return self.title + " by " + self.author.username
@@ -63,6 +75,14 @@ class Message(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     date_posted = models.DateTimeField(auto_now_add=True, blank=True)
     date_edited = models.DateTimeField(null=True, blank=True)
+
+    @staticmethod
+    def get_recent_messages(amount):
+        return Message.objects.all().order_by('-date_posted')[:amount]
+
+    @staticmethod
+    def get_message_count():
+        return Message.objects.all().count()
 
     def __str__(self):
         return self.author.username + ":" + self.content

@@ -4,6 +4,6 @@ from . import views
 
 urlpatterns = [
     path('', views.index_view, name='forum-index'),
-    path('thread', views.thread_view, name='forum-thread'),
-    path('subcategory', views.subcategory_view, name='forum-subcategory')
+    path('thread/<str:thread_title>', views.thread_view, name='forum-thread'),
+    path('subcategory/<str:subcategory_name>', views.subcategory_view, name='forum-subcategory')
 ]

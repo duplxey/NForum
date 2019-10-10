@@ -6,48 +6,40 @@
 	<div class="container">
 		<nav aria-label="breadcrumb">
 			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><a href="#">Home</a></li>
-				<li class="breadcrumb-item"><a href="#">Forums</a></li>
-				<li class="breadcrumb-item"><a href="#">Thread category</a></li>
-				<li class="breadcrumb-item"><a href="#">Thread subcategory</a></li>
+				<li class="breadcrumb-item"><a href="{% url 'home-index' %}">Home</a></li>
+				<li class="breadcrumb-item"><a href="{% url 'forum-index' %}">Forums</a></li>
+				<li class="breadcrumb-item active" aria-current="page">{{ subcategory.title }}</li>
 			</ol>
 		</nav>
+		<h3>{{ subcategory.title }} <small>({{ subcategory.description }})</small></h3>
 		<div class="card">
 			<div class="card-body">
-				<table class="table">
-					<thead>
-						<tr>
-							<th scope="col">Thread title</th>
-							<th scope="col">Author</th>
-							<th scope="col">Time</th>
-							<th scope="col">Last reply</th>
-							<th scope="col">Last reply time</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td><a href="#"><span class="badge badge-success">Answered</span> Why is grass green?</a></td>
-							<td>Johnny</td>
-							<td>dd/mm/yyyy + time</td>
-							<td>Johnny</td>
-							<td>dd/mm/yyyy + time</td>
-						</tr>
-						<tr>
-							<td><a href="#"><span class="badge badge-info">Discussion</span> They can't stop us all. One of the biggest fails of the year.</a></td>
-							<td>Johnny</td>
-							<td>dd/mm/yyyy + time</td>
-							<td>Johnny</td>
-							<td>dd/mm/yyyy + time</td>
-						</tr>
-						<tr>
-							<td><a href="#"><span class="badge badge-success">Answered</span> Why is grass green?</a></td>
-							<td>Johnny</td>
-							<td>dd/mm/yyyy + time</td>
-							<td>Johnny</td>
-							<td>dd/mm/yyyy + time</td>
-						</tr>
-					</tbody>
-				</table>
+				{% if threads|length is 0 %}
+					There are no threads under this category yet.
+				{% else %}
+					<table class="table">
+						<thead>
+							<tr>
+								<th scope="col">Thread title</th>
+								<th scope="col">Author</th>
+								<th scope="col">Time</th>
+								<th scope="col">Last reply</th>
+								<th scope="col">Last reply time</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for thread in threads reversed %}
+								<tr>
+									<td><a href="{% url 'forum-thread' thread_title=thread.title %}">{{ thread.title }}</a></td>
+									<td>{{ thread.author }}</td>
+									<td>{{ thread.get_first_message.date_posted }}</td>
+									<td>{% if thread.get_last_message == thread.get_first_message  %}/{% else %}{{ thread.get_last_message.author }}{% endif %}</td>
+									<td>{% if thread.get_last_message == thread.get_first_message  %}/{% else %}{{ thread.get_last_message.date_posted }}{% endif %}</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				{% endif %}
 			</div>
 		</div>
 	</div>
