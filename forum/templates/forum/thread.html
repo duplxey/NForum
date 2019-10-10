@@ -29,5 +29,22 @@
 				</div>
 			</div>
 		{% endfor %}
+		{% if user.is_authenticated %}
+			<div class="card">
+				<div class="card-body">
+					<div class="form-group">
+    					<label for="exampleFormControlTextarea1">Your reply</label>
+    					<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+					</div>
+					<a class="btn btn-primary" href="#">Post</a>
+				</div>
+			</div>
+		{% else %}
+			<div class="card">
+				<div class="card-body">
+					You need to be logged in in order to post a message.
+				</div>
+			</div>
+		{% endif %}
 	</div>
 {% endblock %}
