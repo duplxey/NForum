@@ -18,6 +18,22 @@ header, footer {
     background: var(--special);
 }
 
+body {
+  position: relative;
+  min-height: 100vh;
+}
+
+.content-wrap {
+  padding-bottom: 7.5rem;    /* Footer height */
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 7.5rem;            /* Footer height */
+}
+
 .header-top {
     padding: 12px 0;
 }
