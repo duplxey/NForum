@@ -1,6 +1,7 @@
 {% extends "layout/default.html" %}
 
 {% load static %}
+{% load account_filters %}
 
 {% block content %}
 	<div class="container">
@@ -12,9 +13,30 @@
 		</nav>
 		<div class="card">
 			<div class="card-body">
-				{% for member in members %}
-					{{ member.username }}<br>
-				{% endfor %}
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">Username</th>
+							<th scope="col">Groups</th>
+							<th scope="col">Posts</th>
+							<th scope="col">Threads</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for member in members %}
+							<tr>
+								<td><img src="{{ member|avatar }}" class="img-fluid avatar-mini" alt="{{ subcategory.get_latest_thread.author.username }}'s avatar"> <a href="{% url 'accounts-profile-specific' username=member.username %}">{{ member.username }}</a></td>
+								<td>
+									{% for group in member.groups.all %}
+										<span class="badge badge-primary">{{ group }}</span>
+									{% endfor %}
+								</td>
+								<td>0</td>
+								<td>0</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
