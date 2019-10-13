@@ -7,9 +7,11 @@ Simple forum written in Python using Django.
 1. Install the packages in requirements.txt.
 1. Run the server! :)
 
+NOTE: You'll also need a MySQL database running in the background. You can configure the DB access in nforum/settings.py.
+
 ## Admin panel
-Username: root  
-Password: password
+You'll first need to create a super user using the following command:  
+`python manage.py createsuperuser`  
 
 ## Getting MySQL to work with Django
 You may stumble upon problems (again) when trying to hook MySQL with Django. Most of the solutions you'll find won't work like:

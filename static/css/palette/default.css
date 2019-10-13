@@ -10,3 +10,27 @@
     --text-color-light: #F3EFF5;
     --text-color-light-hover: #dfdbe1;
 }
+
+.bg-special {
+    background: var(--special)
+}
+
+.bg-normal {
+    background: var(--background)
+}
+
+.bg-mid {
+    background: var(--background-mid)
+}
+
+.bg-dark {
+    background: var(--background-dark)
+}
+
+.cl-text {
+    color: var(--text-color)
+}
+
+.cl-text-light {
+    color: var(--text-color-light)
+}

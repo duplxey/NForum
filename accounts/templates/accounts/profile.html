@@ -17,7 +17,7 @@
 				<div class="card">
 					<div class="card-body">
 						<div class="center">
-							<img src="{{ profile.avatar.url }}" class="img-fluid" alt="Catty">
+							<img src="{{ profile.avatar.url }}" class="img-fluid" alt="{{ passed_user.username }}'s profile">
 							<hr>
 							<h3>{{ passed_user.username }}</h3>
 							{% for group in passed_user.groups.all %}
