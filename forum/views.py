@@ -1,6 +1,7 @@
 from django.shortcuts import render
 
 from accounts.models import Profile
+from forum.forms import CreateThreadForm
 from .models import *
 
 
@@ -16,6 +17,38 @@ def thread_view(request, thread_title):
             'message_type': "error",
             'message_title': "Unknown thread!",
             'message_content': "The requested thread could not be found."
+        })
+
+
+def thread_create_view(request, subcategory_name):
+    if Subcategory.objects.filter(title=subcategory_name).exists():
+        if request.method == 'POST':
+            form = CreateThreadForm(request.POST)
+            if form.is_valid():
+                title = form.cleaned_data['title']
+                content = form.cleaned_data['content']
+
+                if Thread.objects.filter(title=title).exists():
+                    form.add_error('title', "Thread with this name already exists.")
+                    return render(request, 'forum/thread-create.html', {'form': form, 'subcategory': Subcategory.objects.get(title=subcategory_name)})
+
+                thread = Thread.objects.create(title=title, author=request.user, subcategory=Subcategory.objects.get(title=subcategory_name))
+                thread.save()
+
+                message = Message.objects.create(thread=thread, content=content, author=request.user)
+                message.save()
+
+                return render(request, 'forum/thread.html', {'thread': Thread.objects.get(title=thread.title)})
+            else:
+                return render(request, 'forum/thread-create.html', {'form': form, 'subcategory': Subcategory.objects.get(title=subcategory_name)})
+        else:
+            form = CreateThreadForm()
+        return render(request, 'forum/thread-create.html', {'form': form, 'subcategory': Subcategory.objects.get(title=subcategory_name)})
+    else:
+        return render(request, 'layout/message.html', {
+            'message_type': "error",
+            'message_title': "Unknown subcategory!",
+            'message_content': "This subcategory could not be found."
         })
 
 
