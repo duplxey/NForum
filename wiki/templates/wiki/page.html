@@ -16,7 +16,7 @@
 					<div class="card-body">
 						{{ wiki_page.content|safe }}
 						<div class="right">
-							<small>Created by <a href="{% url 'accounts-profile' username=wiki_page.author.username %}">@{{ wiki_page.author.username }}</a> ({{ wiki_page.created_datetime }}){% if wiki_page.last_editor != None %} | Last edited by <a href="{% url 'accounts-profile' username=wiki_page.author.username %}">@{{ wiki_page.last_editor.username }}</a> ({{ wiki_page.edited_datetime }}){% endif %}</small>
+							<small>Created by <a href="{% url 'accounts-profile' username=wiki_page.author.username %}">@{{ wiki_page.author.username }}</a> ({{ wiki_page.created_datetime }}){% if wiki_page.last_editor != None %} | Last edited by <a href="{% url 'accounts-profile' username=wiki_page.last_editor.username %}">@{{ wiki_page.last_editor.username }}</a> ({{ wiki_page.edited_datetime }}){% endif %}</small>
 						</div>
 					</div>
 				</div>
