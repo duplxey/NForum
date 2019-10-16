@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 from accounts.models import Profile
-from forum.forms import CreateThreadForm
+from forum.forms import CreateThreadForm, PostReplyForm
 from .models import *
 
 
@@ -11,7 +11,7 @@ def index_view(request):
 
 def thread_view(request, thread_title):
     if Thread.objects.filter(title=thread_title).exists():
-        return render(request, 'forum/thread.html', {'thread': Thread.objects.get(title=thread_title)})
+        return render(request, 'forum/thread.html', {'thread': Thread.objects.get(title=thread_title), 'form': PostReplyForm()})
     else:
         return render(request, 'layout/message.html', {
             'message_type': "error",
@@ -49,6 +49,32 @@ def thread_create_view(request, subcategory_name):
             'message_type': "error",
             'message_title': "Unknown subcategory!",
             'message_content': "This subcategory could not be found."
+        })
+
+
+def thread_post_view(request, thread_title):
+    if Thread.objects.filter(title=thread_title).exists():
+        thread = Thread.objects.get(title=thread_title)
+        if request.method == 'POST':
+            form = PostReplyForm(request.POST)
+            if form.is_valid():
+                content = form.cleaned_data['content']
+
+                message = Message.objects.create(thread=thread, content=content, author=request.user)
+                message.save()
+
+                return render(request, 'forum/thread.html', {'form': form, 'thread': Thread.objects.get(title=thread_title)})
+            else:
+                form = PostReplyForm()
+                return render(request, 'forum/thread.html', {'form': form, 'thread': Thread.objects.get(title=thread_title)})
+        else:
+            form = PostReplyForm()
+            return render(request, 'forum/thread.html', {'form': form, 'thread': Thread.objects.get(title=thread_title)})
+    else:
+        return render(request, 'layout/message.html', {
+            'message_type': "error",
+            'message_title': "Unknown thread!",
+            'message_content': "This thread could not be found."
         })
 
 
