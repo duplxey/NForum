@@ -9,7 +9,15 @@ def index_view(request):
 def page_view(request, url):
     passed = dict()
 
-    wiki_page = WikiPage.objects.get(url=url)
+    try:
+        wiki_page = WikiPage.objects.get(url=url)
+    except WikiPage.DoesNotExist:
+        return render(request, 'layout/message.html', {
+            'message_type': "error",
+            'message_title': "Unknown wiki page!",
+            'message_content': "The specified wiki page could not be found."
+        })
+
     passed['wiki_page'] = wiki_page
 
     wiki_pages = WikiPage.objects.all().order_by('display_index')
