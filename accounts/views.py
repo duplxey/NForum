@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.shortcuts import render
 
-from accounts.forms import LoginForm, SignupForm
+from accounts.forms import LoginForm, SignupForm, SettingsForm
 from accounts.models import Profile
 from forum.models import Message, Thread
 
@@ -80,6 +80,25 @@ def profile_specific_view(request, username):
             'message_title': "User cannot be found.",
             'message_content': "This user does not exist!"
         })
+
+
+def settings_view(request):
+    if request.method == 'POST':
+        form = SettingsForm(request.POST)
+
+        description = form.data['description']
+
+        user = request.user
+        profile = Profile.objects.get(user=user)
+        profile.avatar = request.FILES['avatar']
+
+        profile.description = description
+        profile.save()
+
+        return render(request, 'accounts/settings.html', {'form': form})
+    else:
+        form = SettingsForm(initial={'description': Profile.objects.get(user=request.user).description})
+    return render(request, 'accounts/settings.html', {'form': form})
 
 
 def members_view(request):
