@@ -7,4 +7,4 @@ class CreateThreadForm(forms.Form):
 
 
 class PostReplyForm(forms.Form):
-    content = forms.CharField(label="Message", max_length=2500)
+    content = forms.CharField(label="Message", max_length=2500, widget=forms.Textarea)

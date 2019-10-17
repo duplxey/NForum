@@ -15,4 +15,4 @@ class SignupForm(forms.Form):
 
 class SettingsForm(forms.Form):
     description = forms.CharField(label="Description", max_length=300, widget=forms.Textarea, required=False)
-    avatar = forms.ImageField()
+    avatar = forms.ImageField(required=False)

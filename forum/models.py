@@ -54,7 +54,7 @@ class Thread(models.Model):
         return Thread.objects.all().count()
 
     def get_messages(self):
-        return Message.objects.filter(thread=self)
+        return Message.objects.filter(thread=self).order_by('pk')
 
     def get_first_message(self):
         return self.get_messages().order_by('date_posted')[0]
