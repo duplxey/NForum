@@ -1,3 +1,4 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from accounts.models import Profile
@@ -63,7 +64,7 @@ def thread_post_view(request, thread_title):
                 message = Message.objects.create(thread=thread, content=content, author=request.user)
                 message.save()
 
-                return render(request, 'forum/thread.html', {'form': PostReplyForm(), 'thread': Thread.objects.get(title=thread_title)})
+                return HttpResponseRedirect(thread_title)
             else:
                 form = PostReplyForm()
                 return render(request, 'forum/thread.html', {'form': form, 'thread': Thread.objects.get(title=thread_title)})
