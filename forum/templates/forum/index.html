@@ -28,7 +28,7 @@
 										{% if subcategory.get_latest_thread == null %}
 											<small>No threads found.</small>
 										{% else %}
-											<small>Latest thread:<br><img src="{{ subcategory.get_latest_thread.author|avatar }}" class="img-fluid avatar-mini" alt="{{ subcategory.get_latest_thread.author.username }}'s avatar"> {{ subcategory.get_latest_thread.title }} by {{ subcategory.get_latest_thread.author }}</small>
+											<small>Latest thread:<br><a href="{% url 'forum-thread' thread_title=subcategory.get_latest_thread.title %}">{{ subcategory.get_latest_thread.title }}</a> by <a href="{% url 'accounts-profile' username=subcategory.get_latest_thread.author %}">{{ subcategory.get_latest_thread.author }}</a></small>
 										{% endif %}
 									</div>
 								</div>
@@ -43,7 +43,7 @@
 					<div class="card-body">
 						{% for recent_message in recent_messages %}
 							{% if forloop.counter is not 1 %}<hr>{% endif %}
-							<img src="{{ recent_message.author|avatar }}" class="avatar-mini" alt="{{ recent_message.author.username }}'s avatar"> {{ recent_message.thread.title }}<br><small>Last reply: {{ recent_message.author.username }} ({{ recent_message.date_posted }})<br>Subcategory: {{ recent_message.thread.subcategory.title }}</small>
+							<img src="{{ recent_message.author|avatar }}" class="avatar-mini" alt="{{ recent_message.author.username }}'s avatar"> <a href="{% url 'forum-thread' thread_title=recent_message.thread.title %}">{{ recent_message.thread.title }}</a><br><small>Last reply: <a href="{% url 'accounts-profile' username=recent_message.author.username %}">{{ recent_message.author.username }}</a> ({{ recent_message.date_posted }})<br>Subcategory: {{ recent_message.thread.subcategory.title }}</small>
 						{% endfor %}
 					</div>
 				</div>

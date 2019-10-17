@@ -9,7 +9,7 @@
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="{% url "home-index" %}">Home</a></li>
 				<li class="breadcrumb-item"><a href="{% url "accounts-members" %}">Members</a></li>
-				<li class="breadcrumb-item active" aria-current="page">Profile</li>
+				<li class="breadcrumb-item active" aria-current="page">{{ passed_user.username }}'s Profile</li>
 			</ol>
 		</nav>
 		<div class="row">
@@ -47,7 +47,7 @@
 							<div class="card-body">
 								{% for recent_post in recent_posts %}
 									{% if forloop.counter is not 1 %}<hr>{% endif %}
-									<img src="{{ recent_post.thread.author|avatar }}" class="avatar-mini" alt="{{ recent_post.thread.author.username }}'s avatar"> {{ recent_post.thread.title }}<br><small>Subcategory: {{ recent_post.thread.subcategory }}<br>{{ recent_post.date_posted }}</small>
+									<img src="{{ recent_post.thread.author|avatar }}" class="avatar-mini" alt="{{ recent_post.thread.author.username }}'s avatar"> <a href="{% url 'forum-thread' thread_title=recent_post.thread.title %}">{{ recent_post.thread.title }}</a><br><small>Subcategory: {{ recent_post.thread.subcategory }}<br>{{ recent_post.date_posted }}</small>
 								{% endfor %}
 							</div>
 						</div>
@@ -58,7 +58,7 @@
 							<div class="card-body">
 								{% for recent_thread in recent_threads %}
 									{% if forloop.counter is not 1 %}<hr>{% endif %}
-									<img src="{{ recent_thread.author|avatar }}" class="avatar-mini" alt="{{ recent_thread.author.username }}'s avatar"> {{ recent_thread.title }}<br><small>Subcategory: {{ recent_thread.subcategory }}<br>{{ recent_thread.get_first_message.date_posted }}</small>
+									<img src="{{ recent_thread.author|avatar }}" class="avatar-mini" alt="{{ recent_thread.author.username }}'s avatar"> <a href="{% url 'forum-thread' thread_title=recent_thread.title %}">{{ recent_thread.title }}</a><br><small>Subcategory: {{ recent_thread.subcategory }}<br>{{ recent_thread.get_first_message.date_posted }}</small>
 								{% endfor %}
 							</div>
 						</div>

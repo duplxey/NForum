@@ -28,12 +28,12 @@
 				<div class="col-12 col-md-4 center">
 					<i class="fas fa-dollar-sign fa-5x"></i>
 					<h3>Free</h3>
-					<p>Forum is completely free!</p>
+					<p>Forum is completely free to use!</p>
 				</div>
 				<div class="col-12 col-md-4 center">
-					<i class="fas fa-user-secret fa-5x"></i>
-					<h3>Anonymous</h3>
-					<p>Uncensored, invisible, untracked.</p>
+					<i class="fas fa-users fa-5x"></i>
+					<h3>Growing community</h3>
+					<p>Join more than {{ user_count }} registered users!</p>
 				</div>
 				<div class="col-12 col-md-4 center">
 					<i class="far fa-dizzy fa-5x"></i>
@@ -46,7 +46,7 @@
 	<div class="section center">
 		<div class="container">
 			<h2>Join NForum today!</h2>
-			<a href="#" class="btn btn-primary">Sign up - it's free!</a>
+			<a href="{% url 'accounts-signup' %}" class="btn btn-primary">Sign up - it's free!</a>
 		</div>
 	</div>
 {% endblock %}

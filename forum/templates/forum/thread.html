@@ -16,12 +16,16 @@
 		</nav>
 		<h3>{{ thread.title }}</h3>
 		{% for message in thread.get_messages %}
-			<div class="card">
+			<div class="card" {% if forloop.counter0 == 0 %}style="background: var(--background-gray);"{% endif %}>
 				<div class="card-body">
 					<div class="row">
-						<div class="col-6 col-md-2 center">
+						<div class="col-6 col-md-3 center">
 							<img src="{{ message.author|avatar }}" class="img-fluid avatar" alt="{{ message.author.username }}'s avatar"><br>
-							{{ message.author }}<br>
+							<h5>{{ message.author }}</h5>
+							{% for group in message.author.groups.all %}
+								{% if forloop.counter == 1 %}{% endif %}
+								<h6><span class="badge badge-primary">{{ group }}</span></h6>
+							{% endfor %}
 						</div>
 						<div class="col-6 col-md-9">
 							<p>{{ message.content }}</p>
