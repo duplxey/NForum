@@ -28,7 +28,7 @@
 							{% endfor %}
 						</div>
 						<div class="col-6 col-md-9">
-							<p>{{ message.content }}</p>
+							<p>{{ message.content|safe }}</p>
 							<small>{{ message.author }}, posted on {{ message.date_posted }} {% if message.date_edited is not null %}(last edited: {{ message.date_edited }}){% endif %}</small>
 						</div>
 					</div>

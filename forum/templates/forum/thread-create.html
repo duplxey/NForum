@@ -10,6 +10,8 @@
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="{% url 'home-index' %}">Home</a></li>
 				<li class="breadcrumb-item"><a href="{% url 'forum-index' %}">Forums</a></li>
+				<li class="breadcrumb-item"><a href="{% url 'forum-subcategory' subcategory_name=subcategory.title %}">{{ subcategory.title }}</a></li>
+				<li class="breadcrumb-item active" aria-current="page">Create a new thread</li>
 			</ol>
 		</nav>
 		<form action="{% url 'forum-thread-create' subcategory_name=subcategory.title %}" method="post">
