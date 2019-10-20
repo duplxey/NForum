@@ -5,7 +5,7 @@ from tinymce import HTMLField
 
 
 class WikiPage(models.Model):
-    display_index = models.IntegerField(unique=True, max_length=3)
+    display_index = models.IntegerField(unique=True)
     title = models.CharField(max_length=64, unique=True)
     url = models.CharField(max_length=64, unique=True)
     content = HTMLField('Content', max_length=5000)
