@@ -9,18 +9,16 @@ class Subcategory(models.Model):
     class Meta:
         verbose_name_plural = "subcategories"
 
-    def get_latest_thread(self):
-        latest_thread = None
-        latest_thread_date = None
-        for thread in Thread.objects.filter(subcategory=self):
-            first_message = Message.objects.filter(thread=thread).order_by('date_posted')[0]
-            if latest_thread_date is None or first_message.date_posted > latest_thread_date:
-                latest_thread = thread
-                latest_thread_date = first_message.date_posted
-        return latest_thread
+    def get_threads(self):
+        return Thread.objects.all().filter(subcategory=self)
 
     def get_thread_count(self):
         return Thread.objects.filter(subcategory=self).count()
+
+    def get_latest_thread(self):
+        for message in Message.objects.all().order_by("-date_posted"):
+            if message.thread.subcategory == self:
+                return message.thread
 
     def get_message_count(self):
         message_count = 0

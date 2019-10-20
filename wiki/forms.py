@@ -1,16 +1,18 @@
 from django import forms
-from tinymce import TinyMCE
+
+from wiki.models import WikiPage
 
 
-class PageAddForm(forms.Form):
-    display_index = forms.IntegerField(max_value=999)
-    title = forms.CharField(max_length=64)
-    url = forms.CharField(max_length=64)
-    content = forms.CharField(widget=TinyMCE(attrs={'cols': 40, 'rows': 15}), max_length=5000)
+class PageAddForm(forms.ModelForm):
+    class Meta:
+        model = WikiPage
+        fields = ['display_index', 'title', 'url', 'content']
 
 
-class PageChangeForm(forms.Form):
-    content = forms.CharField(widget=TinyMCE(attrs={'cols': 40, 'rows': 15}), max_length=5000)
+class PageChangeForm(forms.ModelForm):
+    class Meta:
+        model = WikiPage
+        fields = ['content']
 
 
 class PageDeleteForm(forms.Form):
