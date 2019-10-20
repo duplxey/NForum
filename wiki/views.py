@@ -53,6 +53,12 @@ def page_view(request, url):
 
 def page_add(request):
     if request.user.is_authenticated:
+        if not request.user.has_perm('wiki.add_wikipage'):
+            return render(request, 'layout/message.html', {
+                'message_type': "error",
+                'message_title': "Insufficient permissions.",
+                'message_content': "You don't have the permission to do that!"
+            })
         if request.method == 'POST':
             form = PageAddForm(request.POST)
             if form.is_valid():
@@ -91,6 +97,12 @@ def page_add(request):
 
 def page_change(request, url):
     if request.user.is_authenticated:
+        if not request.user.has_perm('wiki.change_wikipage'):
+            return render(request, 'layout/message.html', {
+                'message_type': "error",
+                'message_title': "Insufficient permissions.",
+                'message_content': "You don't have the permission to do that!"
+            })
         if WikiPage.objects.filter(url=url).exists():
             if request.method == 'POST':
                 form = PageChangeForm(request.POST)
@@ -124,6 +136,12 @@ def page_change(request, url):
 
 def page_delete(request, url):
     if request.user.is_authenticated:
+        if not request.user.has_perm('wiki.delete_wikipage'):
+            return render(request, 'layout/message.html', {
+                'message_type': "error",
+                'message_title': "Insufficient permissions.",
+                'message_content': "You don't have the permission to do that!"
+            })
         if WikiPage.objects.filter(url=url).exists():
             if request.method == 'POST':
                 form = PageDeleteForm(request.POST)
