@@ -1,0 +1,32 @@
+{% extends "layout/default.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col-12 col-md-9">
+				<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url "home-index" %}">Home</a></li>
+					<li class="breadcrumb-item"><a href="{% url "wiki-index" %}">Wiki</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Add a new page</li>
+				</ol>
+				</nav>
+				<h3>Add a new page</h3>
+				<div class="card">
+					<div class="card-body">
+						<form action="{% url 'wiki-page-add' %}" method="post" novalidate>
+							{% csrf_token %}
+							{{ form|crispy }}
+							<button class="btn btn-primary" type="submit">Add a new page</button>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="col-12 col-md-3">
+				{% include "wiki/modules/navigation.html" %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

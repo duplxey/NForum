@@ -79,6 +79,41 @@ def thread_post_view(request, thread_title):
         })
 
 
+def message_edit_view(request, message_id):
+    if Message.objects.filter(pk=message_id).exists():
+        message = Message.objects.get(pk=message_id)
+        thread_title = message.thread.title
+        if request.method == 'POST':
+            form = PostReplyForm(request.POST)
+            if form.is_valid():
+                content = form.cleaned_data['content']
+
+                message.content = content
+                message.save()
+
+                return render(request, 'forum/thread.html', {'form': form, 'thread': Thread.objects.get(title=thread_title)})
+            else:
+                form = PostReplyForm()
+                return render(request, 'forum/message-edit.html', {'form': form, 'thread': Thread.objects.get(title=thread_title), 'message': message})
+        else:
+            form = PostReplyForm()
+            return render(request, 'forum/message-edit.html', {'form': form, 'thread': Thread.objects.get(title=thread_title), 'message': message})
+    else:
+        return render(request, 'layout/message.html', {
+            'message_type': "error",
+            'message_title': "Unknown message!",
+            'message_content': "This message could not be found."
+        })
+
+
+def message_remove_view(request, message_id):
+    message = Message.objects.get(pk=message_id)
+    thread = message.thread
+    if message.author == request.user:
+        message.delete()
+    return thread_view(request=request, thread_title=thread.title)
+
+
 def subcategory_view(request, subcategory_name):
     if Subcategory.objects.filter(title=subcategory_name).exists():
         threads = Thread.objects.filter(subcategory=Subcategory.objects.get(title=subcategory_name))

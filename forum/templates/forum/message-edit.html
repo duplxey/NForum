@@ -1,0 +1,22 @@
+{% extends "layout/default.html" %}
+
+{% load static %}
+{% load account_filters %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+	<div class="container">
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="{% url 'home-index' %}">Home</a></li>
+				<li class="breadcrumb-item"><a href="{% url 'forum-index' %}">Forums</a></li>
+				<li class="breadcrumb-item active" aria-current="page">Editing a message</li>
+			</ol>
+		</nav>
+		<form action="{% url 'forum-message-edit' message_id=message.pk %}" method="post">
+			{% csrf_token %}
+			{{ form|crispy }}
+			<button class="btn btn-primary" type="submit">Save</button>
+		</form>
+	</div>
+{% endblock %}
