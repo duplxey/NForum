@@ -7,7 +7,7 @@ from tinymce import HTMLField
 class WikiPage(models.Model):
     display_index = models.IntegerField(unique=True)
     title = models.CharField(max_length=64, unique=True)
-    url = models.CharField(max_length=64, unique=True)
+    url = models.SlugField(max_length=64, unique=True)
     content = HTMLField('Content', max_length=5000)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='author')
     last_editor = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='last_editor')

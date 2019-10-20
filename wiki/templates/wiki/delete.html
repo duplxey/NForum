@@ -16,6 +16,7 @@
 				<h3>{{ wiki_page.title }} | Delete</h3>
 				<div class="card">
 					<div class="card-body">
+						Do you really want to delete this page?
 						<form action="{% url 'wiki-page-delete' url=wiki_page.url %}" method="post" novalidate>
 							{% csrf_token %}
 							{{ form|crispy }}

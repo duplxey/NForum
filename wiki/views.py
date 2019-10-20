@@ -1,8 +1,7 @@
-from django.shortcuts import render, redirect
-import re
-
+from django.shortcuts import redirect
 from django.utils import timezone
 
+from nforum.errors import *
 from wiki.forms import PageAddForm, PageChangeForm, PageDeleteForm
 from .models import WikiPage
 
@@ -17,11 +16,7 @@ def page_view(request, url):
     try:
         wiki_page = WikiPage.objects.get(url=url)
     except WikiPage.DoesNotExist:
-        return render(request, 'layout/message.html', {
-            'message_type': "error",
-            'message_title': "Unknown wiki page!",
-            'message_content': "The specified wiki page could not be found."
-        })
+        return unknown_wiki_page(request)
 
     passed['wiki_page'] = wiki_page
     passed['next_wiki_page'] = wiki_page.get_next_page
@@ -40,118 +35,77 @@ def page_view(request, url):
 
 
 def page_add(request):
-    if request.user.is_authenticated:
-        if not request.user.has_perm('wiki.add_wikipage'):
-            return render(request, 'layout/message.html', {
-                'message_type': "error",
-                'message_title': "Insufficient permissions.",
-                'message_content': "You don't have the permission to do that!"
-            })
-        if request.method == 'POST':
-            form = PageAddForm(request.POST)
-            if form.is_valid():
-                display_index = form.cleaned_data['display_index']
-                title = form.cleaned_data['title']
-                url = re.sub('[^A-z0-9-_]', "", form.cleaned_data['url']).lower()
-                content = form.cleaned_data['content']
+    if not request.user.is_authenticated:
+        return not_authenticated(request)
 
-                if WikiPage.objects.filter(display_index=display_index).exists():
-                    form.add_error('display_index', "Page with this display index already exists!")
+    if not request.user.has_perm('wiki.add_wikipage'):
+        return insufficient_permission(request)
 
-                if WikiPage.objects.filter(title=title).exists():
-                    form.add_error('title', "Page with this title already exists!")
+    if request.method == 'POST':
+        form = PageAddForm(request.POST)
+        if form.is_valid():
+            display_index = form.cleaned_data['display_index']
+            title = form.cleaned_data['title']
+            url = form.cleaned_data['url'].lower()
+            content = form.cleaned_data['content']
 
-                if WikiPage.objects.filter(url=url).exists():
-                    form.add_error('url', "Page with this url already exists!")
+            page = WikiPage.objects.create(display_index=display_index, title=title, url=url, content=content, author=request.user)
+            page.save()
 
-                if form.has_error('display_index') or form.has_error('title') or form.has_error('url'):
-                    return render(request, 'wiki/add.html', {'wiki_pages': WikiPage.objects.all().order_by('display_index'), 'form': form})
-
-                page = WikiPage.objects.create(display_index=display_index, title=title, url=url, content=content, author=request.user)
-                page.save()
-
-                return redirect('wiki-page', url=url)
-            else:
-                return render(request, 'wiki/add.html', {'wiki_pages': WikiPage.objects.all().order_by('display_index'), 'form': form})
+            return redirect('wiki-page', url=url)
         else:
-            return render(request, 'wiki/add.html', {'wiki_pages': WikiPage.objects.all().order_by('display_index'), 'form': PageAddForm()})
+            return render(request, 'wiki/add.html', {'wiki_pages': WikiPage.objects.all().order_by('display_index'), 'form': form})
     else:
-        return render(request, 'layout/message.html', {
-            'message_type': "error",
-            'message_title': "Not logged in!",
-            'message_content': "You need to be logged in in order to do that."
-        })
+        return render(request, 'wiki/add.html', {'wiki_pages': WikiPage.objects.all().order_by('display_index'), 'form': PageAddForm()})
 
 
 def page_change(request, url):
-    if request.user.is_authenticated:
-        if not request.user.has_perm('wiki.change_wikipage'):
-            return render(request, 'layout/message.html', {
-                'message_type': "error",
-                'message_title': "Insufficient permissions.",
-                'message_content': "You don't have the permission to do that!"
-            })
-        if WikiPage.objects.filter(url=url).exists():
-            if request.method == 'POST':
-                form = PageChangeForm(request.POST)
-                if form.is_valid():
-                    content = form.cleaned_data['content']
+    if not request.user.is_authenticated:
+        return not_authenticated(request)
 
-                    page = WikiPage.objects.get(url=url)
-                    page.content = content
-                    page.last_editor = request.user
-                    page.edited_datetime = timezone.now()
-                    page.save()
+    if not request.user.has_perm('wiki.change_wikipage'):
+        return insufficient_permission(request)
 
-                    return redirect('wiki-page', url=url)
-                else:
-                    return render(request, 'wiki/edit.html', {'wiki_pages': WikiPage.objects.all().order_by('display_index'), 'form': form, 'wiki_page': WikiPage.objects.get(url=url)})
-            else:
-                return render(request, 'wiki/edit.html', {'wiki_pages': WikiPage.objects.all().order_by('display_index'), 'form': PageChangeForm(initial={'content': WikiPage.objects.get(url=url).content}), 'wiki_page': WikiPage.objects.get(url=url)})
+    if not WikiPage.objects.filter(url=url).exists():
+        return unknown_wiki_page(request)
+
+    if request.method == 'POST':
+        form = PageChangeForm(request.POST)
+        if form.is_valid():
+            content = form.cleaned_data['content']
+
+            page = WikiPage.objects.get(url=url)
+            page.content = content
+            page.last_editor = request.user
+            page.edited_datetime = timezone.now()
+            page.save()
+
+            return redirect('wiki-page', url=url)
         else:
-            return render(request, 'layout/message.html', {
-                'message_type': "error",
-                'message_title': "Wiki page does not exist!",
-                'message_content': "Wiki page with that URL does not exist!"
-            })
+            return render(request, 'wiki/change.html', {'wiki_pages': WikiPage.objects.all().order_by('display_index'), 'form': form, 'wiki_page': WikiPage.objects.get(url=url)})
     else:
-        return render(request, 'layout/message.html', {
-            'message_type': "error",
-            'message_title': "Not logged in!",
-            'message_content': "You need to be logged in in order to do that."
-        })
+        return render(request, 'wiki/change.html', {'wiki_pages': WikiPage.objects.all().order_by('display_index'), 'form': PageChangeForm(initial={'content': WikiPage.objects.get(url=url).content}), 'wiki_page': WikiPage.objects.get(url=url)})
 
 
 def page_delete(request, url):
-    if request.user.is_authenticated:
-        if not request.user.has_perm('wiki.delete_wikipage'):
-            return render(request, 'layout/message.html', {
-                'message_type': "error",
-                'message_title': "Insufficient permissions.",
-                'message_content': "You don't have the permission to do that!"
-            })
-        if WikiPage.objects.filter(url=url).exists():
-            if request.method == 'POST':
-                form = PageDeleteForm(request.POST)
-                if form.is_valid():
+    if not request.user.is_authenticated:
+        return not_authenticated(request)
 
-                    page = WikiPage.objects.get(url=url)
-                    page.delete()
+    if not request.user.has_perm('wiki.delete_wikipage'):
+        return insufficient_permission(request)
 
-                    return redirect('wiki-index')
-                else:
-                    return render(request, 'wiki/delete.html', {'wiki_pages': WikiPage.objects.all().order_by('display_index'), 'form': form, 'wiki_page': WikiPage.objects.get(url=url)})
-            else:
-                return render(request, 'wiki/delete.html', {'wiki_pages': WikiPage.objects.all().order_by('display_index'), 'form': PageDeleteForm(), 'wiki_page': WikiPage.objects.get(url=url)})
+    if not WikiPage.objects.filter(url=url).exists():
+        return unknown_wiki_page(request)
+
+    if request.method == 'POST':
+        form = PageDeleteForm(request.POST)
+        if form.is_valid():
+
+            page = WikiPage.objects.get(url=url)
+            page.delete()
+
+            return redirect('wiki-index')
         else:
-            return render(request, 'layout/message.html', {
-                'message_type': "error",
-                'message_title': "Wiki page does not exist!",
-                'message_content': "Wiki page with that URL does not exist!"
-            })
+            return render(request, 'wiki/delete.html', {'wiki_pages': WikiPage.objects.all().order_by('display_index'), 'form': form, 'wiki_page': WikiPage.objects.get(url=url)})
     else:
-        return render(request, 'layout/message.html', {
-            'message_type': "error",
-            'message_title': "Not logged in!",
-            'message_content': "You need to be logged in in order to do that."
-        })
+        return render(request, 'wiki/delete.html', {'wiki_pages': WikiPage.objects.all().order_by('display_index'), 'form': PageDeleteForm(), 'wiki_page': WikiPage.objects.get(url=url)})
