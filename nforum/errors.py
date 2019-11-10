@@ -23,3 +23,11 @@ def unknown_wiki_page(request):
         'message_title': "Wiki page does not exist!",
         'message_content': "Wiki page with that URL does not exist!"
     })
+
+
+def unknown_user(request):
+    return render(request, 'layout/message.html', {
+        'message_type': "error",
+        'message_title': "Unknown user!",
+        'message_content': "This user does not exist."
+    })

@@ -4,7 +4,7 @@ django-tinymce==2.8.0
 django-tinymce4-lite==1.7.5
 jsmin==2.2.2
 mysql-connector-python==8.0.17
-Pillow==6.2.0
+Pillow==6.2.1
 protobuf==3.9.2
 pytz==2019.2
 six==1.12.0

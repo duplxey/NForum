@@ -1,5 +1,7 @@
 from django import forms
 
+from accounts.models import Profile
+
 
 class LoginForm(forms.Form):
     username = forms.CharField(label="Username", max_length=16)
@@ -13,6 +15,7 @@ class SignupForm(forms.Form):
     confirm_password = forms.CharField(label="Confirm password", max_length=32, widget=forms.PasswordInput)
 
 
-class SettingsForm(forms.Form):
-    description = forms.CharField(label="Description", max_length=300, widget=forms.Textarea, required=False)
-    avatar = forms.ImageField(required=False)
+class SettingsForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['description', 'avatar']
