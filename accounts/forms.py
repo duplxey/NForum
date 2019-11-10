@@ -16,7 +16,7 @@ class SignupForm(forms.Form):
 
 
 class SettingsForm(forms.ModelForm):
-    description = forms.CharField(required=False)
+    description = forms.Textarea()
     avatar = forms.ImageField(required=False)
 
     class Meta:
