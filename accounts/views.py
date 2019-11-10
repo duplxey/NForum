@@ -103,17 +103,24 @@ def settings_view(request):
     profile = Profile.objects.get(user=user)
 
     if request.method == 'POST':
-        form = SettingsForm(request.POST)
-        description = form.data['description']
+        form = SettingsForm(request.POST, request.FILES)
+        if form.is_valid():
+            description = form.data.get('description', None)
+            avatar = request.FILES.get('avatar', None)
 
-        if description is not profile.description:
-            profile.description = description
+            if description is not None:
+                if description is not profile.description:
+                    profile.description = description
 
-        # if request.FILES['avatar']:
-        #     profile.avatar = request.FILES['avatar']
+            if avatar is not None:
+                if avatar.size > 2097152:
+                    form.add_error('avatar', "Image is too big! Max 2MB.")
+                    return render(request, 'accounts/settings.html', {'form': form})
 
-        profile.save()
+                if avatar is not profile.avatar:
+                    profile.avatar = avatar
 
+            profile.save()
         return redirect('accounts-profile', username=user.username)
     else:
         form = SettingsForm(initial={'description': profile.description, 'avatar': profile.avatar})
