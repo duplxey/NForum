@@ -3,6 +3,7 @@ from django.shortcuts import render
 
 from accounts.models import Profile
 from forum.forms import CreateThreadForm, PostReplyForm
+from nforum.errors import insufficient_permission
 from .models import *
 
 
@@ -82,6 +83,10 @@ def thread_post_view(request, thread_title):
 def message_edit_view(request, message_id):
     if Message.objects.filter(pk=message_id).exists():
         message = Message.objects.get(pk=message_id)
+
+        if not message.author == request.user:
+            return insufficient_permission(request)
+
         thread_title = message.thread.title
         if request.method == 'POST':
             form = PostReplyForm(request.POST)
@@ -93,10 +98,10 @@ def message_edit_view(request, message_id):
 
                 return render(request, 'forum/thread.html', {'form': form, 'thread': Thread.objects.get(title=thread_title)})
             else:
-                form = PostReplyForm()
+                form = PostReplyForm(initial={'content': message.content})
                 return render(request, 'forum/message-edit.html', {'form': form, 'thread': Thread.objects.get(title=thread_title), 'message': message})
         else:
-            form = PostReplyForm()
+            form = PostReplyForm(initial={'content': message.content})
             return render(request, 'forum/message-edit.html', {'form': form, 'thread': Thread.objects.get(title=thread_title), 'message': message})
     else:
         return render(request, 'layout/message.html', {
@@ -109,8 +114,11 @@ def message_edit_view(request, message_id):
 def message_remove_view(request, message_id):
     message = Message.objects.get(pk=message_id)
     thread = message.thread
-    if message.author == request.user:
-        message.delete()
+
+    if not message.author == request.user:
+        return insufficient_permission(request)
+
+    message.delete()
     return thread_view(request=request, thread_title=thread.title)
 
 
