@@ -20,3 +20,13 @@ def post_count(username):
 @register.filter(name='thread_count')
 def thread_count(username):
     return Thread.objects.filter(author=User.objects.get(username=username)).count()
+
+
+@register.filter(name='upvote_count')
+def profile(username):
+    return Profile.objects.get(user=User.objects.get(username=username)).get_upvotes()
+
+
+@register.filter(name='downvote_count')
+def profile(username):
+    return Profile.objects.get(user=User.objects.get(username=username)).get_downvotes()
