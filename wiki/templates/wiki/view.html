@@ -1,7 +1,5 @@
 {% extends "layout/default.html" %}
 
-{% load util_filters %}
-
 {% block content %}
 	<div class="container">
 		<div class="row">
@@ -36,24 +34,7 @@
 			</div>
 			<div class="col-12 col-md-3">
 				{% include "wiki/modules/navigation.html" %}
-				{% if user_permissions|count_trues != 0 %}
-					<div class="card">
-						<div class="card-header">Wiki settings</div>
-						<div class="card-body">
-							{% if user_permissions.add %}
-								<a href="{% url 'wiki-page-add' %}" class="btn btn-primary w-100">Add a new page</a><br>
-							{% endif %}
-							<hr>
-							{% if user_permissions.change %}
-								<a href="{% url 'wiki-page-change' url=wiki_page.url %}" class="btn btn-warning w-100">Change (this) page</a><br>
-							{% endif %}
-							<hr>
-							{% if user_permissions.delete %}
-								<a href="{% url 'wiki-page-delete' url=wiki_page.url %}" class="btn btn-danger w-100">Delete (this) page</a><br>
-							{% endif %}
-						</div>
-					</div>
-				{% endif %}
+                {% include "wiki/modules/page-settings.html" %}
 			</div>
 		</div>
 	</div>
