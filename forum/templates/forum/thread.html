@@ -30,8 +30,14 @@
 						<div class="col-6 col-md-9">
 							<p>{{ message.content|safe }}</p>
 							<hr>
-							<small>{{ message.author }}, posted on {{ message.date_posted }} {% if message.date_edited is not null %}(last edited: {{ message.date_edited }}){% endif %}{% if message.author == request.user %}[ <a href="{% url 'forum-message-edit' message_id=message.pk %}">Edit</a> ] [ <a href="{% url 'forum-message-remove' message_id=message.pk %}">Remove</a> ]{% endif %}</small>
-						</div>
+							<small>{{ message.author }}, posted on {{ message.date_posted }} {% if message.date_edited is not null %}(last edited: {{ message.date_edited }}){% endif %}
+                                {% if message.author == request.user %}[ <a href="{% url 'forum-message-edit' message_id=message.pk %}">Edit</a> ] [ <a href="{% url 'forum-message-remove' message_id=message.pk %}">Remove</a> ]{% endif %}
+                                <span style="float: right">
+                                    <a href="{% url 'forum-message-upvote' message_id=message.id %}" class="text-success {% if message.is_upvoter %}transparent{% endif %}">{{ message.upvoters.count }} <i class="fas fa-chevron-up"></i></a>
+                                    <a href="{% url 'forum-message-downvote' message_id=message.id %}" class="text-danger {% if message.is_downvoter %}transparent{% endif %}">{{ message.downvoters.count }} <i class="fas fa-chevron-down"></i></a>
+                                </span>
+                            </small>
+                        </div>
 					</div>
 				</div>
 			</div>

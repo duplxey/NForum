@@ -73,6 +73,8 @@ class Message(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     date_posted = models.DateTimeField(auto_now_add=True, blank=True)
     date_edited = models.DateTimeField(null=True, blank=True)
+    upvoters = models.ManyToManyField(User, blank=True, related_name='downvoters')
+    downvoters = models.ManyToManyField(User, blank=True, related_name='upvoters')
 
     @staticmethod
     def get_recent_messages(amount):
@@ -81,6 +83,12 @@ class Message(models.Model):
     @staticmethod
     def get_message_count():
         return Message.objects.all().count()
+
+    def is_upvoter(self, user):
+        return user in self.upvoters.all()
+
+    def is_downvoter(self, user):
+        return user in self.downvoters.all()
 
     def __str__(self):
         return self.author.username + ":" + self.content

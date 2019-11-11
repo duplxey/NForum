@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 
 from accounts.models import Profile
 from forum.forms import CreateThreadForm, PostReplyForm, PostDeleteForm
-from nforum.errors import insufficient_permission, unknown_thread, unknown_subcategory, unknown_message
+from nforum.errors import insufficient_permission, unknown_thread, unknown_subcategory, unknown_message, \
+    not_authenticated
 from .models import *
 
 
@@ -106,6 +107,9 @@ def message_edit_view(request, message_id):
 
 
 def message_remove_view(request, message_id):
+    if not Message.objects.filter(pk=message_id).exists():
+        return unknown_message(request)
+
     message = Message.objects.get(pk=message_id)
     thread = message.thread
 
@@ -126,6 +130,56 @@ def message_remove_view(request, message_id):
             return redirect('forum-thread', thread_title=thread.title)
     else:
         return render(request, 'forum/message-delete.html', {'form': PostDeleteForm(), 'thread': thread, 'message': message})
+
+
+def message_upvote(request, message_id):
+    if not Message.objects.filter(pk=message_id).exists():
+        return unknown_message(request)
+
+    if not request.user.is_authenticated:
+        return not_authenticated(request)
+
+    message = Message.objects.get(pk=message_id)
+    thread = message.thread
+
+    if message.author == request.user:
+        return redirect(thread_view, thread_title=thread.title)
+
+    if request.user in message.upvoters.all():
+        message.upvoters.remove(request.user)
+        return redirect(thread_view, thread_title=thread.title)
+
+    message.upvoters.add(request.user)
+
+    if request.user in message.downvoters.all():
+        message.downvoters.remove(request.user)
+
+    return redirect(thread_view, thread_title=thread.title)
+
+
+def message_downvote(request, message_id):
+    if not Message.objects.filter(pk=message_id).exists():
+        return unknown_message(request)
+
+    if not request.user.is_authenticated:
+        return not_authenticated(request)
+
+    message = Message.objects.get(pk=message_id)
+    thread = message.thread
+
+    if message.author == request.user:
+        return redirect(thread_view, thread_title=thread.title)
+
+    if request.user in message.downvoters.all():
+        message.downvoters.remove(request.user)
+        return redirect(thread_view, thread_title=thread.title)
+
+    message.downvoters.add(request.user)
+
+    if request.user in message.upvoters.all():
+        message.upvoters.remove(request.user)
+
+    return redirect(thread_view, thread_title=thread.title)
 
 
 def subcategory_view(request, subcategory_name):
