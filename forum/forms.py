@@ -9,3 +9,7 @@ class CreateThreadForm(forms.Form):
 
 class PostReplyForm(forms.Form):
     content = forms.CharField(widget=TinyMCE(attrs={'cols': 40, 'rows': 15}), max_length=2500)
+
+
+class PostDeleteForm(forms.Form):
+    confirm = forms.BooleanField

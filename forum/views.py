@@ -1,8 +1,8 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from accounts.models import Profile
-from forum.forms import CreateThreadForm, PostReplyForm
+from forum.forms import CreateThreadForm, PostReplyForm, PostDeleteForm
 from nforum.errors import insufficient_permission
 from .models import *
 
@@ -118,8 +118,21 @@ def message_remove_view(request, message_id):
     if not message.author == request.user:
         return insufficient_permission(request)
 
-    message.delete()
-    return thread_view(request=request, thread_title=thread.title)
+    if request.method == 'POST':
+        form = PostDeleteForm(request.POST)
+
+        if form.is_valid():
+
+            if thread.get_first_message() == message:
+                thread.delete()
+                return redirect('forum-index')
+            else:
+                message.delete()
+                return redirect('forum-thread', thread_title=thread.title)
+        else:
+            return render(request, 'forum/message-delete.html', {'form': PostDeleteForm(), 'thread': thread, 'message': message})
+    else:
+        return render(request, 'forum/message-delete.html', {'form': PostDeleteForm(), 'thread': thread, 'message': message})
 
 
 def subcategory_view(request, subcategory_name):
