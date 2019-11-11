@@ -1,0 +1,58 @@
+{% extends "layout/default.html" %}
+
+{% load static %}
+{% load account_filters %}
+
+{% block content %}
+	<div class="container">
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="{% url "home-index" %}">Home</a></li>
+				<li class="breadcrumb-item" aria-current="page">Account</li>
+				<li class="breadcrumb-item active" aria-current="page">Alerts</li>
+			</ol>
+		</nav>
+		<div class="row">
+			<div class="col-12 col-md-9">
+                <h3>Alerts</h3>
+				<div class="card">
+					<div class="card-body">
+                        <h5>Today <small>(dd/mm/yyyy)</small></h5>
+                        <hr>
+                            <div>
+                                <a href="#"><i class="fas fa-exclamation"></i>
+                                <img src="#" class="img-fluid avatar" alt="#'s avatar">
+                                A person responded to your thread!</a><br>Mike just responded to your thread.
+                            </div>
+                        <hr>
+                            <a href="#"><i class="fas fa-exclamation"></i> A person responded to your thread!</a><br>Mike just responded to your thread.
+                        <hr>
+                            <a href="#"><i class="fas fa-at"></i> BigJohhny mentioned you!</a><br>Mike just responded to your thread.
+                        <hr>
+                            <a href="#"><i class="fas fa-trophy"></i> A person responded to your thread!</a><br>Mike just responded to your thread.
+                        <hr>
+					</div>
+				</div>
+                <div class="card">
+					<div class="card-body">
+                        <h5>Older</h5>
+                        <hr>
+                        None
+					</div>
+				</div>
+			</div>
+			<div class="col-12 col-md-3">
+				<div class="card">
+					<div class="card-header">Useful links</div>
+					<div class="card-body">
+						<ul>
+                            <li><a href="{% url "accounts-home" %}">Home</a></li>
+							<li><a href="{% url "accounts-profile" username=user.username %}">Your profile</a></li>
+							<li><a href="{% url "accounts-settings" %}">Settings</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

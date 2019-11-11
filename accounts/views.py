@@ -125,3 +125,7 @@ def settings_view(request):
     else:
         form = SettingsForm(initial={'description': profile.description, 'avatar': profile.avatar})
         return render(request, 'accounts/settings.html', {'form': form})
+
+
+def alert_view(request):
+    return render(request, 'accounts/alert.html')
