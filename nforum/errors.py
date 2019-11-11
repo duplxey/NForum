@@ -31,3 +31,27 @@ def unknown_user(request):
         'message_title': "Unknown user!",
         'message_content': "This user does not exist."
     })
+
+
+def unknown_subcategory(request):
+    return render(request, 'layout/message.html', {
+        'message_type': "error",
+        'message_title': "Unknown subcategory!",
+        'message_content': "Could not find the requested subcategory."
+    })
+
+
+def unknown_thread(request):
+    return render(request, 'layout/message.html', {
+        'message_type': "error",
+        'message_title': "Unknown thread!",
+        'message_content': "Could not find the requested thread."
+    })
+
+
+def unknown_message(request):
+    return render(request, 'layout/message.html', {
+        'message_type': "error",
+        'message_title': "Unknown message!",
+        'message_content': "Could not find the requested message."
+    })
