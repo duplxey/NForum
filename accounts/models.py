@@ -34,6 +34,9 @@ class Profile(models.Model):
             a += message.downvoters.count()
         return a
 
+    def get_unseen_alerts(self):
+        return Alert.objects.filter(user=self.user).filter(seen__isnull=True).count()
+
     def __str__(self):
         return self.user.username + "'s profile"
 
@@ -47,9 +50,11 @@ class Alert(models.Model):
         (RESPOND, 'Respond'),
     ]
     type = models.CharField(max_length=2, choices=ALERT_TYPES, default=MENTION)
+    datetime = models.DateTimeField(auto_now_add=True, blank=True)
+    seen = models.DateTimeField(null=True, blank=True)
     caused_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='caused_by')
     thread = models.ForeignKey(Thread, on_delete=models.CASCADE, null=True, blank=True)
-    message = models.TextField(max_length=300)
+    message = models.TextField(max_length=300, null=True, blank=True)
 
     def __str__(self):
-        return self.message
+        return self.user.username + " (" + self.type + ")"

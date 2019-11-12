@@ -17,27 +17,18 @@
                 <h3>Alerts</h3>
 				<div class="card">
 					<div class="card-body">
-                        <h5>Today <small>(dd/mm/yyyy)</small></h5>
-                        <hr>
-                            <div>
-                                <a href="#"><i class="fas fa-exclamation"></i>
-                                <img src="#" class="img-fluid avatar" alt="#'s avatar">
-                                A person responded to your thread!</a><br>Mike just responded to your thread.
-                            </div>
-                        <hr>
-                            <a href="#"><i class="fas fa-exclamation"></i> A person responded to your thread!</a><br>Mike just responded to your thread.
-                        <hr>
-                            <a href="#"><i class="fas fa-at"></i> BigJohhny mentioned you!</a><br>Mike just responded to your thread.
-                        <hr>
-                            <a href="#"><i class="fas fa-trophy"></i> A person responded to your thread!</a><br>Mike just responded to your thread.
-                        <hr>
-					</div>
-				</div>
-                <div class="card">
-					<div class="card-body">
-                        <h5>Older</h5>
-                        <hr>
-                        None
+                        {% for alert in alerts %}
+                            {% if forloop.counter != 1 %}
+                                <hr>
+                            {% endif %}
+                            {% if alert.type == 'ME' %}
+                                <i class="fas fa-at"></i> <a href="{% url 'accounts-profile' username=alert.caused_by.username %}"><img src="{{ alert.caused_by.username|avatar }}" class="img-fluid avatar-mini" alt="{{ alert.caused_by.username }}'s avatar"> {{ alert.caused_by.username }}</a> mentioned you in <a href="{% url 'forum-thread' thread_title=alert.thread.title  %}">{{ alert.thread.title }}</a>.<br>
+                                <small>{{ alert.message }} {{ alert.datetime }}</small>
+                            {% elif alert.type == 'RE' %}
+                                <i class="fas fa-exclamation"></i> <a href="{% url 'accounts-profile' username=alert.caused_by.username %}"><img src="{{ alert.caused_by.username|avatar }}" class="img-fluid avatar-mini" alt="{{ alert.caused_by.username }}'s avatar"> {{ alert.caused_by.username }}</a> responded to your thread <a href="{% url 'forum-thread' thread_title=alert.thread.title  %}">{{ alert.thread.title }}</a>.<br>
+                                <small>{{ alert.message }} {{ alert.datetime }}</small>
+                            {% endif %}
+                        {% endfor %}
 					</div>
 				</div>
 			</div>

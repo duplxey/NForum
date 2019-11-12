@@ -1,9 +1,11 @@
+import datetime
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 
 from accounts.forms import LoginForm, SignupForm, SettingsForm
-from accounts.models import Profile
+from accounts.models import Profile, Alert
 from forum.models import Message, Thread
 from nforum.errors import unknown_user
 
@@ -128,4 +130,11 @@ def settings_view(request):
 
 
 def alert_view(request):
-    return render(request, 'accounts/alert.html')
+    if not request.user.is_authenticated:
+        return render(request, 'home/index.html', {})
+
+    for alert in Alert.objects.filter(user=request.user).filter(seen__isnull=True):
+        alert.seen = datetime.datetime.now()
+        alert.save()
+
+    return render(request, 'accounts/alert.html', {'alerts': Alert.objects.filter(user=request.user).order_by('-datetime')[:10]})
