@@ -95,6 +95,11 @@ footer {
     height: 100px;
 }
 
+.avatar-big {
+    width: 200px;
+    height: 200px;
+}
+
 .avatar-mini {
     width: 25px;
     height: 25px;
