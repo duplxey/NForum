@@ -1,6 +1,5 @@
 from django.contrib import admin
-from accounts.models import Profile, Alert, AlertType
+from accounts.models import Profile, Alert
 
 admin.site.register(Profile)
-admin.site.register(AlertType)
 admin.site.register(Alert)

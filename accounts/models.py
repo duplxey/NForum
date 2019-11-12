@@ -38,17 +38,15 @@ class Profile(models.Model):
         return self.user.username + "'s profile"
 
 
-class AlertType(models.Model):
-    name = models.CharField(max_length=64, null=False, blank=False)
-    description = models.TextField(max_length=300, null=False, blank=True)
-
-    def __str__(self):
-        return self.name
-
-
 class Alert(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    type = models.OneToOneField(AlertType, on_delete=models.CASCADE)
+    MENTION = 'ME'
+    RESPOND = 'RE'
+    ALERT_TYPES = [
+        (MENTION, 'Mention'),
+        (RESPOND, 'Respond'),
+    ]
+    type = models.CharField(max_length=2, choices=ALERT_TYPES, default=MENTION)
     caused_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='caused_by')
     thread = models.ForeignKey(Thread, on_delete=models.CASCADE, null=True, blank=True)
     message = models.TextField(max_length=300)
