@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from accounts.models import Profile
+from accounts.models import Profile, Alert
 from forum.forms import CreateThreadForm, PostReplyForm, PostDeleteForm
 from nforum.errors import insufficient_permission, unknown_thread, unknown_subcategory, unknown_message, \
     not_authenticated
@@ -71,6 +71,13 @@ def thread_post_view(request, thread_title):
 
         message = Message.objects.create(thread=thread, content=content, author=request.user)
         message.save()
+
+        # Send an alert to all the participants
+        for participant in thread.get_participants():
+            if participant == request.user:
+                continue
+            alert = Alert(user=participant, type=Alert.RESPOND, caused_by=request.user, thread=thread)
+            alert.save()
 
         return redirect(thread_view, thread_title=thread.title)
     else:

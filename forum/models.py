@@ -63,6 +63,12 @@ class Thread(models.Model):
     def get_message_count(self):
         return self.get_messages().count()
 
+    def get_participants(self):
+        participants = set()
+        for message in self.get_messages():
+            participants.add(message.author)
+        return participants
+
     def __str__(self):
         return self.title + " by " + self.author.username
 
