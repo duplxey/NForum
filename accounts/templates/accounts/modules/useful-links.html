@@ -1,0 +1,10 @@
+<div class="card">
+    <div class="card-header">Useful links</div>
+    <div class="card-body">
+        <ul>
+            <li><a href="{% url "accounts-profile" username=user.username %}">Your profile</a></li>
+            <li><a href="{% url "accounts-settings" %}">Settings</a></li>
+            <li><a href="{% url "accounts-alert" %}">Alerts</a></li>
+        </ul>
+    </div>
+</div>

@@ -10,14 +10,17 @@
 	</div>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<div class="container">
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+			<div class="collapse navbar-collapse" id="navbarToggler">
 				<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-					<li class="nav-item">
-						<a class="nav-link" href="{% url 'home-index' %}">Home</a>
-					</li>
+                    <!-- Hide home/presentation page from logged in users, highly doubt they will ever click it -->
+                    {% if not user.is_authenticated %}
+                        <li class="nav-item">
+						    <a class="nav-link" href="{% url 'home-index' %}">Home</a>
+					    </li>
+                    {% endif %}
 					<li class="nav-item">
 						<a class="nav-link" href="{% url 'forum-index' %}">Forums</a>
 					</li>
@@ -36,7 +39,6 @@
 									Logged in as {{ user.username }}
 								</a>
 								<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-									<a class="dropdown-item" href="{% url "accounts-home" %}">Home</a>
 									<a class="dropdown-item" href="{% url "accounts-profile" username=user.username %}">Your profile</a>
 									<a class="dropdown-item" href="{% url "accounts-settings" %}">Settings</a>
 									<div class="dropdown-divider"></div>

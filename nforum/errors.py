@@ -9,6 +9,14 @@ def not_authenticated(request):
     })
 
 
+def already_authenticated(request):
+    return render(request, 'layout/message.html', {
+        'message_type': "error",
+        'message_title': "You are already logged in.",
+        'message_content': "You are already logged in, are you trying to break something? o.O"
+    })
+
+
 def insufficient_permission(request):
     return render(request, 'layout/message.html', {
         'message_type': "error",

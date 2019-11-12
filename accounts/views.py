@@ -7,12 +7,12 @@ from django.shortcuts import render, redirect
 from accounts.forms import LoginForm, SignupForm, SettingsForm
 from accounts.models import Profile, Alert
 from forum.models import Message, Thread
-from nforum.errors import unknown_user
+from nforum.errors import unknown_user, already_authenticated, not_authenticated
 
 
 def login_view(request):
     if request.user.is_authenticated:
-        return render(request, 'accounts/home.html', {})
+        return already_authenticated(request)
 
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -23,7 +23,7 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return render(request, 'accounts/home.html', {'form': form})
+                return redirect('accounts-profile', username=request.user.username)
             else:
                 form.add_error('password', "Wrong username or password!")
                 return render(request, 'accounts/login.html', {'form': form})
@@ -36,7 +36,7 @@ def login_view(request):
 
 def signup_view(request):
     if request.user.is_authenticated:
-        return render(request, 'accounts/home.html', {})
+        return already_authenticated(request)
 
     if request.method == 'POST':
         form = SignupForm(request.POST)
@@ -62,7 +62,7 @@ def signup_view(request):
 
             login(request, user)
 
-            return render(request, 'accounts/home.html', {'form': form})
+            return redirect('accounts-profile', username=request.user.username)
         else:
             return render(request, 'accounts/signup.html', {'form': form})
     else:
@@ -71,19 +71,15 @@ def signup_view(request):
 
 
 def logout_view(request):
+    if not request.user.is_authenticated:
+        return not_authenticated(request)
+
     logout(request)
     return render(request, 'accounts/logout.html', {})
 
 
 def members_view(request):
     return render(request, 'accounts/members.html', {'members': User.objects.all()})
-
-
-def home_view(request):
-    if request.user.is_authenticated:
-        return render(request, 'accounts/home.html', {})
-
-    return render(request, 'home/index.html', {})
 
 
 def profile_specific_view(request, username):
@@ -99,7 +95,7 @@ def profile_specific_view(request, username):
 
 def settings_view(request):
     if not request.user.is_authenticated:
-        return render(request, 'home/index.html', {})
+        return not_authenticated(request)
 
     user = request.user
     profile = Profile.objects.get(user=user)
@@ -131,7 +127,7 @@ def settings_view(request):
 
 def alert_view(request):
     if not request.user.is_authenticated:
-        return render(request, 'home/index.html', {})
+        return not_authenticated(request)
 
     for alert in Alert.objects.filter(user=request.user).filter(seen__isnull=True):
         alert.seen = datetime.datetime.now()
