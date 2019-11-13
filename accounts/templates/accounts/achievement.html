@@ -1,0 +1,51 @@
+{% extends "layout/default.html" %}
+
+{% load static %}
+{% load account_filters %}
+
+{% block content %}
+	<div class="container">
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="{% url "home-index" %}">Home</a></li>
+				<li class="breadcrumb-item" aria-current="page">Account</li>
+				<li class="breadcrumb-item active" aria-current="page">Alerts</li>
+			</ol>
+		</nav>
+		<div class="row">
+			<div class="col-12 col-md-9">
+				<div class="card">
+					<div class="card-body">
+                        <h3>Unlocked achievements</h3>
+                        {% if unlocked_achievements|length == 0 %}
+                            You do not have any achievements yet.
+                        {% endif %}
+                        {% for user_achievement in unlocked_achievements %}
+                            <hr>
+                            <i class="fas fa-trophy"></i> {{ user_achievement.achievement.name }} <span class="float-right">{{ user_achievement.datetime }}</span><br>
+                            {{ user_achievement.achievement.description }}
+                        {% endfor %}
+					</div>
+				</div>
+                <div class="card">
+                    <div class="card-body">
+                        <h3>Locked achievements</h3>
+                        {% if locked_achievements|length == 0 %}
+                            No locked achievements could be found.
+                        {% endif %}
+                        <div class="transparent">
+                            {% for achievement in locked_achievements %}
+                                <hr>
+                                <i class="fas fa-trophy"></i> {{ achievement.name }}<br>
+                                {{ achievement.description }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+			</div>
+			<div class="col-12 col-md-3">
+                {% include "accounts/modules/useful-links.html" %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

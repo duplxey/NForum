@@ -11,5 +11,6 @@ urlpatterns = [
 
     path('profile/<str:username>/', views.profile_specific_view, name='accounts-profile'),
     path('alert/', views.alert_view, name='accounts-alert'),
+    path('achievement/', views.achievement_view, name='accounts-achievement'),
     path('settings', views.settings_view, name='accounts-settings'),
 ]

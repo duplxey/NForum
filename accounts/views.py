@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 
 from accounts.forms import LoginForm, SignupForm, SettingsForm
-from accounts.models import Profile, Alert
+from accounts.models import Profile, Alert, UserAchievement, Achievement
 from forum.models import Message, Thread
 from nforum.errors import unknown_user, already_authenticated, not_authenticated
 
@@ -134,3 +134,22 @@ def alert_view(request):
         alert.save()
 
     return render(request, 'accounts/alert.html', {'alerts': Alert.objects.filter(user=request.user).order_by('-datetime')[:10]})
+
+
+def achievement_view(request):
+    if not request.user.is_authenticated:
+        return not_authenticated(request)
+
+    # TODO: improve me!
+    unlocked_achievements = UserAchievement.objects.filter(user=request.user).order_by('-datetime')
+    unlocked_achievement_ids = set()
+    for unlocked_achievement in unlocked_achievements:
+        unlocked_achievement_ids.add(unlocked_achievement.achievement.pk)
+
+    locked_achievements = set()
+    for achievement in Achievement.objects.all():
+        if achievement.pk in unlocked_achievement_ids:
+            continue
+        locked_achievements.add(achievement)
+
+    return render(request, 'accounts/achievement.html', {'unlocked_achievements': unlocked_achievements, 'locked_achievements': locked_achievements})
