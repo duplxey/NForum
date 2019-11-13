@@ -28,9 +28,11 @@
 								<h4><span class="badge badge-primary">{{ group }}</span></h4>
 							{% endfor %}
 							<hr>
-							Registered: {{ passed_user.date_joined|date }}<br>
-							Last online: {{ passed_user.last_login|timesince }} ago<br>
 						</div>
+                        Registered: {{ passed_user.date_joined|date:"d.m.Y" }}<br>
+                        Last online: {{ passed_user.last_login|timesince }} ago<br>
+                        Threads started: x<br>
+                        Messages posted: y<br>
 					</div>
 				</div>
 			</div>

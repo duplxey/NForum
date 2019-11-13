@@ -143,3 +143,7 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Dates (Using L10N is supposed to be better) maybe for later use
+# DATETIME_FORMAT = 'd.m.Y (H:m)'
+# DATE_FORMAT = 'd.m.Y'

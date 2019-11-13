@@ -58,3 +58,29 @@ class Alert(models.Model):
 
     def __str__(self):
         return self.user.username + " (" + self.type + ")"
+
+
+class Achievement(models.Model):
+    name = models.CharField(max_length=150)
+    description = models.TextField(max_length=300, blank=True, null=True)
+    POST_COUNT = 'PC'
+    THREAD_COUNT = 'TC'
+    UPVOTE_COUNT = 'UP'
+    DOWNVOTE_COUNT = 'DO'
+    CRITERIAS = [
+        (POST_COUNT, 'Post count'),
+        (THREAD_COUNT, 'Thread count'),
+        (UPVOTE_COUNT, 'Upvotes'),
+        (DOWNVOTE_COUNT, 'Downvotes'),
+    ]
+    criteria = models.CharField(max_length=2, choices=CRITERIAS, default=POST_COUNT)
+    value = models.IntegerField(blank=False, null=False)
+
+    def __str__(self):
+        return self.name + " (" + self.description + ")"
+
+
+class UserAchievement(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    achievement = models.ForeignKey(Achievement, on_delete=models.CASCADE)
+    datetime = models.DateTimeField(auto_now_add=True, blank=True)
