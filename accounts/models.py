@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -34,9 +36,6 @@ class Profile(models.Model):
             a += message.downvoters.count()
         return a
 
-    def get_unseen_alerts(self):
-        return Alert.objects.filter(user=self.user).filter(seen__isnull=True).count()
-
     def __str__(self):
         return self.user.username + "'s profile"
 
@@ -45,9 +44,15 @@ class Alert(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     MENTION = 'ME'
     RESPOND = 'RE'
+    UPVOTE = 'UP'
+    DOWNVOTE = 'DO'
+    ACHIEVEMENT = 'AC'
     ALERT_TYPES = [
         (MENTION, 'Mention'),
         (RESPOND, 'Respond'),
+        (UPVOTE, 'Upvote'),
+        (DOWNVOTE, 'Downvote'),
+        (ACHIEVEMENT, 'Achievement'),
     ]
     type = models.CharField(max_length=2, choices=ALERT_TYPES, default=MENTION)
     datetime = models.DateTimeField(auto_now_add=True, blank=True)
@@ -55,6 +60,20 @@ class Alert(models.Model):
     caused_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='caused_by')
     thread = models.ForeignKey(Thread, on_delete=models.CASCADE, null=True, blank=True)
     message = models.TextField(max_length=300, null=True, blank=True)
+
+    @staticmethod
+    def get_latest_alerts(user, amount):
+        return Alert.objects.filter(user=user).order_by('-datetime')[:amount]
+
+    @staticmethod
+    def get_unseen_alerts(user):
+        return Alert.objects.filter(user=user).filter(seen__isnull=True)
+
+    @staticmethod
+    def clear_unseen_alerts(user):
+        for alert in Alert.get_unseen_alerts(user):
+            alert.seen = datetime.datetime.now()
+            alert.save()
 
     def __str__(self):
         return self.user.username + " (" + self.type + ")"
@@ -77,6 +96,37 @@ class Achievement(models.Model):
     value = models.IntegerField(blank=False, null=False)
 
     @staticmethod
+    def check_add_achievements(user, criteria):
+        locked_achievements = Achievement.get_locked_achievements(user).filter(criteria=criteria)
+
+        # If the user already has all the achievements, let's avoid executing additional queries
+        if locked_achievements.count() == 0:
+            return False
+
+        # No switch statement in python? Makes me kinda sad :(
+        value = 0
+        if criteria == Achievement.POST_COUNT:
+            value = Message.objects.filter(author=user).count()
+        elif criteria == Achievement.THREAD_COUNT:
+            value = Thread.objects.filter(author=user).count()
+        elif criteria == Achievement.UPVOTE_COUNT:
+            value = Profile.get_profile(user).get_upvotes()
+        elif criteria == Achievement.DOWNVOTE_COUNT:
+            value = Profile.get_profile(user).get_downvotes()
+
+        for locked_achievement in locked_achievements:
+            if value >= locked_achievement.value:
+                user_achievement = UserAchievement(user=user, achievement=locked_achievement)
+                user_achievement.save()
+
+                alert = Alert(user=user, type=Alert.ACHIEVEMENT)
+                alert.save()
+
+                return True
+
+        return False
+
+    @staticmethod
     def get_unlocked_achievements(user):
         return UserAchievement.objects.filter(user=user).order_by('-datetime')
 
@@ -92,3 +142,7 @@ class UserAchievement(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     achievement = models.ForeignKey(Achievement, on_delete=models.CASCADE)
     datetime = models.DateTimeField(auto_now_add=True, blank=True)
+
+    def __str__(self):
+        return self.user.username + " (" + self.achievement.name + ")"
+

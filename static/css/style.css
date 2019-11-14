@@ -105,6 +105,11 @@ footer {
     height: 25px;
 }
 
+.avatar-nano {
+    width: 18px;
+    height: 18px;
+}
+
 .section {
     padding: 30px 0;
 }

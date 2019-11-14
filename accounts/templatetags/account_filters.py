@@ -1,7 +1,7 @@
 from django import template
 from django.contrib.auth.models import User
 
-from accounts.models import Profile
+from accounts.models import Profile, Alert
 from forum.models import Message, Thread
 
 register = template.Library()
@@ -32,6 +32,6 @@ def profile(username):
     return Profile.objects.get(user=User.objects.get(username=username)).get_downvotes()
 
 
-@register.filter(name='unseen_alerts')
-def unseen_alerts(username):
-    return Profile.get_unseen_alerts(Profile.get_profile(User.objects.get(username=username)))
+@register.filter(name='unseen_alert_count')
+def unseen_alert_count(user):
+    return Alert.get_unseen_alerts(user).count()

@@ -1,11 +1,9 @@
-import datetime
-
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 
 from accounts.forms import LoginForm, SignupForm, SettingsForm
-from accounts.models import Profile, Alert, UserAchievement, Achievement
+from accounts.models import Profile, Alert, Achievement
 from forum.models import Message, Thread
 from nforum.errors import unknown_user, already_authenticated, not_authenticated
 
@@ -129,11 +127,9 @@ def alert_view(request):
     if not request.user.is_authenticated:
         return not_authenticated(request)
 
-    for alert in Alert.objects.filter(user=request.user).filter(seen__isnull=True):
-        alert.seen = datetime.datetime.now()
-        alert.save()
+    Alert.clear_unseen_alerts(user=request.user)
 
-    return render(request, 'accounts/alert.html', {'alerts': Alert.objects.filter(user=request.user).order_by('-datetime')[:10]})
+    return render(request, 'accounts/alert.html', {'alerts': Alert.get_latest_alerts(request.user, 10)})
 
 
 def achievement_view(request):

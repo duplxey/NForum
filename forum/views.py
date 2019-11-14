@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from accounts.models import Profile, Alert, Achievement, UserAchievement
+from accounts.models import Profile, Alert, Achievement
 from forum.forms import CreateThreadForm, PostReplyForm, PostDeleteForm
 from nforum.errors import insufficient_permission, unknown_thread, unknown_subcategory, unknown_message, \
     not_authenticated
@@ -48,12 +48,8 @@ def thread_create_view(request, subcategory_name):
         message = Message.objects.create(thread=thread, content=content, author=request.user)
         message.save()
 
-        # Check if user achieved anything
-        for achievement in Achievement.get_locked_achievements(request.user).filter(criteria=Achievement.THREAD_COUNT):
-            required_value = achievement.value
-            if Thread.objects.filter(author=request.user).count() >= required_value:
-                user_achievement = UserAchievement(user=request.user, achievement=achievement)
-                user_achievement.save()
+        # Let's check if user achieved anything
+        Achievement.check_add_achievements(request.user, Achievement.THREAD_COUNT)
 
         return redirect(thread_view, thread_title=thread.title)
     else:
@@ -85,6 +81,9 @@ def thread_post_view(request, thread_title):
                 continue
             alert = Alert(user=participant, type=Alert.RESPOND, caused_by=request.user, thread=thread)
             alert.save()
+
+        # Let's check if user achieved anything
+        Achievement.check_add_achievements(request.user, Achievement.POST_COUNT)
 
         return redirect(thread_view, thread_title=thread.title)
     else:
@@ -165,6 +164,13 @@ def message_upvote(request, message_id):
 
     message.upvoters.add(request.user)
 
+    # Send an alert to the author
+    alert = Alert(user=message.author, type=Alert.UPVOTE, caused_by=request.user, thread=thread)
+    alert.save()
+
+    # Let's check if the author achieved anything
+    Achievement.check_add_achievements(message.author, Achievement.UPVOTE_COUNT)
+
     if request.user in message.downvoters.all():
         message.downvoters.remove(request.user)
 
@@ -189,6 +195,13 @@ def message_downvote(request, message_id):
         return redirect(thread_view, thread_title=thread.title)
 
     message.downvoters.add(request.user)
+
+    # Send an alert to the author
+    alert = Alert(user=message.author, type=Alert.DOWNVOTE, caused_by=request.user, thread=thread)
+    alert.save()
+
+    # Let's check if the author achieved anything
+    Achievement.check_add_achievements(message.author, Achievement.DOWNVOTE_COUNT)
 
     if request.user in message.upvoters.all():
         message.upvoters.remove(request.user)

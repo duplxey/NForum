@@ -47,7 +47,7 @@
 								</div>
 							</li>
                             <li class="nav-item">
-						        <a class="nav-link" href="{% url 'accounts-alert' %}"><span class="{% if user.username|unseen_alerts > 0 %}text-warning{% endif %}"><i class="fas fa-bell"></i><sup style="padding: 1px 3px;">{{ user.username|unseen_alerts }}</sup></span></a>
+						        <a class="nav-link" href="{% url 'accounts-alert' %}"><span class="{% if user|unseen_alert_count > 0 %}text-warning{% endif %}"><i class="fas fa-bell"></i><sup style="padding: 1px 3px;">{{ user|unseen_alert_count }}</sup></span></a>
 					        </li>
 						{% else %}
 							<li class="nav-item">
