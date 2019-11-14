@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from accounts.models import Profile, Alert
+from accounts.models import Profile, Alert, Achievement, UserAchievement
 from forum.forms import CreateThreadForm, PostReplyForm, PostDeleteForm
 from nforum.errors import insufficient_permission, unknown_thread, unknown_subcategory, unknown_message, \
     not_authenticated
@@ -47,6 +47,13 @@ def thread_create_view(request, subcategory_name):
 
         message = Message.objects.create(thread=thread, content=content, author=request.user)
         message.save()
+
+        # Check if user achieved anything
+        for achievement in Achievement.get_locked_achievements(request.user).filter(criteria=Achievement.THREAD_COUNT):
+            required_value = achievement.value
+            if Thread.objects.filter(author=request.user).count() >= required_value:
+                user_achievement = UserAchievement(user=request.user, achievement=achievement)
+                user_achievement.save()
 
         return redirect(thread_view, thread_title=thread.title)
     else:

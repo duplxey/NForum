@@ -140,16 +140,4 @@ def achievement_view(request):
     if not request.user.is_authenticated:
         return not_authenticated(request)
 
-    # TODO: improve me!
-    unlocked_achievements = UserAchievement.objects.filter(user=request.user).order_by('-datetime')
-    unlocked_achievement_ids = set()
-    for unlocked_achievement in unlocked_achievements:
-        unlocked_achievement_ids.add(unlocked_achievement.achievement.pk)
-
-    locked_achievements = set()
-    for achievement in Achievement.objects.all():
-        if achievement.pk in unlocked_achievement_ids:
-            continue
-        locked_achievements.add(achievement)
-
-    return render(request, 'accounts/achievement.html', {'unlocked_achievements': unlocked_achievements, 'locked_achievements': locked_achievements})
+    return render(request, 'accounts/achievement.html', {'unlocked_achievements': Achievement.get_unlocked_achievements(request.user), 'locked_achievements': Achievement.get_locked_achievements(request.user)})

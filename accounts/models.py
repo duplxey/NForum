@@ -76,6 +76,14 @@ class Achievement(models.Model):
     criteria = models.CharField(max_length=2, choices=CRITERIAS, default=POST_COUNT)
     value = models.IntegerField(blank=False, null=False)
 
+    @staticmethod
+    def get_unlocked_achievements(user):
+        return UserAchievement.objects.filter(user=user).order_by('-datetime')
+
+    @staticmethod
+    def get_locked_achievements(user):
+        return Achievement.objects.exclude(userachievement__user=user)
+
     def __str__(self):
         return self.name + " (" + self.description + ")"
 
