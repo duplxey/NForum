@@ -9,7 +9,6 @@ from forum.models import Message, Thread
 class Profile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     description = models.TextField(max_length=300, default="Another cool user.")
-    last_action = models.DateTimeField(auto_now_add=True)
     avatar = models.ImageField(upload_to='images/')
 
     @staticmethod

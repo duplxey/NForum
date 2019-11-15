@@ -11,7 +11,7 @@
         <meta name="keywords" content="{% block keywords %}nforum, forum, python, django{% endblock %}"/>
         <link rel="shortcut icon" type="image/png" href="{% static "img/favicon.png" %}"/>
         {% include "imports.html" %}
-	    {{ form.media }}
+	    {{ form.media }} <!-- required for MCE to work -->
     </head>
     <body>
 		<div class="content-wrap">

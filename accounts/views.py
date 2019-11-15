@@ -85,8 +85,8 @@ def profile_specific_view(request, username):
         return unknown_user(request)
 
     user = User.objects.get(username=username)
-    recent_posts = reversed(Message.objects.filter(author=user))
-    recent_threads = reversed(Thread.objects.filter(author=user))
+    recent_posts = Message.objects.filter(author=user).order_by("-date_posted")[:5]
+    recent_threads = Thread.objects.filter(author=user)[::-1][:5]
 
     return render(request, 'accounts/profile.html', {'passed_user': user, 'profile': Profile.objects.get(user=user), 'recent_posts': recent_posts, 'recent_threads': recent_threads})
 

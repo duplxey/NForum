@@ -29,10 +29,9 @@
 							{% endfor %}
 							<hr>
 						</div>
-                        Registered: {{ passed_user.date_joined|date:"d.m.Y" }}<br>
-                        Last online: {{ passed_user.last_login|timesince }} ago<br>
-                        Threads started: x<br>
-                        Messages posted: y<br>
+                        Registration: {{ passed_user.date_joined|date:"d.m.Y" }}<br>
+                        Threads started: {{ passed_user|thread_count }}<br>
+                        Messages posted: {{ passed_user|post_count }}<br>
 					</div>
 				</div>
 			</div>
