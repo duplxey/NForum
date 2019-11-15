@@ -21,8 +21,7 @@
 					<div class="row">
 						<div class="col-6 col-md-3 center">
 							<img src="{{ message.author|avatar }}" class="img-fluid avatar" alt="{{ message.author.username }}'s avatar"><br>
-							<h5>{{ message.author }}</h5>
-                            <p><span class="text-success ">{{ message.author|upvote_count }} <i class="fas fa-chevron-up"></i> </span> <span class="text-danger ">{{ message.author|downvote_count }} <i class="fas fa-chevron-down"></i></span></p>
+                            <h5><a href="{% url "accounts-profile" username=message.author.username %}">{{ message.author }}</a></h5>
 							{% for group in message.author.groups.all %}
 								{% if forloop.counter == 1 %}{% endif %}
 								<h6><span class="badge badge-primary">{{ group }}</span></h6>

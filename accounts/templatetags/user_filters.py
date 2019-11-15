@@ -1,5 +1,4 @@
 from django import template
-from django.contrib.auth.models import User
 
 from accounts.models import Profile, Alert
 from forum.models import Message, Thread
@@ -24,12 +23,22 @@ def thread_count(user):
 
 @register.filter(name='upvote_count')
 def upvote_count(user):
-    return Profile.objects.get(user=user).get_upvotes()
+    return Profile.get_profile(user=user).get_upvotes()
 
 
 @register.filter(name='downvote_count')
 def downvote_count(user):
-    return Profile.objects.get(user=user).get_downvotes()
+    return Profile.get_profile(user=user).get_downvotes()
+
+
+@register.filter(name='reputation')
+def reputation(user):
+    return Profile.get_profile(user=user).get_reputation()
+
+
+@register.filter(name='achievements')
+def reputation(user):
+    return Profile.get_profile(user=user).get_achievements()
 
 
 @register.filter(name='unseen_alert_count')

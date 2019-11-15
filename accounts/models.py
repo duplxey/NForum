@@ -35,6 +35,12 @@ class Profile(models.Model):
             a += message.downvoters.count()
         return a
 
+    def get_reputation(self):
+        return self.get_upvotes() - self.get_downvotes()
+
+    def get_achievements(self):
+        return UserAchievement.objects.filter(user=self.user).count()
+
     def __str__(self):
         return self.user.username + "'s profile"
 

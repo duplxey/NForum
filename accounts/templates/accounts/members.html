@@ -18,6 +18,7 @@
 						<tr>
 							<th scope="col">Username</th>
 							<th scope="col">Groups</th>
+                            <th scope="col">Reputation</th>
 							<th scope="col">Posts</th>
 							<th scope="col">Threads</th>
 						</tr>
@@ -31,6 +32,13 @@
 										<span class="badge badge-primary">{{ group }}</span>
 									{% endfor %}
 								</td>
+                                {% if member|reputation > 0 %}
+                                    <td class="text-success">+{{ member|reputation }}</td>
+                                {% elif member|reputation < 0 %}
+                                    <td class="text-danger">{{ member|reputation }}</td>
+                                {% elif member|reputation == 0 %}
+                                    <td class="text-warning">{{ member|reputation }}</td>
+                                {% endif %}
 								<td>{{ member|post_count }}</td>
 								<td>{{ member|thread_count }}</td>
 							</tr>
