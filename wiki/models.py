@@ -14,6 +14,9 @@ class WikiPage(models.Model):
     created_datetime = models.DateTimeField(default=timezone.now)
     edited_datetime = models.DateTimeField(null=True, blank=True)
 
+    class Meta:
+        ordering = ['display_index']
+
     def get_next_page(self):
         try:
             return WikiPage.objects.get(display_index=self.display_index + 1)
@@ -25,9 +28,6 @@ class WikiPage(models.Model):
             return WikiPage.objects.get(display_index=self.display_index - 1)
         except WikiPage.DoesNotExist:
             return None
-
-    class Meta:
-        ordering = ['display_index']
 
     def __str__(self):
         return self.title

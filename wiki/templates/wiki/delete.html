@@ -11,12 +11,13 @@
 					<li class="breadcrumb-item"><a href="{% url "home-index" %}">Home</a></li>
 					<li class="breadcrumb-item"><a href="{% url "wiki-index" %}">Wiki</a></li>
 					<li class="breadcrumb-item active" aria-current="page">{{ wiki_page.title }}</li>
-                    <li class="breadcrumb-item active" aria-current="page">Deleting a page</li>
+                    <li class="breadcrumb-item active" aria-current="page">Delete</li>
 				</ol>
 				</nav>
-				<h3>{{ wiki_page.title }} | Delete</h3>
 				<div class="card">
 					<div class="card-body">
+                        <h3>Deleting {{ wiki_page.title }}</h3>
+                        <hr>
 						Do you really want to delete this page?
 						<form action="{% url 'wiki-page-delete' url=wiki_page.url %}" method="post" novalidate>
 							{% csrf_token %}

@@ -43,18 +43,19 @@ def page_add(request):
 
     if request.method == 'POST':
         form = PageAddForm(request.POST)
-        if form.is_valid():
-            display_index = form.cleaned_data['display_index']
-            title = form.cleaned_data['title']
-            url = form.cleaned_data['url'].lower()
-            content = form.cleaned_data['content']
 
-            page = WikiPage.objects.create(display_index=display_index, title=title, url=url, content=content, author=request.user)
-            page.save()
-
-            return redirect('wiki-page', url=url)
-        else:
+        if not form.is_valid():
             return render(request, 'wiki/add.html', {'wiki_pages': WikiPage.objects.all().order_by('display_index'), 'form': form})
+
+        display_index = form.cleaned_data['display_index']
+        title = form.cleaned_data['title']
+        url = form.cleaned_data['url'].lower()
+        content = form.cleaned_data['content']
+
+        page = WikiPage.objects.create(display_index=display_index, title=title, url=url, content=content, author=request.user)
+        page.save()
+
+        return redirect('wiki-page', url=url)
     else:
         return render(request, 'wiki/add.html', {'wiki_pages': WikiPage.objects.all().order_by('display_index'), 'form': PageAddForm()})
 
@@ -71,18 +72,19 @@ def page_change(request, url):
 
     if request.method == 'POST':
         form = PageChangeForm(request.POST)
-        if form.is_valid():
-            content = form.cleaned_data['content']
 
-            page = WikiPage.objects.get(url=url)
-            page.content = content
-            page.last_editor = request.user
-            page.edited_datetime = timezone.now()
-            page.save()
-
-            return redirect('wiki-page', url=url)
-        else:
+        if not form.is_valid():
             return render(request, 'wiki/change.html', {'wiki_pages': WikiPage.objects.all().order_by('display_index'), 'form': form, 'wiki_page': WikiPage.objects.get(url=url)})
+
+        content = form.cleaned_data['content']
+
+        page = WikiPage.objects.get(url=url)
+        page.content = content
+        page.last_editor = request.user
+        page.edited_datetime = timezone.now()
+        page.save()
+
+        return redirect('wiki-page', url=url)
     else:
         return render(request, 'wiki/change.html', {'wiki_pages': WikiPage.objects.all().order_by('display_index'), 'form': PageChangeForm(initial={'content': WikiPage.objects.get(url=url).content}), 'wiki_page': WikiPage.objects.get(url=url)})
 
@@ -99,13 +101,13 @@ def page_delete(request, url):
 
     if request.method == 'POST':
         form = PageDeleteForm(request.POST)
-        if form.is_valid():
 
-            page = WikiPage.objects.get(url=url)
-            page.delete()
-
-            return redirect('wiki-index')
-        else:
+        if not form.is_valid():
             return render(request, 'wiki/delete.html', {'wiki_pages': WikiPage.objects.all().order_by('display_index'), 'form': form, 'wiki_page': WikiPage.objects.get(url=url)})
+
+        page = WikiPage.objects.get(url=url)
+        page.delete()
+
+        return redirect('wiki-index')
     else:
         return render(request, 'wiki/delete.html', {'wiki_pages': WikiPage.objects.all().order_by('display_index'), 'form': PageDeleteForm(), 'wiki_page': WikiPage.objects.get(url=url)})

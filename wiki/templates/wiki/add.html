@@ -10,12 +10,13 @@
 				<ol class="breadcrumb">
 					<li class="breadcrumb-item"><a href="{% url "home-index" %}">Home</a></li>
 					<li class="breadcrumb-item"><a href="{% url "wiki-index" %}">Wiki</a></li>
-					<li class="breadcrumb-item active" aria-current="page">Add a new page</li>
+					<li class="breadcrumb-item active" aria-current="page">Add</li>
 				</ol>
 				</nav>
-				<h3>Add a new page</h3>
 				<div class="card">
 					<div class="card-body">
+                        <h3>Add a new page</h3>
+                        <hr>
 						<form action="{% url 'wiki-page-add' %}" method="post" novalidate>
 							{% csrf_token %}
 							{{ form|crispy }}
