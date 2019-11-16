@@ -14,7 +14,7 @@
 				<li class="breadcrumb-item active" aria-current="page">{{ thread.title }}</li>
 			</ol>
 		</nav>
-		<h3>{{ thread.title }}</h3>
+		<h3><span class="badge" style="background: #{{ thread.prefix.color }};color:white;">{{ thread.prefix.name }}</span> {{ thread.title }}</h3>
 		{% for message in thread.get_messages %}
 			<div class="card" {% if forloop.counter0 == 0 %}style="background: var(--background-gray);"{% endif %}>
 				<div class="card-body">

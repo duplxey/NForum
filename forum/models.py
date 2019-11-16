@@ -2,6 +2,18 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
+class ThreadPrefix(models.Model):
+    name = models.CharField(max_length=200)
+    description = models.TextField(null=True, blank=True)
+    color = models.CharField(max_length=6)
+
+    class Meta:
+        verbose_name_plural = "thread prefixes"
+
+    def __str__(self):
+        return self.name
+
+
 class Subcategory(models.Model):
     title = models.CharField(max_length=32)
     description = models.TextField(max_length=250)
@@ -46,6 +58,7 @@ class Thread(models.Model):
     title = models.CharField(max_length=200)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE)
+    prefix = models.OneToOneField(ThreadPrefix, blank=True, null=True, on_delete=models.SET_DEFAULT, default=None)
 
     @staticmethod
     def get_thread_count():
