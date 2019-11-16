@@ -34,7 +34,7 @@
 							<tr>
 								<th scope="col">Thread title</th>
 								<th scope="col">Author</th>
-								<th scope="col">Time</th>
+								<th scope="col">Time started</th>
 								<th scope="col">Last reply</th>
 								<th scope="col">Last reply time</th>
 							</tr>
@@ -42,7 +42,7 @@
 						<tbody>
 							{% for thread in threads reversed %}
 								<tr>
-									<td><a href="{% url 'forum-thread' thread_title=thread.title %}">{{ thread.title }}</a></td>
+									<td><span class="badge" style="background: #{{ thread.prefix.color }};color:white;">{{ thread.prefix.name }}</span> <a href="{% url 'forum-thread' thread_title=thread.title %}">{{ thread.title }}</a></td>
                                     <td><img src="{{ thread.author|avatar }}" class="img-fluid avatar-mini" alt="{{ subcategory.get_latest_thread.author.username }}'s avatar"> <a href="{% url "accounts-profile" username=thread.author.username %}">{{ thread.author }}</a></td>
 									<td>{{ thread.get_first_message.date_posted }}</td>
                                     <td>{% if thread.get_last_message == thread.get_first_message  %}/{% else %}<img src="{{ thread.get_last_message.author|avatar }}" class="img-fluid avatar-mini" alt="{{ subcategory.get_latest_thread.author.username }}'s avatar"> <a href="{% url "accounts-profile" username=thread.get_last_message.author.username %}">{{ thread.get_last_message.author }}</a>{% endif %}</td>

@@ -37,12 +37,18 @@ def thread_create_view(request, subcategory_name):
 
         title = form.cleaned_data['title']
         content = form.cleaned_data['content']
+        prefix = form.cleaned_data['prefix']
 
         if Thread.objects.filter(title=title).exists():
             form.add_error('title', "Thread with this name already exists.")
             return render(request, 'forum/thread-create.html', {'form': form, 'subcategory': Subcategory.objects.get(title=subcategory_name)})
 
-        thread = Thread.objects.create(title=title, author=request.user, subcategory=Subcategory.objects.get(title=subcategory_name))
+        if prefix is not None:
+            if not ThreadPrefix.objects.filter(name=prefix).exists():
+                form.add_error('prefix', "Unknown thread prefix.")
+                return render(request, 'forum/thread-create.html', {'form': form, 'subcategory': Subcategory.objects.get(title=subcategory_name)})
+
+        thread = Thread.objects.create(title=title, author=request.user, subcategory=Subcategory.objects.get(title=subcategory_name), prefix=prefix)
         thread.save()
 
         message = Message.objects.create(thread=thread, content=content, author=request.user)
