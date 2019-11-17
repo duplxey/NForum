@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 
+import math
 from accounts.models import Profile, Alert, Achievement
 from forum.forms import CreateThreadForm, PostReplyForm, PostDeleteForm
 from nforum.errors import insufficient_permission, unknown_thread, unknown_subcategory, unknown_message, \
@@ -219,5 +220,23 @@ def subcategory_view(request, subcategory_name):
     if not Subcategory.objects.filter(title=subcategory_name).exists():
         return unknown_subcategory(request)
 
-    threads = Thread.objects.filter(subcategory=Subcategory.objects.get(title=subcategory_name))
-    return render(request, 'forum/subcategory.html', {'subcategory': Subcategory.objects.get(title=subcategory_name), 'threads': threads})
+    return subcategory_page_view(request=request, subcategory_name=subcategory_name, page=0)
+
+
+def subcategory_page_view(request, subcategory_name, page):
+    if not Subcategory.objects.filter(title=subcategory_name).exists():
+        return unknown_subcategory(request)
+
+    threads_per_page = 12
+    subcategory_threads = Thread.objects.filter(subcategory=Subcategory.objects.get(title=subcategory_name)).order_by('-pk')
+    threads = subcategory_threads[page*threads_per_page:(page+1)*threads_per_page]
+
+    previous_page = page - 1
+    if previous_page < 0:
+        previous_page = None
+
+    next_page = page + 1
+    if next_page > math.ceil(subcategory_threads.count()/threads_per_page) - 1:
+        next_page = None
+
+    return render(request, 'forum/subcategory.html', {'subcategory': Subcategory.objects.get(title=subcategory_name), 'threads': threads, 'page': page, 'previous_page': previous_page, 'next_page': next_page})

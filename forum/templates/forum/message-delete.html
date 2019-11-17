@@ -12,11 +12,13 @@
                         <li class="breadcrumb-item"><a href="{% url 'forum-index' %}">Forums</a></li>
                         <li class="breadcrumb-item"><a href="{% url 'forum-subcategory' subcategory_name=thread.subcategory.title %}">{{ thread.subcategory.title }}</a></li>
                         <li class="breadcrumb-item"><a href="{% url 'forum-thread' thread_title=thread.title %}">{{ thread.title }}</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Deleting a message</li>
+                        <li class="breadcrumb-item active" aria-current="page">Delete message</li>
                     </ol>
                 </nav>
 				<div class="card">
 					<div class="card-body">
+                        <h3>Deleting a message</h3>
+                        <hr>
 						Do you really want to delete this message?
 						<form action="{% url 'forum-message-remove' message_id=message.id %}" method="post" novalidate>
 							{% csrf_token %}

@@ -11,13 +11,19 @@
 				<li class="breadcrumb-item"><a href="{% url 'home-index' %}">Home</a></li>
 				<li class="breadcrumb-item"><a href="{% url 'forum-index' %}">Forums</a></li>
 				<li class="breadcrumb-item"><a href="{% url 'forum-subcategory' subcategory_name=subcategory.title %}">{{ subcategory.title }}</a></li>
-				<li class="breadcrumb-item active" aria-current="page">Create a new thread</li>
+				<li class="breadcrumb-item active" aria-current="page">New thread</li>
 			</ol>
 		</nav>
-		<form action="{% url 'forum-thread-create' subcategory_name=subcategory.title %}" method="post">
-			{% csrf_token %}
-			{{ form|crispy }}
-			<button class="btn btn-primary" type="submit">Create a new thread</button>
-		</form>
+        <div class="card">
+            <div class="card-body">
+                <h3>Creating a new thread</h3>
+                <hr>
+                <form action="{% url 'forum-thread-create' subcategory_name=subcategory.title %}" method="post">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <button class="btn btn-primary" type="submit">Create a new thread</button>
+                </form>
+            </div>
+        </div>
 	</div>
 {% endblock %}

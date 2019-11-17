@@ -12,46 +12,43 @@
 				<li class="breadcrumb-item active" aria-current="page">{{ subcategory.title }}</li>
 			</ol>
 		</nav>
-		<div class="row">
-			<div class="col-12 col-md-9">
-				<h3>{{ subcategory.title }}<br><small>({{ subcategory.description }})</small></h3>
-			</div>
-			<div class="col-12 col-md-3">
-				{% if user.is_authenticated %}
-					<a class="btn btn-primary" href="{% url 'forum-thread-create' subcategory_name=subcategory.title %}">Create a new thread</a>
-				{% else %}
-					<a class="btn btn-danger" href="#">You are not logged in.</a>
-				{% endif %}
-			</div>
-		</div>
 		<div class="card">
 			<div class="card-body">
+                <h3>{{ subcategory.title }}</h3>
+                <p>{{ subcategory.description }}</p>
+                <hr>
+                {% include "forum/block/thread-create.html" %}
+				{% include "forum/block/subcategory-pagination.html" %}
 				{% if threads|length is 0 %}
-					There are no threads under this category yet.
+					There are no threads under this category yet or your page number is too high.
 				{% else %}
-					<table class="table">
-						<thead>
-							<tr>
-								<th scope="col">Thread title</th>
-								<th scope="col">Author</th>
-								<th scope="col">Time started</th>
-								<th scope="col">Last reply</th>
-								<th scope="col">Last reply time</th>
-							</tr>
-						</thead>
-						<tbody>
-							{% for thread in threads reversed %}
-								<tr>
-									<td><span class="badge" style="background: #{{ thread.prefix.color }};color:white;">{{ thread.prefix.name }}</span> <a href="{% url 'forum-thread' thread_title=thread.title %}">{{ thread.title }}</a></td>
-                                    <td><img src="{{ thread.author|avatar }}" class="img-fluid avatar-mini" alt="{{ subcategory.get_latest_thread.author.username }}'s avatar"> <a href="{% url "accounts-profile" username=thread.author.username %}">{{ thread.author }}</a></td>
-									<td>{{ thread.get_first_message.date_posted }}</td>
-                                    <td>{% if thread.get_last_message == thread.get_first_message  %}/{% else %}<img src="{{ thread.get_last_message.author|avatar }}" class="img-fluid avatar-mini" alt="{{ subcategory.get_latest_thread.author.username }}'s avatar"> <a href="{% url "accounts-profile" username=thread.get_last_message.author.username %}">{{ thread.get_last_message.author }}</a>{% endif %}</td>
-									<td>{% if thread.get_last_message == thread.get_first_message  %}/{% else %}{{ thread.get_last_message.date_posted }}{% endif %}</td>
-								</tr>
-							{% endfor %}
-						</tbody>
-					</table>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Thread title</th>
+                                    <th scope="col">Author</th>
+                                    <th scope="col">Time started</th>
+                                    <th scope="col">Last reply</th>
+                                    <th scope="col">Last reply time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for thread in threads %}
+                                    <tr>
+                                        <td><span class="badge" style="background: #{{ thread.prefix.color }};color:white;">{{ thread.prefix.name }}</span> <a href="{% url 'forum-thread' thread_title=thread.title %}">{{ thread.title }}</a></td>
+                                        <td><img src="{{ thread.author|avatar }}" class="img-fluid avatar-mini" alt="{{ subcategory.get_latest_thread.author.username }}'s avatar"> <a href="{% url "accounts-profile" username=thread.author.username %}">{{ thread.author }}</a></td>
+                                        <td>{{ thread.get_first_message.date_posted }}</td>
+                                        <td>{% if thread.get_last_message == thread.get_first_message  %}/{% else %}<img src="{{ thread.get_last_message.author|avatar }}" class="img-fluid avatar-mini" alt="{{ subcategory.get_latest_thread.author.username }}'s avatar"> <a href="{% url "accounts-profile" username=thread.get_last_message.author.username %}">{{ thread.get_last_message.author }}</a>{% endif %}</td>
+                                        <td>{% if thread.get_last_message == thread.get_first_message  %}/{% else %}{{ thread.get_last_message.date_posted }}{% endif %}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
 				{% endif %}
+                {% include "forum/block/thread-create.html" %}
+                {% include "forum/block/subcategory-pagination.html" %}
 			</div>
 		</div>
 	</div>

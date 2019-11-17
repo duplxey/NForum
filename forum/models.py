@@ -58,7 +58,7 @@ class Thread(models.Model):
     title = models.CharField(max_length=200)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE)
-    prefix = models.OneToOneField(ThreadPrefix, blank=True, null=True, on_delete=models.SET_DEFAULT, default=None)
+    prefix = models.ForeignKey(ThreadPrefix, blank=True, null=True, on_delete=models.SET_DEFAULT, default=None)
 
     @staticmethod
     def get_thread_count():

@@ -1,0 +1,11 @@
+<nav aria-label="Subcategory navigation">
+    <ul class="pagination">
+        {% if previous_page is not None %}
+            <li class="page-item"><a class="page-link" href="{% url "forum-subcategory-page" subcategory_name=subcategory.title page=previous_page %}">Previous</a></li>
+        {% endif %}
+        <li class="page-item"><a class="page-link" href="{% url "forum-subcategory-page" subcategory_name=subcategory.title page=page %}">{{ page|add:"1" }}</a></li>
+        {% if next_page is not None %}
+            <li class="page-item"><a class="page-link" href="{% url "forum-subcategory-page" subcategory_name=subcategory.title page=next_page %}">Next</a></li>
+        {% endif %}
+    </ul>
+</nav>

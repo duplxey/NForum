@@ -1,0 +1,7 @@
+<div class="float-right">
+    {% if user.is_authenticated %}
+        <a class="btn btn-primary" href="{% url 'forum-thread-create' subcategory_name=subcategory.title %}">Create a new thread</a>
+    {% else %}
+        <a class="btn btn-danger" href="#">You are not logged in.</a>
+    {% endif %}
+</div>

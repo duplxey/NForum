@@ -17,6 +17,8 @@
 		</nav>
         <div class="card">
             <div class="card-body">
+                <h3>Editing a message</h3>
+                <hr>
                 <form action="{% url 'forum-message-edit' message_id=message.pk %}" method="post">
                     {% csrf_token %}
                     {{ form|crispy }}
