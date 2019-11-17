@@ -1,3 +1,5 @@
+import math
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
@@ -77,7 +79,22 @@ def logout_view(request):
 
 
 def members_view(request):
-    return render(request, 'accounts/members.html', {'members': User.objects.all()})
+    return members_page_view(request=request, page=0)
+
+
+def members_page_view(request, page):
+    members_per_page = 25
+    members = User.objects.all()
+
+    previous_page = page - 1
+    if previous_page < 0:
+        previous_page = None
+
+    next_page = page + 1
+    if next_page > math.ceil(members.count()/members_per_page) - 1:
+        next_page = None
+
+    return render(request, 'accounts/members.html', {'members': members[page*members_per_page:(page+1)*members_per_page], 'page': page, 'previous_page': previous_page, 'next_page': next_page})
 
 
 def profile_specific_view(request, username):

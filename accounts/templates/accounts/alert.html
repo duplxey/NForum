@@ -21,9 +21,7 @@
                             You do not have any alerts.
                         {% endif %}
                         {% for alert in alerts %}
-                            {% if forloop.counter != 1 %}
-                                <hr>
-                            {% endif %}
+                            <hr>
                             {% if alert.type == 'ME' %}
                                 <i class="fas fa-at"></i> <a href="{% url 'accounts-profile' username=alert.caused_by %}"><img src="{{ alert.caused_by|avatar }}" class="img-fluid avatar-mini" alt="{{ alert.caused_by.username }}'s avatar"> {{ alert.caused_by.username }}</a> mentioned you in <a href="{% url 'forum-thread' thread_title=alert.thread.title  %}">{{ alert.thread.title }}</a>.<br>
                                 <small>{{ alert.message }} {{ alert.datetime }}</small>
