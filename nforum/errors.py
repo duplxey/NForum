@@ -63,3 +63,11 @@ def unknown_message(request):
         'message_title': "Unknown message!",
         'message_content': "Could not find the requested message."
     })
+
+
+def search_failed(request):
+    return render(request, 'layout/message.html', {
+        'message_type': "error",
+        'message_title': "Search failed!",
+        'message_content': "Could not perform the requested search query."
+    })

@@ -1,0 +1,57 @@
+{% extends "layout/default.html" %}
+
+{% load static %}
+{% load user_filters %}
+
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col-12 col-md-9">
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="{% url "home-index" %}">Home</a></li>
+						<li class="breadcrumb-item active" aria-current="page">Search</li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ keyword }}</li>
+					</ol>
+				</nav>
+                <div class="card">
+                    <div class="card-body">
+                        <h3>Search</h3>
+                        <p>Searching for '{{ keyword }}'.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">Related threads</div>
+                    <div class="card-body">
+                        {% if related_threads|length == 0 %}
+                            No threads related to the query could be found.
+                        {% endif %}
+                        {% for thread in related_threads %}
+                            <span class="badge" style="background: #{{ thread.prefix.color }};color:white;">{{ thread.prefix.name }}</span>
+                            <img src="{{ thread.author|avatar }}" class="img-fluid avatar-mini" alt="{{ thread.author.username }}'s avatar"> <a href="{% url "forum-thread" thread_title=thread.title %}">{{ thread.title }}</a>
+                            {% if not forloop.last %}
+                                <hr>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+			</div>
+			<div class="col-12 col-md-3">
+                <div class="card">
+                    <div class="card-header">Related users</div>
+                    <div class="card-body">
+                        {% if related_users|length == 0 %}
+                            No users related to the query could be found.
+                        {% endif %}
+                        {% for user in related_users %}
+                            <img src="{{ user|avatar }}" class="img-fluid avatar-mini" alt="{{ user.username }}'s avatar"> <a href="{% url "accounts-profile" username=user.username %}">{{ user.username }}</a>
+                            {% if not forloop.last %}
+                                <hr>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

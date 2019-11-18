@@ -20,6 +20,7 @@
                     <table class="table">
                         <thead>
                             <tr>
+                                <th scope="col">#</th>
                                 <th scope="col">Username</th>
                                 <th scope="col">Groups</th>
                                 <th scope="col">Reputation</th>
@@ -30,6 +31,7 @@
                         <tbody>
                             {% for member in members %}
                                 <tr>
+                                    <td>{{ member.pk }}</td>
                                     <td><img src="{{ member|avatar }}" class="img-fluid avatar-mini" alt="{{ subcategory.get_latest_thread.author.username }}'s avatar"> <a href="{% url 'accounts-profile' username=member.username %}">{{ member.username }}</a></td>
                                     <td>
                                         {% for group in member.groups.all %}
