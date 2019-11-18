@@ -31,7 +31,7 @@
 						<a class="nav-link" href="{% url 'wiki-index' %}">Wiki</a>
 					</li>
 				</ul>
-				<form class="form-inline my-2 my-lg-0">
+				<form class="form-inline my-2 my-lg-0" method="GET" action="{% url "search-search" %}">
 					<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 						{% if user.is_authenticated %}
 							<li class="nav-item dropdown">
@@ -63,7 +63,7 @@
 							<a class="nav-link" href="#"></a>
 						</li>
 					</ul>
-					<input class="form-control mr-sm-2" type="search" placeholder="Search">
+					<input class="form-control mr-sm-2" type="search" placeholder="Search" name="query">
 					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 				</form>
 			</div>

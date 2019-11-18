@@ -5,12 +5,14 @@ from forum.models import Thread
 from nforum.errors import search_failed
 
 
-def search_fail_view(request):
-    return search_failed(request)
+def search_view(request):
+    query = request.GET.get('query')
 
+    if query is None or len(query) < 2 or len(query) > 16:
+        return search_failed(request)
 
-def search_view(request, keyword):
-    related_threads = Thread.objects.filter(title__icontains=keyword)
-    related_users = User.objects.filter(username__icontains=keyword)
+    related_threads = Thread.objects.filter(title__icontains=query)
+    related_users = User.objects.filter(username__icontains=query)
 
-    return render(request, 'search/search.html', {'keyword': keyword, 'related_threads': related_threads, 'related_users': related_users})
+    return render(request, 'search/search.html', {'keyword': query, 'related_threads': related_threads, 'related_users': related_users})
+
