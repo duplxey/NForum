@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 
 import math
+
+from django.utils import timezone
+
 from accounts.models import Profile, Alert, Achievement
 from forum.forms import CreateThreadForm, PostReplyForm, PostDeleteForm
 from nforum.errors import insufficient_permission, unknown_thread, unknown_subcategory, unknown_message, \
@@ -118,6 +121,7 @@ def message_edit_view(request, message_id):
         content = form.cleaned_data['content']
 
         message.content = content
+        message.date_edited = timezone.now()
         message.save()
 
         return redirect(thread_view, thread_title=thread.title)
@@ -239,4 +243,4 @@ def subcategory_page_view(request, subcategory_name, page):
     if next_page > math.ceil(subcategory_threads.count()/threads_per_page) - 1:
         next_page = None
 
-    return render(request, 'forum/subcategory.html', {'subcategory': Subcategory.objects.get(title=subcategory_name), 'threads': threads, 'page': page, 'previous_page': previous_page, 'next_page': next_page})
+    return render(request, 'forum/subcategory.html', {'subcategory': Subcategory.objects.get(title=subcategory_name), 'threads': threads, 'page': page, 'previous_page': previous_page, 'next_page': next_page, 'thread_per_page': threads_per_page})

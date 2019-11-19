@@ -25,16 +25,67 @@
                     <div class="card-body">
                         {% if related_threads|length == 0 %}
                             No threads related to the query could be found.
+                        {% else %}
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Thread title</th>
+                                            <th scope="col">Author</th>
+                                            <th scope="col">Time started</th>
+                                            <th scope="col">Last reply</th>
+                                            <th scope="col">Last reply time</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for thread in related_threads %}
+                                            <tr>
+                                                <td><span class="badge" style="background: #{{ thread.prefix.color }};color:white;">{{ thread.prefix.name }}</span> <a href="{% url 'forum-thread' thread_title=thread.title %}">{{ thread.title }}</a></td>
+                                                <td><img src="{{ thread.author|avatar }}" class="img-fluid avatar-mini" alt="{{ thread.author.username }}'s avatar"> <a href="{% url "accounts-profile" username=thread.author.username %}">{{ thread.author }}</a></td>
+                                                <td>{{ thread.get_first_message.date_posted }}</td>
+                                                <td>{% if thread.get_last_message == thread.get_first_message  %}/{% else %}<img src="{{ thread.get_last_message.author|avatar }}" class="img-fluid avatar-mini" alt="{{ subcategory.get_latest_thread.author.username }}'s avatar"> <a href="{% url "accounts-profile" username=thread.get_last_message.author.username %}">{{ thread.get_last_message.author }}</a>{% endif %}</td>
+                                                <td>{% if thread.get_last_message == thread.get_first_message  %}/{% else %}{{ thread.get_last_message.date_posted }}{% endif %}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
                         {% endif %}
-                        {% for thread in related_threads %}
-                            <span class="badge" style="background: #{{ thread.prefix.color }};color:white;">{{ thread.prefix.name }}</span>
-                            <img src="{{ thread.author|avatar }}" class="img-fluid avatar-mini" alt="{{ thread.author.username }}'s avatar"> <a href="{% url "forum-thread" thread_title=thread.title %}">{{ thread.title }}</a>
-                            {% if not forloop.last %}
-                                <hr>
-                            {% endif %}
-                        {% endfor %}
                     </div>
                 </div>
+                <div class="card">
+                        <div class="card-header">Related messages</div>
+                        <div class="card-body">
+                            {% if related_messages|length == 0 %}
+                                No threads related to the query could be found.
+                            {% else %}
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Message</th>
+                                                <th scope="col">Thread</th>
+                                                <th scope="col">Author</th>
+                                                <th scope="col">Time posted</th>
+                                                <th scope="col">Time edited</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for message in related_messages %}
+                                                <tr>
+                                                    <td>{{ message.content|striptags }}</td>
+                                                    <td><span class="badge" style="background: #{{ message.thread.prefix.color }};color:white;">{{ message.thread.prefix.name }}</span> <a href="{% url 'forum-thread' thread_title=message.thread.title %}">{{ message.thread.title }}</a></td>
+                                                    <td><img src="{{ message.author|avatar }}" class="img-fluid avatar-mini" alt="{{ message.author.username }}'s avatar"> <a href="{% url "accounts-profile" username=message.author.username %}">{{ message.author.username }}</a></td>
+                                                    <td>{{ message.date_posted }}</td>
+                                                    <td>{% if message.date_edited is None  %}/{% else %}{{ message.date_edited }}{% endif %}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
 			</div>
 			<div class="col-12 col-md-3">
                 <div class="card">

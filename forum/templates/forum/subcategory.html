@@ -18,9 +18,11 @@
                 <p>{{ subcategory.description }}</p>
                 <hr>
                 {% include "forum/block/thread-create.html" %}
-				{% include "forum/block/subcategory-pagination.html" %}
+                {% include "forum/block/subcategory-pagination.html" %}
 				{% if threads|length is 0 %}
+                    <hr>
 					There are no threads under this category yet or your page number is too high.
+                    <hr>
 				{% else %}
                     <div class="table-responsive">
                         <table class="table">

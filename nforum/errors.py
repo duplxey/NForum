@@ -69,5 +69,10 @@ def search_failed(request):
     return render(request, 'layout/message.html', {
         'message_type': "error",
         'message_title': "Search failed!",
-        'message_content': "Possible reasons: no query, query is shorter than 2 characters, query is longer than 16 characters."
+        'message_content': "Search could fail due to the following reasons:"
+                           "<ul>"
+                           "<li>No query was specified.</li>"
+                          "<li>Query was shorter than 2 characters.</li>"
+                          "<li>Query was longer than 16 characters.</li>"
+                           "</ul>"
     })
