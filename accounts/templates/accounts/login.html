@@ -2,6 +2,8 @@
 
 {% load crispy_forms_tags %}
 
+{% block subtitle %}Login{% endblock %}
+
 {% block card-body %}
 	<form action="{% url 'accounts-login' %}" method="post" novalidate>
 		{% csrf_token %}
