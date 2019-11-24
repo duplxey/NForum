@@ -90,6 +90,10 @@ footer {
 /*------------------------------*\
 * Objects
 \*------------------------------*/
+.section {
+    padding: 30px 0;
+}
+
 .avatar {
     width: 100px;
     height: 100px;
@@ -103,10 +107,6 @@ footer {
 .avatar-mini {
     width: 25px;
     height: 25px;
-}
-
-.section {
-    padding: 30px 0;
 }
 
 .social {
