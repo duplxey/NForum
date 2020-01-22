@@ -93,7 +93,7 @@ WSGI_APPLICATION = 'nforum.wsgi.application'
 DATABASES = {
     'default': {
         'NAME': 'nforum',
-        'ENGINE': 'mysql.connector.django',   # 'django.db.backends.mysql'
+        'ENGINE': 'django.db.backends.mysql',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',
