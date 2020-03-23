@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.utils import timezone
 
@@ -34,10 +35,8 @@ def page_view(request, url):
     return render(request, 'wiki/view.html', passed)
 
 
+@login_required
 def page_add(request):
-    if not request.user.is_authenticated:
-        return not_authenticated(request)
-
     if not request.user.has_perm('wiki.add_wikipage'):
         return insufficient_permission(request)
 
@@ -63,10 +62,8 @@ def page_add(request):
     })
 
 
+@login_required
 def page_change(request, url):
-    if not request.user.is_authenticated:
-        return not_authenticated(request)
-
     if not request.user.has_perm('wiki.change_wikipage'):
         return insufficient_permission(request)
 
@@ -97,10 +94,8 @@ def page_change(request, url):
     })
 
 
+@login_required
 def page_delete(request, url):
-    if not request.user.is_authenticated:
-        return not_authenticated(request)
-
     if not request.user.has_perm('wiki.delete_wikipage'):
         return insufficient_permission(request)
 

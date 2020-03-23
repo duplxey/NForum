@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
 import math
@@ -6,8 +7,7 @@ from django.utils import timezone
 
 from accounts.models import Profile, Alert, Achievement
 from forum.forms import CreateThreadForm, PostReplyForm, PostDeleteForm
-from nforum.errors import insufficient_permission, unknown_thread, unknown_subcategory, unknown_message, \
-    not_authenticated
+from nforum.errors import insufficient_permission, unknown_thread, unknown_subcategory, unknown_message
 from .models import *
 
 
@@ -23,147 +23,168 @@ def index_view(request):
 
 
 def thread_view(request, thread_title):
-    if not Thread.objects.filter(title=thread_title).exists():
+    try:
+        thread = Thread.objects.get(title=thread_title)
+    except Thread.DoesNotExist:
         return unknown_thread(request)
 
-    return render(request, 'forum/thread.html', {'thread': Thread.objects.get(title=thread_title), 'form': PostReplyForm()})
+    return render(request, 'forum/thread.html', {
+        'thread': thread,
+        'form': PostReplyForm()
+    })
 
 
+@login_required
 def thread_create_view(request, subcategory_name):
-    if not Subcategory.objects.filter(title=subcategory_name).exists():
+    try:
+        subcategory = Subcategory.objects.get(title=subcategory_name)
+    except Subcategory.DoesNotExist:
         return unknown_subcategory(request)
+
+    form = CreateThreadForm()
 
     if request.method == 'POST':
         form = CreateThreadForm(request.POST)
 
-        if not form.is_valid():
-            return render(request, 'forum/thread-create.html', {'form': form, 'subcategory': Subcategory.objects.get(title=subcategory_name)})
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            content = form.cleaned_data['content']
+            prefix = form.cleaned_data['prefix']
 
-        title = form.cleaned_data['title']
-        content = form.cleaned_data['content']
-        prefix = form.cleaned_data['prefix']
+            if Thread.objects.filter(title=title).exists():
+                form.add_error('title', "Thread with this name already exists.")
+                return render(request, 'forum/thread-create.html', {'form': form, 'subcategory': subcategory})
 
-        if Thread.objects.filter(title=title).exists():
-            form.add_error('title', "Thread with this name already exists.")
-            return render(request, 'forum/thread-create.html', {'form': form, 'subcategory': Subcategory.objects.get(title=subcategory_name)})
+            if prefix is not None:
+                if not ThreadPrefix.objects.filter(name=prefix).exists():
+                    form.add_error('prefix', "Unknown thread prefix.")
+                    return render(request, 'forum/thread-create.html', {'form': form, 'subcategory': subcategory})
 
-        if prefix is not None:
-            if not ThreadPrefix.objects.filter(name=prefix).exists():
-                form.add_error('prefix', "Unknown thread prefix.")
-                return render(request, 'forum/thread-create.html', {'form': form, 'subcategory': Subcategory.objects.get(title=subcategory_name)})
+            thread = Thread.objects.create(title=title, author=request.user, subcategory=subcategory, prefix=prefix)
+            thread.save()
 
-        thread = Thread.objects.create(title=title, author=request.user, subcategory=Subcategory.objects.get(title=subcategory_name), prefix=prefix)
-        thread.save()
+            message = Message.objects.create(thread=thread, content=content, author=request.user)
+            message.save()
 
-        message = Message.objects.create(thread=thread, content=content, author=request.user)
-        message.save()
+            # Let's check if user achieved anything
+            Achievement.check_add_achievements(request.user, Achievement.THREAD_COUNT)
 
-        # Let's check if user achieved anything
-        Achievement.check_add_achievements(request.user, Achievement.THREAD_COUNT)
+            return redirect(thread_view, thread_title=thread.title)
 
-        return redirect(thread_view, thread_title=thread.title)
-    else:
-        form = CreateThreadForm()
-    return render(request, 'forum/thread-create.html', {'form': form, 'subcategory': Subcategory.objects.get(title=subcategory_name)})
+    return render(request, 'forum/thread-create.html', {
+        'form': form,
+        'subcategory': subcategory
+    })
 
 
+@login_required
 def thread_post_view(request, thread_title):
-    if not Thread.objects.filter(title=thread_title).exists():
+    try:
+        thread = Thread.objects.get(title=thread_title)
+    except Thread.DoesNotExist:
         return unknown_thread(request)
 
-    thread = Thread.objects.get(title=thread_title)
+    form = PostReplyForm()
 
     if request.method == 'POST':
         form = PostReplyForm(request.POST)
 
-        if not form.is_valid():
-            form = PostReplyForm()
-            return render(request, 'forum/thread.html', {'form': form, 'thread': Thread.objects.get(title=thread_title)})
+        if form.is_valid():
+            content = form.cleaned_data['content']
 
-        content = form.cleaned_data['content']
+            message = Message.objects.create(thread=thread, content=content, author=request.user)
+            message.save()
 
-        message = Message.objects.create(thread=thread, content=content, author=request.user)
-        message.save()
+            # Send an alert to all the participants
+            for participant in thread.get_participants():
+                if participant == request.user:
+                    continue
+                alert = Alert(user=participant, type=Alert.RESPOND, caused_by=request.user, thread=thread)
+                alert.save()
 
-        # Send an alert to all the participants
-        for participant in thread.get_participants():
-            if participant == request.user:
-                continue
-            alert = Alert(user=participant, type=Alert.RESPOND, caused_by=request.user, thread=thread)
-            alert.save()
+            # Let's check if user achieved anything
+            Achievement.check_add_achievements(request.user, Achievement.POST_COUNT)
 
-        # Let's check if user achieved anything
-        Achievement.check_add_achievements(request.user, Achievement.POST_COUNT)
+            return redirect(thread_view, thread_title=thread.title)
 
-        return redirect(thread_view, thread_title=thread.title)
-    else:
-        form = PostReplyForm()
-        return render(request, 'forum/thread.html', {'form': form, 'thread': Thread.objects.get(title=thread_title)})
+    return render(request, 'forum/thread.html', {
+        'form': form,
+        'thread': thread,
+    })
 
 
+@login_required
 def message_edit_view(request, message_id):
-    if not Message.objects.filter(pk=message_id).exists():
+    try:
+        message = Message.objects.get(pk=message_id)
+    except Message.DoesNotExist:
         return unknown_message(request)
-
-    message = Message.objects.get(pk=message_id)
     thread = message.thread
 
     if not message.author == request.user:
         return insufficient_permission(request)
+
+    form = PostReplyForm(initial={'content': message.content})
 
     if request.method == 'POST':
         form = PostReplyForm(request.POST)
 
-        if not form.is_valid():
-            form = PostReplyForm(initial={'content': message.content})
-            return render(request, 'forum/message-edit.html', {'form': form, 'thread': Thread.objects.get(title=thread.title), 'message': message})
+        if form.is_valid():
+            content = form.cleaned_data['content']
 
-        content = form.cleaned_data['content']
+            message.content = content
+            message.date_edited = timezone.now()
+            message.save()
 
-        message.content = content
-        message.date_edited = timezone.now()
-        message.save()
+            return redirect(thread_view, thread_title=thread.title)
 
-        return redirect(thread_view, thread_title=thread.title)
-    else:
-        form = PostReplyForm(initial={'content': message.content})
-        return render(request, 'forum/message-edit.html', {'form': form, 'thread': Thread.objects.get(title=thread.title), 'message': message})
+    return render(request, 'forum/message-edit.html', {
+        'form': form,
+        'thread': thread,
+        'message': message
+    })
 
 
+@login_required
 def message_remove_view(request, message_id):
-    if not Message.objects.filter(pk=message_id).exists():
+    try:
+        message = Message.objects.get(pk=message_id)
+    except Message.DoesNotExist:
         return unknown_message(request)
-
-    message = Message.objects.get(pk=message_id)
     thread = message.thread
 
     if not message.author == request.user:
         return insufficient_permission(request)
+
+    form = PostDeleteForm()
 
     if request.method == 'POST':
         form = PostDeleteForm(request.POST)
 
-        if not form.is_valid():
-            return render(request, 'forum/message-delete.html', {'form': PostDeleteForm(), 'thread': thread, 'message': message})
+        if form.is_valid():
+            if thread.get_first_message() == message:
+                thread.delete()
+                return redirect('forum-index')
+            else:
+                message.delete()
+                return redirect('forum-thread', thread_title=thread.title)
 
-        if thread.get_first_message() == message:
-            thread.delete()
-            return redirect('forum-index')
-        else:
-            message.delete()
-            return redirect('forum-thread', thread_title=thread.title)
-    else:
-        return render(request, 'forum/message-delete.html', {'form': PostDeleteForm(), 'thread': thread, 'message': message})
+    return render(request, 'forum/message-delete.html', {
+        'form': form,
+        'thread': thread,
+        'message': message
+    })
 
 
+# TODO: message rate AJAX + achievement signals
+
+@login_required
 def message_upvote(request, message_id):
-    if not Message.objects.filter(pk=message_id).exists():
+    try:
+        message = Message.objects.get(pk=message_id)
+    except Message.DoesNotExist:
         return unknown_message(request)
 
-    if not request.user.is_authenticated:
-        return not_authenticated(request)
-
-    message = Message.objects.get(pk=message_id)
     thread = message.thread
 
     if message.author == request.user:
@@ -188,14 +209,13 @@ def message_upvote(request, message_id):
     return redirect(thread_view, thread_title=thread.title)
 
 
+@login_required
 def message_downvote(request, message_id):
-    if not Message.objects.filter(pk=message_id).exists():
+    try:
+        message = Message.objects.get(pk=message_id)
+    except Message.DoesNotExist:
         return unknown_message(request)
 
-    if not request.user.is_authenticated:
-        return not_authenticated(request)
-
-    message = Message.objects.get(pk=message_id)
     thread = message.thread
 
     if message.author == request.user:
@@ -221,18 +241,22 @@ def message_downvote(request, message_id):
 
 
 def subcategory_view(request, subcategory_name):
-    if not Subcategory.objects.filter(title=subcategory_name).exists():
+    try:
+        subcategory = Subcategory.objects.get(title=subcategory_name)
+    except Subcategory.DoesNotExist:
         return unknown_subcategory(request)
 
-    return subcategory_page_view(request=request, subcategory_name=subcategory_name, page=0)
+    return subcategory_page_view(request=request, subcategory_name=subcategory.title, page=0)
 
 
 def subcategory_page_view(request, subcategory_name, page):
-    if not Subcategory.objects.filter(title=subcategory_name).exists():
+    try:
+        subcategory = Subcategory.objects.get(title=subcategory_name)
+    except Subcategory.DoesNotExist:
         return unknown_subcategory(request)
 
     threads_per_page = 12
-    subcategory_threads = Thread.objects.filter(subcategory=Subcategory.objects.get(title=subcategory_name)).order_by('-pk')
+    subcategory_threads = Thread.objects.filter(subcategory=subcategory).order_by('-pk')
     threads = subcategory_threads[page*threads_per_page:(page+1)*threads_per_page]
 
     previous_page = page - 1
@@ -243,4 +267,11 @@ def subcategory_page_view(request, subcategory_name, page):
     if next_page > math.ceil(subcategory_threads.count()/threads_per_page) - 1:
         next_page = None
 
-    return render(request, 'forum/subcategory.html', {'subcategory': Subcategory.objects.get(title=subcategory_name), 'threads': threads, 'page': page, 'previous_page': previous_page, 'next_page': next_page, 'thread_per_page': threads_per_page})
+    return render(request, 'forum/subcategory.html', {
+        'subcategory': subcategory,
+        'threads': threads,
+        'page': page,
+        'previous_page': previous_page,
+        'next_page': next_page,
+        'thread_per_page': threads_per_page
+    })
