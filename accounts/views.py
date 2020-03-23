@@ -1,6 +1,5 @@
-import math
-
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
@@ -8,7 +7,7 @@ from django.shortcuts import render, redirect
 from accounts.forms import LoginForm, SignupForm, SettingsForm
 from accounts.models import UserProfile, Alert, Achievement
 from forum.models import Message, Thread
-from nforum.errors import unknown_user, already_authenticated, not_authenticated
+from nforum.errors import unknown_user, already_authenticated
 
 
 def login_view(request):
@@ -72,10 +71,8 @@ def signup_view(request):
         return render(request, 'accounts/signup.html', {'form': form})
 
 
+@login_required
 def logout_view(request):
-    if not request.user.is_authenticated:
-        return not_authenticated(request)
-
     logout(request)
     return render(request, 'accounts/logout.html', {})
 
@@ -90,20 +87,23 @@ def members_view(request):
 
 
 def profile_specific_view(request, username):
-    if not User.objects.filter(username=username).exists():
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
         return unknown_user(request)
 
-    user = User.objects.get(username=username)
     recent_posts = Message.objects.filter(author=user).order_by("-date_posted")[:5]
     recent_threads = Thread.objects.filter(author=user)[::-1][:5]
 
-    return render(request, 'accounts/profile.html', {'passed_user': user, 'profile': UserProfile.objects.get(user=user), 'recent_posts': recent_posts, 'recent_threads': recent_threads})
+    return render(request, 'accounts/profile.html', {
+        'passed_user': user,
+        'recent_posts': recent_posts,
+        'recent_threads': recent_threads
+    })
 
 
+@login_required
 def settings_view(request):
-    if not request.user.is_authenticated:
-        return not_authenticated(request)
-
     user = request.user
     profile = UserProfile.objects.get(user=user)
 
@@ -132,17 +132,12 @@ def settings_view(request):
         return render(request, 'accounts/settings.html', {'form': form})
 
 
+@login_required
 def alert_view(request):
-    if not request.user.is_authenticated:
-        return not_authenticated(request)
-
     Alert.clear_unseen_alerts(user=request.user)
-
     return render(request, 'accounts/alert.html', {'alerts': Alert.get_latest_alerts(request.user, 10)})
 
 
+@login_required
 def achievement_view(request):
-    if not request.user.is_authenticated:
-        return not_authenticated(request)
-
     return render(request, 'accounts/achievement.html', {'unlocked_achievements': Achievement.get_unlocked_achievements(request.user), 'locked_achievements': Achievement.get_locked_achievements(request.user)})

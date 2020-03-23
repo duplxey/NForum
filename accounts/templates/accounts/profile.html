@@ -19,10 +19,10 @@
 				<div class="card">
 					<div class="card-body">
 						<div class="text-center">
-							<img src="{{ profile.avatar.url }}" class="avatar-big img-fluid" alt="{{ passed_user.username }}'s profile">
+							<img src="{{ passed_user.userprofile.avatar.url }}" class="avatar-big img-fluid" alt="{{ passed_user.username }}'s passed_user.userprofile">
 							<hr>
 							<h3>{{ passed_user.username }}</h3>
-                            <p><span class="text-success ">{{ profile.get_upvotes }} <i class="fas fa-chevron-up"></i></span> <span class="text-danger ">{{ profile.get_downvotes }} <i class="fas fa-chevron-down"></i></span></p>
+                            <p><span class="text-success ">{{ passed_user.userprofile.get_upvotes }} <i class="fas fa-chevron-up"></i></span> <span class="text-danger ">{{ passed_user.userprofile.get_downvotes }} <i class="fas fa-chevron-down"></i></span></p>
 							{% for group in passed_user.groups.all %}
 								{% if forloop.counter == 1 %}
 									<hr>
@@ -42,7 +42,7 @@
 				<div class="card">
 					<div class="card-header">Description</div>
 					<div class="card-body">
-						{{ profile.description|safe }}
+						{{ passed_user.userprofile.description|safe }}
 					</div>
 				</div>
 				<div class="row">

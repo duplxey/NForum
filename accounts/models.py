@@ -7,7 +7,7 @@ from forum.models import Message, Thread
 
 
 class UserProfile(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     description = models.TextField(max_length=300, default="Another cool user.")
     avatar = models.ImageField(upload_to='images/')
 
