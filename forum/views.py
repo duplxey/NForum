@@ -1,9 +1,7 @@
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseBadRequest, HttpResponse, JsonResponse
+from django.core.paginator import Paginator
+from django.http import HttpResponseBadRequest, JsonResponse
 from django.shortcuts import render, redirect
-
-import math
-
 from django.utils import timezone
 from django.views.decorators.http import require_http_methods
 
@@ -172,8 +170,6 @@ def message_remove_view(request, message_id):
     })
 
 
-# TODO: achievement signals
-
 @login_required
 @require_http_methods(["POST"])
 def message_rate(request):
@@ -212,32 +208,10 @@ def subcategory_view(request, subcategory_name):
     except Subcategory.DoesNotExist:
         return unknown_subcategory(request)
 
-    return subcategory_page_view(request=request, subcategory_name=subcategory.title, page=0)
-
-
-def subcategory_page_view(request, subcategory_name, page):
-    try:
-        subcategory = Subcategory.objects.get(title=subcategory_name)
-    except Subcategory.DoesNotExist:
-        return unknown_subcategory(request)
-
-    threads_per_page = 12
-    subcategory_threads = Thread.objects.filter(subcategory=subcategory).order_by('-pk')
-    threads = subcategory_threads[page*threads_per_page:(page+1)*threads_per_page]
-
-    previous_page = page - 1
-    if previous_page < 0:
-        previous_page = None
-
-    next_page = page + 1
-    if next_page > math.ceil(subcategory_threads.count()/threads_per_page) - 1:
-        next_page = None
+    paginator = Paginator(Thread.objects.filter(subcategory=subcategory).order_by('-pk'), 5)
+    page = paginator.get_page(request.GET.get('page', 1))
 
     return render(request, 'forum/subcategory.html', {
         'subcategory': subcategory,
-        'threads': threads,
         'page': page,
-        'previous_page': previous_page,
-        'next_page': next_page,
-        'thread_per_page': threads_per_page
     })

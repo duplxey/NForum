@@ -14,5 +14,4 @@ urlpatterns = [
     path('message-rate/', views.message_rate, name='forum-message-rate'),
 
     path('subcategory/<str:subcategory_name>/', views.subcategory_view, name='forum-subcategory'),
-    path('subcategory/<str:subcategory_name>/<int:page>/', views.subcategory_page_view, name='forum-subcategory-page'),
 ]

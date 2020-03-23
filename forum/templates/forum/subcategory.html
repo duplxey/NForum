@@ -21,7 +21,7 @@
                 <hr>
                 {% include "forum/block/thread-create.html" %}
                 {% include "forum/block/subcategory-pagination.html" %}
-				{% if threads|length is 0 %}
+				{% if not page.object_list|length %}
                     <hr>
 					There are no threads under this category yet or your page number is too high.
                     <hr>
@@ -38,7 +38,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for thread in threads %}
+                                {% for thread in page.object_list %}
                                     <tr>
                                         <td><span class="badge" style="background: #{{ thread.prefix.color }};color:white;">{{ thread.prefix.name }}</span> <a href="{% url 'forum-thread' thread_title=thread.title %}">{{ thread.title }}</a></td>
                                         <td><img src="{{ thread.author|avatar }}" class="img-fluid avatar-mini" alt="{{ subcategory.get_latest_thread.author.username }}'s avatar"> <a href="{% url "accounts-profile" username=thread.author.username %}">{{ thread.author }}</a></td>
