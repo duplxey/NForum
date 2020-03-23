@@ -10,36 +10,44 @@
 	<div class="section">
 		<div class="container">
 			<div class="row">
-				<div class="col-12 col-md-3">
+				<div class="col-12 col-md-3 text-text-center">
 					<img src="{% static "img/logo-cap.png" %}" class="img-fluid" alt="NForum capitals">
 				</div>
 				<div class="col-12 col-md-9">
-					<div class="marged">
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-					</div>
+					<div class="marged text-justify">
+                        <h4><b>NForum</b> is a simple light-weight forum written in Python using Django. It allows users to create their own threads or talk in already existing ones. It has a built-in reputation system, achievements, alerts & more!</h4>
+                    </div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="section">
-		<div class="container">
-			Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-		</div>
-	</div>
 	<div class="section bg-special text-light">
 		<div class="container">
+            <h3>Other cool features</h3>
+            <ul>
+                <li>Extremely easy to use UI.</li>
+                <li>Admin is able to create different thread subcategories that are grouped in thread categories.</li>
+                <li>Users are able to create their own threads (topics).</li>
+                <li>Reputation system (users can upvote or downvote each others' messages).</li>
+                <li>Achievement system (based on thread count, post count, upvotes, downvotes)</li>
+                <li>Alerts (users get a notification when someone responds to their thread or are mentioned)</li>
+            </ul>
+        </div>
+	</div>
+	<div class="section">
+		<div class="container">
 			<div class="row">
-				<div class="col-12 col-md-4 center">
+				<div class="col-12 col-md-4 text-center">
 					<i class="fas fa-dollar-sign fa-5x"></i>
 					<h3>Free</h3>
 					<p>Forum is completely free to use!</p>
 				</div>
-				<div class="col-12 col-md-4 center">
+				<div class="col-12 col-md-4 text-center">
 					<i class="fas fa-users fa-5x"></i>
 					<h3>Growing community</h3>
 					<p>Join more than {{ user_count }} registered users!</p>
 				</div>
-				<div class="col-12 col-md-4 center">
+				<div class="col-12 col-md-4 text-center">
 					<i class="far fa-dizzy fa-5x"></i>
 					<h3>No smileys</h3>
 					<p>Crazy, right?</p>
@@ -47,7 +55,20 @@
 			</div>
 		</div>
 	</div>
-	<div class="section center">
+    <div class="section bg-special text-light">
+		<div class="container">
+            <div class="row">
+                <div class="col-12 col-md-5 text-right">
+                    <h2><i class="fab fa-github fa-4x"></i></h2>
+                </div>
+                <div class="col-12 col-md-7 marged">
+                    <h2>Like what you see?</h2>
+                    <h3><a href="https://github.com/duplxey/NForum" class="light-link">Fork me on GitHub</a></h3>
+                </div>
+            </div>
+		</div>
+	</div>
+	<div class="section text-center marged">
 		<div class="container">
 			<h2>Join NForum today!</h2>
 			<a href="{% url 'accounts-signup' %}" class="btn btn-primary">Sign up - it's free!</a>

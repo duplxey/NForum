@@ -24,7 +24,7 @@
 						<form action="{% url 'wiki-page-delete' url=wiki_page.url %}" method="post" novalidate>
 							{% csrf_token %}
 							{{ form|crispy }}
-							<div class="center">
+							<div class="text-center">
 								<button class="btn btn-danger" type="submit">Delete</button>
 							</div>
 						</form>

@@ -25,7 +25,7 @@
 						<form action="{% url 'forum-message-remove' message_id=message.id %}" method="post" novalidate>
 							{% csrf_token %}
 							{{ form|crispy }}
-							<div class="center">
+							<div class="text-center">
 								<button class="btn btn-danger" type="submit">Delete</button>
 							</div>
 						</form>

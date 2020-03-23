@@ -24,7 +24,7 @@
                         <hr>
                     {% endif %}
 					<div class="row">
-						<div class="col-6 col-md-3 center">
+						<div class="col-6 col-md-3 text-center">
 							<img src="{{ message.author|avatar }}" class="img-fluid avatar" alt="{{ message.author.username }}'s avatar"><br>
                             <h5><a href="{% url "accounts-profile" username=message.author.username %}">{{ message.author }}</a></h5>
 							{% for group in message.author.groups.all %}

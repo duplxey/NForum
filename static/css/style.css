@@ -68,15 +68,11 @@ footer {
 * Misc
 \*------------------------------*/
 .marged {
-    margin: 25px;
+    margin: 20px 0;
 }
 
 .icon-right-margin {
     margin-right: 5px;
-}
-
-.center {
-    text-align: center;
 }
 
 .right {
@@ -110,7 +106,7 @@ footer {
 }
 
 .social {
-    text-align: center;
+    text-align: text-center;
 }
 
 .social-item {
