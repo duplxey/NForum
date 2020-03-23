@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 
 from accounts.forms import LoginForm, SignupForm, SettingsForm
-from accounts.models import Profile, Alert, Achievement
+from accounts.models import UserProfile, Alert, Achievement
 from forum.models import Message, Thread
 from nforum.errors import unknown_user, already_authenticated, not_authenticated
 
@@ -63,9 +63,6 @@ def signup_view(request):
         user = User.objects.create_user(username=username, email=email, password=password)
         user.save()
 
-        profile = Profile.objects.create(user=user, avatar="images/user.png")
-        profile.save()
-
         login(request, user)
 
         return redirect('accounts-profile', username=request.user.username)
@@ -109,7 +106,7 @@ def profile_specific_view(request, username):
     recent_posts = Message.objects.filter(author=user).order_by("-date_posted")[:5]
     recent_threads = Thread.objects.filter(author=user)[::-1][:5]
 
-    return render(request, 'accounts/profile.html', {'passed_user': user, 'profile': Profile.objects.get(user=user), 'recent_posts': recent_posts, 'recent_threads': recent_threads})
+    return render(request, 'accounts/profile.html', {'passed_user': user, 'profile': UserProfile.objects.get(user=user), 'recent_posts': recent_posts, 'recent_threads': recent_threads})
 
 
 def settings_view(request):
@@ -117,7 +114,7 @@ def settings_view(request):
         return not_authenticated(request)
 
     user = request.user
-    profile = Profile.objects.get(user=user)
+    profile = UserProfile.objects.get(user=user)
 
     if request.method == 'POST':
         form = SettingsForm(request.POST, request.FILES)

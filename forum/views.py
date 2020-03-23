@@ -5,7 +5,7 @@ import math
 
 from django.utils import timezone
 
-from accounts.models import Profile, Alert, Achievement
+from accounts.models import UserProfile, Alert, Achievement
 from forum.forms import CreateThreadForm, PostReplyForm, PostDeleteForm
 from nforum.errors import insufficient_permission, unknown_thread, unknown_subcategory, unknown_message
 from .models import *
@@ -17,8 +17,8 @@ def index_view(request):
         'recent_messages': Message.get_recent_messages(5),
         'thread_count': Thread.get_thread_count(),
         'message_count': Message.get_message_count(),
-        'registered_user_count': Profile.get_registered_user_count(),
-        'active_user_count': Profile.get_active_user_count()
+        'registered_user_count': UserProfile.get_registered_user_count(),
+        'active_user_count': UserProfile.get_active_user_count()
     })
 
 
@@ -66,9 +66,6 @@ def thread_create_view(request, subcategory_name):
             message = Message.objects.create(thread=thread, content=content, author=request.user)
             message.save()
 
-            # Let's check if user achieved anything
-            Achievement.check_add_achievements(request.user, Achievement.THREAD_COUNT)
-
             return redirect(thread_view, thread_title=thread.title)
 
     return render(request, 'forum/thread-create.html', {
@@ -101,9 +98,6 @@ def thread_post_view(request, thread_title):
                     continue
                 alert = Alert(user=participant, type=Alert.RESPOND, caused_by=request.user, thread=thread)
                 alert.save()
-
-            # Let's check if user achieved anything
-            Achievement.check_add_achievements(request.user, Achievement.POST_COUNT)
 
             return redirect(thread_view, thread_title=thread.title)
 

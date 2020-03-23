@@ -1,6 +1,6 @@
 from django import forms
 
-from accounts.models import Profile
+from accounts.models import UserProfile
 
 
 class LoginForm(forms.Form):
@@ -20,5 +20,5 @@ class SettingsForm(forms.ModelForm):
     avatar = forms.ImageField(required=False)
 
     class Meta:
-        model = Profile
+        model = UserProfile
         fields = ['description', 'avatar']

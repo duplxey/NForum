@@ -6,18 +6,18 @@ from django.db import models
 from forum.models import Message, Thread
 
 
-class Profile(models.Model):
+class UserProfile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     description = models.TextField(max_length=300, default="Another cool user.")
     avatar = models.ImageField(upload_to='images/')
 
     @staticmethod
     def get_profile(user):
-        return Profile.objects.get(user=user)
+        return UserProfile.objects.get(user=user)
 
     @staticmethod
     def get_registered_user_count():
-        return Profile.objects.all().count()
+        return UserProfile.objects.all().count()
 
     @staticmethod
     def get_active_user_count():
@@ -115,9 +115,9 @@ class Achievement(models.Model):
         elif criteria == Achievement.THREAD_COUNT:
             value = Thread.objects.filter(author=user).count()
         elif criteria == Achievement.UPVOTE_COUNT:
-            value = Profile.get_profile(user).get_upvotes()
+            value = UserProfile.get_profile(user).get_upvotes()
         elif criteria == Achievement.DOWNVOTE_COUNT:
-            value = Profile.get_profile(user).get_downvotes()
+            value = UserProfile.get_profile(user).get_downvotes()
 
         for locked_achievement in locked_achievements:
             if value >= locked_achievement.value:
