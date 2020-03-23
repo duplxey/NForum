@@ -17,7 +17,7 @@
 			<div class="card-body">
                 <h3>Members</h3>
                 <hr>
-                {% include "accounts/block/members-pagination.html" %}
+                {% include "components/pagination.html" %}
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
@@ -31,7 +31,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for member in members %}
+                            {% for member in page.object_list %}
                                 <tr>
                                     <td>{{ member.pk }}</td>
                                     <td><img src="{{ member|avatar }}" class="img-fluid avatar-mini" alt="{{ subcategory.get_latest_thread.author.username }}'s avatar"> <a href="{% url 'accounts-profile' username=member.username %}">{{ member.username }}</a></td>
@@ -54,7 +54,7 @@
                         </tbody>
                     </table>
                 </div>
-                {% include "accounts/block/members-pagination.html" %}
+                {% include "components/pagination.html" %}
 			</div>
 		</div>
 	</div>

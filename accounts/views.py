@@ -2,6 +2,7 @@ import math
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 
 from accounts.forms import LoginForm, SignupForm, SettingsForm
@@ -80,22 +81,12 @@ def logout_view(request):
 
 
 def members_view(request):
-    return members_page_view(request=request, page=0)
+    paginator = Paginator(User.objects.all(), 25)
+    page = paginator.get_page(request.GET.get('page', 1))
 
-
-def members_page_view(request, page):
-    members_per_page = 25
-    members = User.objects.all()
-
-    previous_page = page - 1
-    if previous_page < 0:
-        previous_page = None
-
-    next_page = page + 1
-    if next_page > math.ceil(members.count()/members_per_page) - 1:
-        next_page = None
-
-    return render(request, 'accounts/members.html', {'members': members[page*members_per_page:(page+1)*members_per_page], 'page': page, 'previous_page': previous_page, 'next_page': next_page})
+    return render(request, 'accounts/members.html', {
+        'page': page,
+    })
 
 
 def profile_specific_view(request, username):

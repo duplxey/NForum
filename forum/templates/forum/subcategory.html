@@ -20,7 +20,7 @@
                 <p>{{ subcategory.description }}</p>
                 <hr>
                 {% include "forum/block/thread-create.html" %}
-                {% include "forum/block/subcategory-pagination.html" %}
+                {% include "components/pagination.html" %}
 				{% if not page.object_list|length %}
                     <hr>
 					There are no threads under this category yet or your page number is too high.
@@ -52,7 +52,7 @@
                     </div>
 				{% endif %}
                 {% include "forum/block/thread-create.html" %}
-                {% include "forum/block/subcategory-pagination.html" %}
+                {% include "components/pagination.html" %}
 			</div>
 		</div>
 	</div>
