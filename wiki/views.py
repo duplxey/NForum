@@ -41,23 +41,26 @@ def page_add(request):
     if not request.user.has_perm('wiki.add_wikipage'):
         return insufficient_permission(request)
 
+    form = PageAddForm()
+
     if request.method == 'POST':
-        form = PageAddForm(request.POST)
+        form = PageAddForm(data=request.POST)
 
-        if not form.is_valid():
-            return render(request, 'wiki/add.html', {'wiki_pages': WikiPage.objects.all().order_by('display_index'), 'form': form})
+        if form.is_valid():
+            display_index = form.cleaned_data['display_index']
+            title = form.cleaned_data['title']
+            url = form.cleaned_data['url'].lower()
+            content = form.cleaned_data['content']
 
-        display_index = form.cleaned_data['display_index']
-        title = form.cleaned_data['title']
-        url = form.cleaned_data['url'].lower()
-        content = form.cleaned_data['content']
+            wiki_page = WikiPage.objects.create(display_index=display_index, title=title, url=url, content=content, author=request.user)
+            wiki_page.save()
 
-        page = WikiPage.objects.create(display_index=display_index, title=title, url=url, content=content, author=request.user)
-        page.save()
+            return redirect('wiki-page', url=url)
 
-        return redirect('wiki-page', url=url)
-    else:
-        return render(request, 'wiki/add.html', {'wiki_pages': WikiPage.objects.all().order_by('display_index'), 'form': PageAddForm()})
+    return render(request, 'wiki/add.html', {
+        'wiki_pages': WikiPage.objects.all(),
+        'form': form,
+    })
 
 
 def page_change(request, url):
@@ -67,26 +70,31 @@ def page_change(request, url):
     if not request.user.has_perm('wiki.change_wikipage'):
         return insufficient_permission(request)
 
-    if not WikiPage.objects.filter(url=url).exists():
+    try:
+        wiki_page = WikiPage.objects.get(url=url)
+    except WikiPage.DoesNotExist:
         return unknown_wiki_page(request)
 
+    form = PageChangeForm(instance=wiki_page)
+
     if request.method == 'POST':
-        form = PageChangeForm(request.POST)
+        form = PageChangeForm(instance=wiki_page, data=request.POST)
 
-        if not form.is_valid():
-            return render(request, 'wiki/change.html', {'wiki_pages': WikiPage.objects.all().order_by('display_index'), 'form': form, 'wiki_page': WikiPage.objects.get(url=url)})
+        if form.is_valid():
+            content = form.cleaned_data['content']
 
-        content = form.cleaned_data['content']
+            wiki_page.content = content
+            wiki_page.last_editor = request.user
+            wiki_page.edited_datetime = timezone.now()
+            wiki_page.save()
 
-        page = WikiPage.objects.get(url=url)
-        page.content = content
-        page.last_editor = request.user
-        page.edited_datetime = timezone.now()
-        page.save()
+            return redirect('wiki-page', url=url)
 
-        return redirect('wiki-page', url=url)
-    else:
-        return render(request, 'wiki/change.html', {'wiki_pages': WikiPage.objects.all().order_by('display_index'), 'form': PageChangeForm(initial={'content': WikiPage.objects.get(url=url).content}), 'wiki_page': WikiPage.objects.get(url=url)})
+    return render(request, 'wiki/change.html', {
+        'wiki_pages': WikiPage.objects.all(),
+        'form': form,
+        'wiki_page': wiki_page,
+    })
 
 
 def page_delete(request, url):
@@ -96,18 +104,23 @@ def page_delete(request, url):
     if not request.user.has_perm('wiki.delete_wikipage'):
         return insufficient_permission(request)
 
-    if not WikiPage.objects.filter(url=url).exists():
+    try:
+        wiki_page = WikiPage.objects.get(url=url)
+    except WikiPage.DoesNotExist:
         return unknown_wiki_page(request)
 
+    form = PageDeleteForm()
+
     if request.method == 'POST':
-        form = PageDeleteForm(request.POST)
+        form = PageDeleteForm(data=request.POST)
 
-        if not form.is_valid():
-            return render(request, 'wiki/delete.html', {'wiki_pages': WikiPage.objects.all().order_by('display_index'), 'form': form, 'wiki_page': WikiPage.objects.get(url=url)})
+        if form.is_valid():
+            wiki_page.delete()
 
-        page = WikiPage.objects.get(url=url)
-        page.delete()
+            return redirect('wiki-index')
 
-        return redirect('wiki-index')
-    else:
-        return render(request, 'wiki/delete.html', {'wiki_pages': WikiPage.objects.all().order_by('display_index'), 'form': PageDeleteForm(), 'wiki_page': WikiPage.objects.get(url=url)})
+    return render(request, 'wiki/delete.html', {
+        'wiki_pages': WikiPage.objects.all(),
+        'form': form,
+        'wiki_page': wiki_page,
+    })

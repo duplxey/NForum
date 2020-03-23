@@ -22,12 +22,4 @@ NOTE: You'll also need a MySQL database running in the background. You can confi
 
 ## Admin panel
 You'll first need to create a super user using the following command:  
-`python manage.py createsuperuser`  
-
-## Getting MySQL to work with Django
-You may stumble upon problems (again) when trying to hook MySQL with Django. Most of the solutions you'll find won't work like:
-- Installing mysqlclient
-- Installing Visual Studio with BuildTools
-- Trying to compile the module yourself...
-
-The only solution that actually works is the following one: https://stackoverflow.com/questions/15312732/django-core-exceptions-improperlyconfigured-error-loading-mysqldb-module-no-mo#answer-55086635 / https://i.imgur.com/kI897OO.png.
+`python manage.py createsuperuser`
