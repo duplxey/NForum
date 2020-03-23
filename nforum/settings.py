@@ -27,10 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-# Minify settings
-HTML_MINIFY = True
-KEEP_COMMENTS_ON_MINIFYING = True
-
 
 # Application definition
 

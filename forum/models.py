@@ -35,7 +35,7 @@ class Subcategory(models.Model):
     def get_message_count(self):
         message_count = 0
         for thread in Thread.objects.filter(subcategory=self):
-            message_count = message_count + thread.get_message_count()
+            message_count = message_count + thread.get_messages().count()
         return message_count
 
     def __str__(self):
@@ -60,10 +60,6 @@ class Thread(models.Model):
     subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE)
     prefix = models.ForeignKey(ThreadPrefix, blank=True, null=True, on_delete=models.SET_DEFAULT, default=None)
 
-    @staticmethod
-    def get_thread_count():
-        return Thread.objects.all().count()
-
     def get_messages(self):
         return Message.objects.filter(thread=self).order_by('pk')
 
@@ -72,9 +68,6 @@ class Thread(models.Model):
 
     def get_last_message(self):
         return self.get_messages().order_by('-date_posted')[0]
-
-    def get_message_count(self):
-        return self.get_messages().count()
 
     def get_participants(self):
         participants = set()
@@ -99,15 +92,23 @@ class Message(models.Model):
     def get_recent_messages(amount):
         return Message.objects.all().order_by('-date_posted')[:amount]
 
-    @staticmethod
-    def get_message_count():
-        return Message.objects.all().count()
+    def upvote(self, user):
+        if user in self.downvoters.all():
+            self.downvoters.remove(user)
+        if user in self.upvoters.all():
+            self.upvoters.remove(user)
+        else:
+            self.upvoters.add(user)
+        self.save()
 
-    def is_upvoter(self, user):
-        return user in self.upvoters.all()
-
-    def is_downvoter(self, user):
-        return user in self.downvoters.all()
+    def downvote(self, user):
+        if user in self.upvoters.all():
+            self.upvoters.remove(user)
+        if user in self.downvoters.all():
+            self.downvoters.remove(user)
+        else:
+            self.downvoters.add(user)
+        self.save()
 
     def __str__(self):
         return self.author.username + ":" + self.content

@@ -1,9 +1,11 @@
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseBadRequest, HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
 import math
 
 from django.utils import timezone
+from django.views.decorators.http import require_http_methods
 
 from accounts.models import UserProfile, Alert, Achievement
 from forum.forms import CreateThreadForm, PostReplyForm, PostDeleteForm
@@ -15,8 +17,8 @@ def index_view(request):
     return render(request, 'forum/index.html', {
         'categories': Category.objects.all(),
         'recent_messages': Message.get_recent_messages(5),
-        'thread_count': Thread.get_thread_count(),
-        'message_count': Message.get_message_count(),
+        'thread_count': Thread.objects.count(),
+        'message_count': Message.objects.count(),
         'registered_user_count': UserProfile.get_registered_user_count(),
         'active_user_count': UserProfile.get_active_user_count()
     })
@@ -170,68 +172,38 @@ def message_remove_view(request, message_id):
     })
 
 
-# TODO: message rate AJAX + achievement signals
+# TODO: achievement signals
 
 @login_required
-def message_upvote(request, message_id):
-    try:
-        message = Message.objects.get(pk=message_id)
-    except Message.DoesNotExist:
-        return unknown_message(request)
+@require_http_methods(["POST"])
+def message_rate(request):
+    pk = request.POST.get("pk", None)
 
-    thread = message.thread
+    try:
+        message = Message.objects.get(pk=pk)
+    except Message.DoesNotExist:
+        return HttpResponseBadRequest("Invalid message.")
 
     if message.author == request.user:
-        return redirect(thread_view, thread_title=thread.title)
+        return HttpResponseBadRequest("You can't rate your own posts.")
 
-    if request.user in message.upvoters.all():
-        message.upvoters.remove(request.user)
-        return redirect(thread_view, thread_title=thread.title)
-
-    message.upvoters.add(request.user)
-
-    # Send an alert to the author
-    alert = Alert(user=message.author, type=Alert.UPVOTE, caused_by=request.user, thread=thread)
-    alert.save()
-
-    # Let's check if the author achieved anything
-    Achievement.check_add_achievements(message.author, Achievement.UPVOTE_COUNT)
-
-    if request.user in message.downvoters.all():
-        message.downvoters.remove(request.user)
-
-    return redirect(thread_view, thread_title=thread.title)
-
-
-@login_required
-def message_downvote(request, message_id):
     try:
-        message = Message.objects.get(pk=message_id)
-    except Message.DoesNotExist:
-        return unknown_message(request)
+        value = int(request.POST.get("value", None))
+    except ValueError:
+        return HttpResponseBadRequest("Value cannot be parsed to an integer.")
 
-    thread = message.thread
+    if value > 0:
+        message.upvote(request.user)
+        Achievement.check_add_achievements(message.author, Achievement.UPVOTE_COUNT)
+    else:
+        message.downvote(request.user)
+        Achievement.check_add_achievements(message.author, Achievement.DOWNVOTE_COUNT)
 
-    if message.author == request.user:
-        return redirect(thread_view, thread_title=thread.title)
-
-    if request.user in message.downvoters.all():
-        message.downvoters.remove(request.user)
-        return redirect(thread_view, thread_title=thread.title)
-
-    message.downvoters.add(request.user)
-
-    # Send an alert to the author
-    alert = Alert(user=message.author, type=Alert.DOWNVOTE, caused_by=request.user, thread=thread)
-    alert.save()
-
-    # Let's check if the author achieved anything
-    Achievement.check_add_achievements(message.author, Achievement.DOWNVOTE_COUNT)
-
-    if request.user in message.upvoters.all():
-        message.upvoters.remove(request.user)
-
-    return redirect(thread_view, thread_title=thread.title)
+    return JsonResponse({
+        'pk': message.pk,
+        'upvoters': message.upvoters.count(),
+        'downvoters': message.downvoters.count(),
+    })
 
 
 def subcategory_view(request, subcategory_name):

@@ -16,6 +16,7 @@
 				<li class="breadcrumb-item active" aria-current="page">{{ thread.title }}</li>
 			</ol>
 		</nav>
+        {% csrf_token %}
 		{% for message in thread.get_messages %}
 			<div class="card" {% if forloop.counter == 1 %}style="background: var(--background-gray);"{% endif %}>
 				<div class="card-body">
@@ -38,8 +39,8 @@
 							<small>{{ message.author }}, posted on {{ message.date_posted }} {% if message.date_edited is not null %}(last edited: {{ message.date_edited }}){% endif %}
                                 {% if message.author == request.user %}[ <a href="{% url 'forum-message-edit' message_id=message.pk %}">Edit</a> ] [ <a href="{% url 'forum-message-remove' message_id=message.pk %}">Remove</a> ]{% endif %}
                                 <span style="float: right">
-                                    <a href="{% url 'forum-message-upvote' message_id=message.id %}" class="text-success {% if message.is_upvoter %}transparent{% endif %}">{{ message.upvoters.count }} <i class="fas fa-chevron-up"></i></a>
-                                    <a href="{% url 'forum-message-downvote' message_id=message.id %}" class="text-danger {% if message.is_downvoter %}transparent{% endif %}">{{ message.downvoters.count }} <i class="fas fa-chevron-down"></i></a>
+                                    <a {% if message.author != user %}id="up-{{ message.pk }}"{% endif %} class="text-success"><span id="up-place-{{ message.pk }}">{{ message.upvoters.count }}</span> <i class="fas fa-chevron-up"></i></a>
+                                    <a {% if message.author != user %}id="down-{{ message.pk }}"{% endif %} class="text-danger"><span id="down-place-{{ message.pk }}">{{ message.downvoters.count }}</span> <i class="fas fa-chevron-down"></i></a>
                                 </span>
                             </small>
                         </div>
@@ -47,6 +48,30 @@
 				</div>
 			</div>
 		{% endfor %}
+        {% if user.is_authenticated %}
+            <script>
+                function update(data) {
+                    $("#up-place-" + data['pk']).text(data['upvoters']);
+                    $("#down-place-" + data['pk']).text(data['downvoters']);
+                }
+                $(document).ready(function() {
+                    $("a[id*='up'], a[id*='down']").click(function() {
+                        $.ajax({
+                            type: "POST",
+                            url: '{% url "forum-message-rate" %}',
+                            data: {
+                                'pk': this.id.split("-")[1],
+                                'value': this.id.split("-")[0] === "up" ? 1 : -1,
+                            },
+                            success: function(data) {
+                                update(data);
+                            },
+                            dataType: 'json'
+                        });
+                    });
+                });
+            </script>
+        {% endif %}
 		{% if user.is_authenticated %}
 			<div class="card">
 				<div class="card-body">
