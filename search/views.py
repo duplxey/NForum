@@ -11,9 +11,10 @@ def search_view(request):
     if query is None or len(query) < 2 or len(query) > 16:
         return search_failed(request)
 
-    related_threads = Thread.objects.filter(title__icontains=query)
-    related_users = User.objects.filter(username__icontains=query)
-    related_messages = Message.objects.filter(content__icontains=query)
-
-    return render(request, 'search/search.html', {'keyword': query, 'related_threads': related_threads, 'related_messages': related_messages, 'related_users': related_users})
+    return render(request, 'search/search.html', {
+        'keyword': query,
+        'related_threads': Thread.objects.filter(title__icontains=query),
+        'related_messages': Message.objects.filter(content__icontains=query),
+        'related_users': User.objects.filter(username__icontains=query)
+    })
 

@@ -8,6 +8,10 @@ ol, ul {
     list-style-position: inside;
 }
 
+::selection {
+    background: var(--special);
+}
+
 body {
     color: var(--text-color);
     background: var(--background);
@@ -30,10 +34,6 @@ footer {
   height: 7.5rem;
 }
 
-.content-wrap {
-  padding-bottom: 7.5rem;
-}
-
 .header-top {
     padding: 12px 0;
 }
@@ -52,8 +52,8 @@ footer {
     background: var(--background-dark);
 }
 
-::selection {
-    background: var(--special);
+.content-wrap {
+  padding-bottom: 7.5rem;
 }
 
 .light-link {
@@ -115,5 +115,5 @@ footer {
 
 .social-item {
     display: inline;
-    margin: 0 5px;
+    margin: 0 12px;
 }
