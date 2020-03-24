@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     'home.apps.HomeConfig',
     'wiki.apps.WikiConfig',
     'forum.apps.ForumConfig',
-    'nforum',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 
 
 def index_view(request):
-    # If user is authenticated, he probably doesn't want to see that presentation page
+    # If the user is authenticated, he probably doesn't want to see that presentation page
     if request.user.is_authenticated:
         return redirect('forum-index')
 

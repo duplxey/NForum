@@ -66,6 +66,8 @@ def thread_create_view(request, subcategory_name):
             message = Message.objects.create(thread=thread, content=content, author=request.user)
             message.save()
 
+            Achievement.check_add_achievements(message.author, Achievement.THREAD_COUNT)
+
             return redirect(thread_view, thread_title=thread.title)
 
     return render(request, 'forum/thread-create.html', {
@@ -96,8 +98,9 @@ def thread_post_view(request, thread_title):
             for participant in thread.get_participants():
                 if participant == request.user:
                     continue
-                alert = Alert(user=participant, type=Alert.RESPOND, caused_by=request.user, thread=thread)
-                alert.save()
+                Alert.objects.create(user=participant, type=Alert.RESPOND, caused_by=request.user, thread=thread)
+
+            Achievement.check_add_achievements(message.author, Achievement.THREAD_COUNT)
 
             return redirect(thread_view, thread_title=thread.title)
 
@@ -191,9 +194,11 @@ def message_rate(request):
     if value > 0:
         message.upvote(request.user)
         Achievement.check_add_achievements(message.author, Achievement.UPVOTE_COUNT)
+        Alert.objects.create(user=message.author, type=Alert.UPVOTE, caused_by=request.user, thread=message.thread)
     else:
         message.downvote(request.user)
         Achievement.check_add_achievements(message.author, Achievement.DOWNVOTE_COUNT)
+        Alert.objects.create(user=message.author, type=Alert.DOWNVOTE, caused_by=request.user, thread=message.thread)
 
     return JsonResponse({
         'pk': message.pk,

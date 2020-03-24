@@ -14,7 +14,7 @@
 					<img src="{% static "img/logo-cap.png" %}" class="img-fluid" alt="NForum capitals">
 				</div>
 				<div class="col-12 col-md-9">
-					<div class="marged text-justify">
+					<div class="m-3 text-justify">
                         <h4><b>NForum</b> is a simple light-weight forum written in Python using Django. It allows users to create their own threads or talk in already existing ones. It has a built-in reputation system, achievements, alerts & more!</h4>
                     </div>
 				</div>
@@ -57,21 +57,19 @@
 	</div>
     <div class="section bg-special text-light">
 		<div class="container">
-            <div class="row">
-                <div class="col-12 col-md-5 text-right">
-                    <h2><i class="fab fa-github fa-4x"></i></h2>
-                </div>
-                <div class="col-12 col-md-7 marged">
-                    <h2>Like what you see?</h2>
-                    <h3><a href="https://github.com/duplxey/NForum" class="light-link">Fork me on GitHub</a></h3>
-                </div>
+            <div class="text-center m-2">
+                <h2><i class="fab fa-github fa-4x"></i></h2>
+                <h2>Like what you see?</h2>
+                <h3><a href="https://github.com/duplxey/NForum" class="light-link">Fork me on GitHub</a></h3>
             </div>
 		</div>
 	</div>
-	<div class="section text-center marged">
+	<div class="section text-center">
 		<div class="container">
-			<h2>Join NForum today!</h2>
-			<a href="{% url 'accounts-signup' %}" class="btn btn-primary">Sign up - it's free!</a>
+            <div class="text-center m-5">
+                <h2>Join NForum today!</h2>
+			    <a href="{% url 'accounts-signup' %}" class="btn btn-primary">Sign up - it's free!</a>
+            </div>
 		</div>
 	</div>
 {% endblock %}

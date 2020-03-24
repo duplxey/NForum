@@ -124,8 +124,7 @@ class Achievement(models.Model):
                 user_achievement = UserAchievement(user=user, achievement=locked_achievement)
                 user_achievement.save()
 
-                alert = Alert(user=user, type=Alert.ACHIEVEMENT)
-                alert.save()
+                Alert.objects.create(user=user, type=Alert.ACHIEVEMENT)
 
                 return True
 
