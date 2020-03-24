@@ -107,8 +107,11 @@ def settings_view(request):
     user = request.user
     profile = UserProfile.objects.get(user=user)
 
+    form = SettingsForm(initial={'description': profile.description, 'avatar': profile.avatar})
+
     if request.method == 'POST':
         form = SettingsForm(request.POST, request.FILES)
+
         if form.is_valid():
             description = form.data.get('description', None)
             avatar = request.FILES.get('avatar', None)
@@ -126,10 +129,11 @@ def settings_view(request):
                     profile.avatar = avatar
 
             profile.save()
-        return redirect('accounts-profile', username=user.username)
-    else:
-        form = SettingsForm(initial={'description': profile.description, 'avatar': profile.avatar})
-        return render(request, 'accounts/settings.html', {'form': form})
+            return redirect('accounts-profile', username=user.username)
+
+    return render(request, 'accounts/settings.html', {
+        'form': form,
+    })
 
 
 @login_required

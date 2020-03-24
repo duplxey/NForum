@@ -1,3 +1,5 @@
+import re
+
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.http import HttpResponseBadRequest, JsonResponse
@@ -18,7 +20,7 @@ def index_view(request):
         'thread_count': Thread.objects.count(),
         'message_count': Message.objects.count(),
         'registered_user_count': User.objects.count(),
-        'active_user_count': User.objects.filter(is_active=True)
+        'active_user_count': User.objects.filter(is_active=True).count(),
     })
 
 

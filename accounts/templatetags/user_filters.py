@@ -37,7 +37,7 @@ def reputation(user):
 
 
 @register.filter(name='achievements')
-def reputation(user):
+def achievements(user):
     return UserProfile.get_profile(user=user).get_achievements()
 
 
