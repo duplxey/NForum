@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.views.decorators.http import require_http_methods
 
-from accounts.models import UserProfile, Alert, Achievement
+from accounts.models import Achievement, Alert
 from forum.forms import CreateThreadForm, PostReplyForm, PostDeleteForm
 from nforum.errors import insufficient_permission, unknown_thread, unknown_subcategory, unknown_message
 from .models import *
@@ -17,8 +17,8 @@ def index_view(request):
         'recent_messages': Message.get_recent_messages(5),
         'thread_count': Thread.objects.count(),
         'message_count': Message.objects.count(),
-        'registered_user_count': UserProfile.get_registered_user_count(),
-        'active_user_count': UserProfile.get_active_user_count()
+        'registered_user_count': User.objects.count(),
+        'active_user_count': User.objects.filter(is_active=True)
     })
 
 
@@ -94,13 +94,25 @@ def thread_post_view(request, thread_title):
             message = Message.objects.create(thread=thread, content=content, author=request.user)
             message.save()
 
-            # Send an alert to all the participants
+            mentioned = []
+
+            # Loop thru all the words and check if any user is mentioned
+            pattern = re.compile("@[A-z0-9_]+")
+            for match in pattern.findall(message.content):
+                try:
+                    user = User.objects.get(username=match.replace("@", ""))
+                    Alert.objects.create(user=user, type=Alert.MENTION, caused_by=request.user, thread=thread)
+                    mentioned.append(user)
+                except User.DoesNotExist:
+                    continue
+
+            # Send an alert to all the participants (if already mentioned skip)
             for participant in thread.get_participants():
-                if participant == request.user:
+                if participant == request.user or participant in mentioned:
                     continue
                 Alert.objects.create(user=participant, type=Alert.RESPOND, caused_by=request.user, thread=thread)
 
-            Achievement.check_add_achievements(message.author, Achievement.THREAD_COUNT)
+            Achievement.check_add_achievements(message.author, Achievement.POST_COUNT)
 
             return redirect(thread_view, thread_title=thread.title)
 

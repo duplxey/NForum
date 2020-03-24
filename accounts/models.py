@@ -1,7 +1,6 @@
-import datetime
-
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils import timezone
 
 from forum.models import Message, Thread
 
@@ -14,14 +13,6 @@ class UserProfile(models.Model):
     @staticmethod
     def get_profile(user):
         return UserProfile.objects.get(user=user)
-
-    @staticmethod
-    def get_registered_user_count():
-        return UserProfile.objects.all().count()
-
-    @staticmethod
-    def get_active_user_count():
-        return 0
 
     def get_upvotes(self):
         a = 0
@@ -77,7 +68,7 @@ class Alert(models.Model):
     @staticmethod
     def clear_unseen_alerts(user):
         for alert in Alert.get_unseen_alerts(user):
-            alert.seen = datetime.datetime.now()
+            alert.seen = timezone.now()
             alert.save()
 
     def __str__(self):
