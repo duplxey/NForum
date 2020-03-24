@@ -1,12 +1,14 @@
-beautifulsoup4==4.8.2
+asgiref==3.2.7
 Django==3.0.4
+django-cleanup==4.0.0
 django-crispy-forms==1.9.0
-django-htmlmin==0.11.0
 django-tinymce==2.8.0
 django-tinymce4-lite==1.7.5
+dnspython==1.16.0
 html5lib==1.0.1
 jsmin==2.2.2
 mysql-connector-python==8.0.19
+mysqlclient==1.4.6
 Pillow==7.0.0
 protobuf==3.11.3
 pytz==2019.3
