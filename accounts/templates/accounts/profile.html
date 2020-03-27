@@ -22,7 +22,19 @@
 							<img src="{{ passed_user.userprofile.avatar.url }}" class="avatar-big img-fluid" alt="{{ passed_user.username }}'s passed_user.userprofile">
 							<hr>
 							<h3>{{ passed_user.username }}</h3>
-                            <p><span class="text-success ">{{ passed_user.userprofile.get_upvotes }} <i class="fas fa-chevron-up"></i></span> <span class="text-danger ">{{ passed_user.userprofile.get_downvotes }} <i class="fas fa-chevron-down"></i></span></p>
+                            <p>
+                                {% if passed_user|reputation > 0 %}
+                                    <span class="text-success">+{{ passed_user|reputation }}</span>
+                                {% elif passed_user|reputation < 0 %}
+                                    <span class="text-danger">{{ passed_user|reputation }}</span>
+                                {% elif passed_user|reputation == 0 %}
+                                    <span class="text-warning">{{ passed_user|reputation }}</span>
+                                {% endif %}
+                                <small>(
+                                    <span class="text-success ">{{ passed_user.userprofile.get_upvotes }} <i class="fas fa-chevron-up"></i></span>
+                                    <span class="text-danger ">{{ passed_user.userprofile.get_downvotes }} <i class="fas fa-chevron-down"></i></span>
+                                )</small>
+                            </p>
 							{% for group in passed_user.groups.all %}
 								{% if forloop.counter == 1 %}
 									<hr>
