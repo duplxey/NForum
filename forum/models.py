@@ -81,7 +81,7 @@ class Thread(models.Model):
 
 class Message(models.Model):
     thread = models.ForeignKey(Thread, on_delete=models.CASCADE)
-    content = models.TextField(max_length=2500)
+    content = models.TextField(max_length=25000)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     date_posted = models.DateTimeField(auto_now_add=True, blank=True)
     date_edited = models.DateTimeField(null=True, blank=True)
