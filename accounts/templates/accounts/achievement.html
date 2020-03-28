@@ -20,7 +20,7 @@
 					<div class="card-body">
                         <h3>Unlocked achievements</h3>
                         {% if unlocked_achievements|length == 0 %}
-                            You do not have any achievements yet.
+                            You haven't unlocked any achievements yet.
                         {% endif %}
                         {% for user_achievement in unlocked_achievements %}
                             <hr>
@@ -33,7 +33,7 @@
                     <div class="card-body">
                         <h3>Locked achievements</h3>
                         {% if locked_achievements|length == 0 %}
-                            No locked achievements could be found.
+                            You've unlocked all the achievements.
                         {% endif %}
                         <div class="transparent">
                             {% for achievement in locked_achievements %}

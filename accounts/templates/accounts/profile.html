@@ -62,10 +62,14 @@
 						<div class="card">
 							<div class="card-header">Recent posts</div>
 							<div class="card-body">
-								{% for recent_post in recent_posts %}
-									{% if forloop.counter is not 1 %}<hr>{% endif %}
-									<img src="{{ recent_post.thread.author|avatar }}" class="avatar-mini" alt="{{ recent_post.thread.author.username }}'s avatar"> <a href="{% url 'forum-thread' thread_title=recent_post.thread.title %}">{{ recent_post.thread.title }}</a><br><small>Subcategory: {{ recent_post.thread.subcategory }}<br>{{ recent_post.date_posted }}</small>
-								{% endfor %}
+                                {% if recent_posts %}
+                                    {% for recent_post in recent_posts %}
+                                        {% if forloop.counter is not 1 %}<hr>{% endif %}
+                                        <img src="{{ recent_post.thread.author|avatar }}" class="avatar-mini" alt="{{ recent_post.thread.author.username }}'s avatar"> <a href="{% url 'forum-thread' thread_title=recent_post.thread.title %}">{{ recent_post.thread.title }}</a><br><small>Subcategory: {{ recent_post.thread.subcategory }}<br>{{ recent_post.date_posted }}</small>
+                                    {% endfor %}
+                                {% else %}
+                                    This user doesn't have any recent posts yet.
+                                {% endif %}
 							</div>
 						</div>
 					</div>
@@ -73,10 +77,14 @@
 						<div class="card">
 							<div class="card-header">Recent threads</div>
 							<div class="card-body">
-								{% for recent_thread in recent_threads %}
-									{% if forloop.counter is not 1 %}<hr>{% endif %}
-									<img src="{{ recent_thread.author|avatar }}" class="avatar-mini" alt="{{ recent_thread.author.username }}'s avatar"> <a href="{% url 'forum-thread' thread_title=recent_thread.title %}">{{ recent_thread.title }}</a><br><small>Subcategory: {{ recent_thread.subcategory }}<br>{{ recent_thread.get_first_message.date_posted }}</small>
-								{% endfor %}
+                                {% if recent_threads %}
+                                    {% for recent_thread in recent_threads %}
+                                        {% if forloop.counter is not 1 %}<hr>{% endif %}
+                                        <img src="{{ recent_thread.author|avatar }}" class="avatar-mini" alt="{{ recent_thread.author.username }}'s avatar"> <a href="{% url 'forum-thread' thread_title=recent_thread.title %}">{{ recent_thread.title }}</a><br><small>Subcategory: {{ recent_thread.subcategory }}<br>{{ recent_thread.get_first_message.date_posted }}</small>
+                                    {% endfor %}
+                                {% else %}
+                                    This user doesn't have any recent threads yet.
+                                {% endif %}
 							</div>
 						</div>
 					</div>

@@ -15,38 +15,50 @@
 						<li class="breadcrumb-item active" aria-current="page">Forums</li>
 					</ol>
 				</nav>
-				{% for category in categories %}
-					<div class="card">
-						<div class="card-body">
-							<h3>{{ category.title }}</h3>
-							<p>{{ category.description }}</p>
-							{% for subcategory in category.subcategories.all %}
-								<hr>
-								<div class="row">
-									<div class="col-9">
-										<a href="{% url 'forum-subcategory' subcategory_name=subcategory.title %}"><i class="fas fa-bookmark"></i> {{ subcategory.title }}</a><br>{{ subcategory.description }}<br><span class="transparent">(Threads: {{ subcategory.get_thread_count }}, Messages: {{ subcategory.get_message_count }})</span>
-									</div>
-									<div class="col-3">
-										{% if subcategory.get_latest_thread == null %}
-											<small>No threads found.</small>
-										{% else %}
-											<small>Latest thread:<br><a href="{% url 'forum-thread' thread_title=subcategory.get_latest_thread.title %}">{{ subcategory.get_latest_thread.title }}</a> by <a href="{% url 'accounts-profile' username=subcategory.get_latest_thread.author %}">{{ subcategory.get_latest_thread.author }}</a></small>
-										{% endif %}
-									</div>
-								</div>
-							{% endfor %}
-						</div>
-					</div>
-				{% endfor %}
+                {% if categories %}
+                    {% for category in categories %}
+                        <div class="card">
+                            <div class="card-body">
+                                <h3>{{ category.title }}</h3>
+                                <p>{{ category.description }}</p>
+                                {% for subcategory in category.subcategories.all %}
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-9">
+                                            <a href="{% url 'forum-subcategory' subcategory_name=subcategory.title %}"><i class="fas fa-bookmark"></i> {{ subcategory.title }}</a><br>{{ subcategory.description }}<br><span class="transparent">(Threads: {{ subcategory.get_thread_count }}, Messages: {{ subcategory.get_message_count }})</span>
+                                        </div>
+                                        <div class="col-3">
+                                            {% if subcategory.get_latest_thread == null %}
+                                                <small>No threads found.</small>
+                                            {% else %}
+                                                <small>Latest thread:<br><a href="{% url 'forum-thread' thread_title=subcategory.get_latest_thread.title %}">{{ subcategory.get_latest_thread.title }}</a> by <a href="{% url 'accounts-profile' username=subcategory.get_latest_thread.author %}">{{ subcategory.get_latest_thread.author }}</a></small>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="card">
+                        <div class="card-body">
+                            There are no categories yet.
+                        </div>
+                    </div>
+                {% endif %}
 			</div>
 			<div class="col-12 col-md-3">
 				<div class="card">
 					<div class="card-header"><i class="fas fa-folder-open"></i> Recent posts</div>
 					<div class="card-body">
-						{% for recent_message in recent_messages %}
-							{% if forloop.counter is not 1 %}<hr>{% endif %}
-							<img src="{{ recent_message.author|avatar }}" class="avatar-mini" alt="{{ recent_message.author.username }}'s avatar"> <a href="{% url 'forum-thread' thread_title=recent_message.thread.title %}">{{ recent_message.thread.title }}</a><br><small>Last reply: <a href="{% url 'accounts-profile' username=recent_message.author.username %}">{{ recent_message.author.username }}</a> ({{ recent_message.date_posted }})<br>Subcategory: {{ recent_message.thread.subcategory.title }}</small>
-						{% endfor %}
+                        {% if recent_messages %}
+                            {% for recent_message in recent_messages %}
+                                {% if forloop.counter is not 1 %}<hr>{% endif %}
+                                <img src="{{ recent_message.author|avatar }}" class="avatar-mini" alt="{{ recent_message.author.username }}'s avatar"> <a href="{% url 'forum-thread' thread_title=recent_message.thread.title %}">{{ recent_message.thread.title }}</a><br><small>Last reply: <a href="{% url 'accounts-profile' username=recent_message.author.username %}">{{ recent_message.author.username }}</a> ({{ recent_message.date_posted }})<br>Subcategory: {{ recent_message.thread.subcategory.title }}</small>
+                            {% endfor %}
+                        {% else %}
+                            There are no recent messages yet.
+                        {% endif %}
 					</div>
 				</div>
 				<div class="card">
