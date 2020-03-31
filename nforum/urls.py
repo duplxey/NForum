@@ -19,6 +19,10 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 
+admin.site.site_header = "NForum"
+admin.site.site_title = "Welcome to the Control Panel."
+admin.site.index_title = "Welcome to the Control Panel."
+
 urlpatterns = [
     path('', include('home.urls')),
     path('search/', include('search.urls')),
