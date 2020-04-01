@@ -8,4 +8,4 @@ from accounts.models import UserProfile
 @receiver(post_save, sender=User)
 def post_save(sender, instance, created, raw, using, **kwargs):
     if created:
-        UserProfile.objects.create(user=instance, avatar="images/user.png")
+        UserProfile.objects.create(user=instance)

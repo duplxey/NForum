@@ -8,7 +8,7 @@ register = template.Library()
 
 @register.filter(name='avatar')
 def avatar(user):
-    return UserProfile.get_profile(user).avatar.url
+    return "UserProfile.get_profile(user).avatar.url"
 
 
 @register.filter(name='post_count')

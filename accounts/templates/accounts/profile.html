@@ -19,7 +19,11 @@
 				<div class="card">
 					<div class="card-body">
 						<div class="text-center">
-							<img src="{{ passed_user.userprofile.avatar.url }}" class="avatar-big img-fluid" alt="{{ passed_user.username }}'s passed_user.userprofile">
+                            {% if passed_user.userprofile.avatar %}
+                                <img src="{{ passed_user.userprofile.avatar.url }}" class="avatar-big img-fluid" alt="{{ passed_user.username }}'s passed_user.userprofile">
+                            {% else %}
+                                <img src="https://eu.ui-avatars.com/api/?background=2E86AB&color=F3EFF5&bold=true&name={{ passed_user.username }}&size=200" class="avatar-big img-fluid">
+                            {% endif %}
 							<hr>
 							<h3>{{ passed_user.username }}</h3>
                             <p>
