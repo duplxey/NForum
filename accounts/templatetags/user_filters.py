@@ -8,7 +8,10 @@ register = template.Library()
 
 @register.filter(name='avatar')
 def avatar(user):
-    return "UserProfile.get_profile(user).avatar.url"
+    if user.userprofile.avatar:
+        return UserProfile.get_profile(user).avatar.url
+    else:
+        return "https://eu.ui-avatars.com/api/?background=2E86AB&color=F3EFF5&bold=true&name=" + user.username + "&size=200"
 
 
 @register.filter(name='post_count')
