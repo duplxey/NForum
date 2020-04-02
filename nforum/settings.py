@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
     'tinymce',
+    # Django_cleanup should be last.
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
