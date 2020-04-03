@@ -26,7 +26,6 @@ admin.site.site_title = "Welcome to the Control Panel."
 admin.site.index_title = "Welcome to the Control Panel."
 
 urlpatterns = [
-    path('', include('home.urls')),
     path('search/', include('search.urls')),
     path('wiki/', include('wiki.urls')),
     path('', include('forum.urls')),
