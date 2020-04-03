@@ -3,7 +3,8 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.index_view, name='forum-index'),
+    path('', views.home_view, name='forum-home'),
+    path('forum/', views.forum_view, name='forum-forum'),
 
     path('thread/<str:thread_title>/', views.thread_view, name='forum-thread'),
     path('thread-create/<str:subcategory_name>/', views.thread_create_view, name='forum-thread-create'),

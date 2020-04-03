@@ -10,10 +10,10 @@ class SiteConfiguration(SingletonModel):
     maintenance_mode = models.BooleanField(default=False)
 
     def __str__(self):
-        return "Site Configuration"
+        return "Site configuration"
 
     class Meta:
-        verbose_name = "Site Configuration"
+        verbose_name = "Site configuration"
 
 
 class SiteSocialNetwork(models.Model):

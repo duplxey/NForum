@@ -13,7 +13,13 @@ from nforum.errors import insufficient_permission, unknown_thread, unknown_subca
 from .models import *
 
 
-def index_view(request):
+def home_view(request):
+    return render(request, 'forum/home.html', {
+        'categories': Category.objects.all(),
+    })
+
+
+def forum_view(request):
     return render(request, 'forum/index.html', {
         'categories': Category.objects.all(),
         'recent_messages': Message.get_recent_messages(5),
@@ -175,7 +181,7 @@ def message_remove_view(request, message_id):
         if form.is_valid():
             if thread.get_first_message() == message:
                 thread.delete()
-                return redirect('forum-index')
+                return redirect('forum-forum')
             else:
                 message.delete()
                 return redirect('forum-thread', thread_title=thread.title)

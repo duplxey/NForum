@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from solo.models import SingletonModel
 
 
 class ThreadPrefix(models.Model):
@@ -112,3 +113,14 @@ class Message(models.Model):
 
     def __str__(self):
         return self.author.username + ":" + self.content
+
+
+class ForumConfiguration(SingletonModel):
+    home_category = models.ForeignKey(to=Category, null=True, blank=True, default=None, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "Forum configuration"
+
+    class Meta:
+        verbose_name = "Forum configuration"
+
