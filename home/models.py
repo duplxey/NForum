@@ -11,3 +11,12 @@ class SiteConfiguration(SingletonModel):
 
     class Meta:
         verbose_name = "Site Configuration"
+
+
+class SiteSocialNetwork(models.Model):
+    name = models.CharField(max_length=32)
+    url = models.CharField(max_length=255)
+    fa_icon = models.CharField(max_length=64)
+
+    def __str__(self):
+        return self.name
