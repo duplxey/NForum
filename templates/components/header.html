@@ -1,11 +1,17 @@
 {% load static %}
 {% load user_filters %}
+{% load solo_tags %}
 
 <header>
 	<div class="header-top">
 		<div class="container">
             <a href="{% url 'forum-index' %}">
-                <img src="{% static "img/logo.png" %}" alt="NForum Logo">
+                {% get_solo 'home.SiteConfiguration' as site_config %}
+                {% if site_config.logo %}
+                    <img src="{{ site_config.logo.url }}" alt="{{ site_config.name }} Logo">
+                {% else %}
+                    <img src="{% static "img/logo.png" %}" alt="NForum Logo">
+                {% endif %}
             </a>
     	</div>
 	</div>

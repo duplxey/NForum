@@ -4,8 +4,9 @@ from solo.models import SingletonModel
 
 class SiteConfiguration(SingletonModel):
     name = models.CharField(max_length=255, default="Site Name")
-    description = models.CharField(max_length=750, default="Site Description")
-    description_short = models.CharField(max_length=64, default="Site Short Description")
+    description = models.TextField(max_length=750, default="Site Description")
+    description_short = models.TextField(max_length=128, default="Site Short Description")
+    logo = models.ImageField(null=True, blank=True)
     maintenance_mode = models.BooleanField(default=False)
 
     def __str__(self):

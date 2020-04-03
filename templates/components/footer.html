@@ -1,11 +1,14 @@
 {% load site_settings %}
+{% load solo_tags %}
 
 <footer>
 	<div class="footer-top">
 		<div class="container">
 			<div class="row">
 				<div class="col-12 col-md-6">
-					Another forum software written in Python using the Django web framework.
+                    {% get_solo 'home.SiteConfiguration' as site_config %}
+                    <b>{{ site_config.name }}</b><br>
+                    {{ site_config.description_short }}
 				</div>
 				<div class="col-12 col-md-6">
 					<div class="social float-right">
