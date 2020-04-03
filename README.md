@@ -13,12 +13,21 @@ or talk in already existing ones. It has a built-in upvote/downvote (reputation)
 - Alerts (users get a notification when someone responds to their thread, are mentioned or their post is rated)
 
 ## Preparing the development environment
-1. Install Python and pip.
-1. Create a virtual environment (https://docs.python.org/3/tutorial/venv.html).
+1. Install Python and pip (https://www.python.org/downloads/).
+1. Create a new virtual environment (https://docs.python.org/3/tutorial/venv.html).
+1. Create a new `.env` file (in this directory) containing the following:
+    ```
+    SECRET_KEY = <django-secret-key>
+    DATABASE_NAME = <name>
+    DATABASE_USER = <user>
+    DATABASE_PASSWORD = <password>
+    DATABASE_PORT = <port>
+    DATABASE_HOST = <host>
+    ```
 1. Install the packages in requirements.txt (`pip install -r requirements.txt`).
 1. Run the server! (`python manage.py runserver`)
 
-NOTE: You'll also need a MySQL database running in the background. You can configure the DB access in nforum/settings.py.
+NOTE: You also need a database (preferably MySQL) running in the background. Provide your database credentials in `.env`.
 
 ## Admin panel
 You'll first need to create a super user using the following command:  
