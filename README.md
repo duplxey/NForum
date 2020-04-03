@@ -10,13 +10,13 @@ or talk in already existing ones. It has a built-in upvote/downvote (reputation)
 - Users are able to create their own threads (topics).
 - Reputation system (users can upvote or downvote each others' messages).
 - Achievement system (based on thread count, post count, upvotes, downvotes)
-- Alerts (users get a notification when someone responds to their thread or are mentioned)
+- Alerts (users get a notification when someone responds to their thread, are mentioned or their post is rated)
 
 ## Preparing the development environment
-1. Install Python.
+1. Install Python and pip.
 1. Create a virtual environment (https://docs.python.org/3/tutorial/venv.html).
-1. Install the packages in requirements.txt.
-1. Run the server! :)
+1. Install the packages in requirements.txt (`pip install -r requirements.txt`).
+1. Run the server! (`python manage.py runserver`)
 
 NOTE: You'll also need a MySQL database running in the background. You can configure the DB access in nforum/settings.py.
 

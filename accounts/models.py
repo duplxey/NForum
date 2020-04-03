@@ -10,10 +10,6 @@ class UserProfile(models.Model):
     description = models.TextField(max_length=750, default="Another cool user.")
     avatar = models.ImageField(null=True, blank=True, upload_to='images/')
 
-    @staticmethod
-    def get_profile(user):
-        return UserProfile.objects.get(user=user)
-
     def get_upvotes(self):
         a = 0
         for message in Message.objects.filter(author=self.user):
@@ -106,9 +102,9 @@ class Achievement(models.Model):
         elif criteria == Achievement.THREAD_COUNT:
             value = Thread.objects.filter(author=user).count()
         elif criteria == Achievement.UPVOTE_COUNT:
-            value = UserProfile.get_profile(user).get_upvotes()
+            value = user.userprofile.get_upvotes()
         elif criteria == Achievement.DOWNVOTE_COUNT:
-            value = UserProfile.get_profile(user).get_downvotes()
+            value = user.userprofile.get_downvotes()
 
         for locked_achievement in locked_achievements:
             if value >= locked_achievement.value:

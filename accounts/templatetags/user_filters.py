@@ -1,6 +1,6 @@
 from django import template
 
-from accounts.models import UserProfile, Alert
+from accounts.models import Alert
 from forum.models import Message, Thread
 
 register = template.Library()
@@ -9,7 +9,7 @@ register = template.Library()
 @register.filter(name='avatar')
 def avatar(user):
     if user.userprofile.avatar:
-        return UserProfile.get_profile(user).avatar.url
+        return user.userprofile.avatar.url
     else:
         return "https://eu.ui-avatars.com/api/?background=2E86AB&color=F3EFF5&bold=true&name=" + user.username + "&size=200"
 
@@ -26,22 +26,22 @@ def thread_count(user):
 
 @register.filter(name='upvote_count')
 def upvote_count(user):
-    return UserProfile.get_profile(user=user).get_upvotes()
+    return user.userprofile.get_upvotes()
 
 
 @register.filter(name='downvote_count')
 def downvote_count(user):
-    return UserProfile.get_profile(user=user).get_downvotes()
+    return user.userprofile.get_downvotes()
 
 
 @register.filter(name='reputation')
 def reputation(user):
-    return UserProfile.get_profile(user=user).get_reputation()
+    return user.userprofile.get_reputation()
 
 
 @register.filter(name='achievements')
 def achievements(user):
-    return UserProfile.get_profile(user=user).get_achievements()
+    return user.userprofile.get_achievements()
 
 
 @register.filter(name='unseen_alert_count')
