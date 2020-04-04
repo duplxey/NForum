@@ -8,7 +8,15 @@ from .models import WikiPage
 
 
 def index_view(request):
-    return page_view(request, 'wiki-index')
+    # If there are no pages yet, let's create a landing one
+    if WikiPage.objects.count() == 0:
+        WikiPage.objects.create(display_index=1, title="Wiki Index", url="index", content=
+            "<p style='text-align: center; font-weight:600;'>Welcome to NForum.</p>"
+            "<p style='text-align: center;'>NForum is a simple light-weight forum written in Python using Django. It allows users to create their own threads or talk in already existing ones. It has a built-in upvote/downvote (reputation) system, achievements, alerts & more!</p>"
+            "<p style='text-align: center;'><img src='https://i.imgur.com/JVuVPFA.gif' alt='' width='300' height='169'/></p>"
+            "<p style='text-align: center;'>The project is completely open-sourced on GitHub:</p>"
+            "<p style='text-align: center;'><a href='https://github.com/duplxey/NForum'>https://github.com/duplxey/NForum</a></p>")
+    return page_view(request, WikiPage.objects.first().url)
 
 
 def page_view(request, url):

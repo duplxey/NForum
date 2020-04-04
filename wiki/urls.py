@@ -9,6 +9,6 @@ urlpatterns = [
     path('change/<slug:url>/', views.page_change, name='wiki-page-change'),
     path('delete/<slug:url>/', views.page_delete, name='wiki-page-delete'),
 
-    # Due to no prefix, this URL needs to be first.
+    # Due to no prefix, this URL needs to be last.
     path('<slug:url>/', views.page_view, name='wiki-page'),
 ]

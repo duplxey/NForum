@@ -8,7 +8,7 @@ class WikiPage(models.Model):
     title = models.CharField(max_length=64, unique=True)
     url = models.SlugField(max_length=64, unique=True)
     content = HTMLField('Content', max_length=5000)
-    author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name='author')
+    author = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, related_name='author')
     last_editor = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, related_name='last_editor')
     created_datetime = models.DateTimeField(auto_now_add=True)
     edited_datetime = models.DateTimeField(null=True, blank=True)
