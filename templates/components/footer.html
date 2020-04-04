@@ -1,12 +1,12 @@
 {% load site_settings %}
 {% load solo_tags %}
+{% get_solo 'home.SiteConfiguration' as site_config %}
 
 <footer>
 	<div class="footer-top">
 		<div class="container">
 			<div class="row">
 				<div class="col-12 col-md-6">
-                    {% get_solo 'home.SiteConfiguration' as site_config %}
                     <b>{{ site_config.name }}</b><br>
                     {{ site_config.description_short }}
 				</div>
