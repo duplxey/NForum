@@ -1,8 +1,8 @@
 from django.apps import AppConfig
 
 
-class AccountsConfig(AppConfig):
-    name = 'accounts'
+class MembersConfig(AppConfig):
+    name = 'members'
 
     def ready(self):
         super().ready()

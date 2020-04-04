@@ -1,6 +1,6 @@
 from django import forms
 
-from accounts.models import UserProfile
+from .models import UserProfile
 
 
 class LoginForm(forms.Form):

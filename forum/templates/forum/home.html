@@ -23,7 +23,7 @@
                                 <div class="row">
                                     <div class="col-6 col-md-3 text-center">
                                         <img src="{{ thread.get_first_message.author|avatar }}" class="img-fluid avatar" alt="{{ thread.get_first_message.author.username }}'s avatar"><br>
-                                        <h5><a href="{% url "accounts-profile" username=thread.get_first_message.author.username %}">{{ thread.get_first_message.author }}</a></h5>
+                                        <h5><a href="{% url "members-profile" username=thread.get_first_message.author.username %}">{{ thread.get_first_message.author }}</a></h5>
                                         {% for group in thread.get_first_message.author.groups.all %}
                                             {% if forloop.counter == 1 %}{% endif %}
                                             <h6><span class="badge badge-primary">{{ group }}</span></h6>
@@ -59,7 +59,7 @@
                         {% if recent_messages %}
                             {% for recent_message in recent_messages %}
                                 {% if forloop.counter is not 1 %}<hr>{% endif %}
-                                <img src="{{ recent_message.author|avatar }}" class="avatar-mini" alt="{{ recent_message.author.username }}'s avatar"> <a href="{% url 'forum-thread' thread_title=recent_message.thread.title %}">{{ recent_message.thread.title }}</a><br><small>Last reply: <a href="{% url 'accounts-profile' username=recent_message.author.username %}">{{ recent_message.author.username }}</a> ({{ recent_message.date_posted }})<br>Subcategory: {{ recent_message.thread.subcategory.title }}</small>
+                                <img src="{{ recent_message.author|avatar }}" class="avatar-mini" alt="{{ recent_message.author.username }}'s avatar"> <a href="{% url 'forum-thread' thread_title=recent_message.thread.title %}">{{ recent_message.thread.title }}</a><br><small>Last reply: <a href="{% url 'members-profile' username=recent_message.author.username %}">{{ recent_message.author.username }}</a> ({{ recent_message.date_posted }})<br>Subcategory: {{ recent_message.thread.subcategory.title }}</small>
                             {% endfor %}
                         {% else %}
                             There are no recent messages yet.

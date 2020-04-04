@@ -29,7 +29,7 @@ urlpatterns = [
     path('search/', include('search.urls')),
     path('wiki/', include('wiki.urls')),
     path('', include('forum.urls')),
-    path('accounts/', include('accounts.urls')),
+    path('members/', include('members.urls')),
     path('admin/', admin.site.urls),
     path('maintenance/', views.maintenance_view, name='nforum-maintenance'),
     url(r'^tinymce/', include('tinymce.urls')),

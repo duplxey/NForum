@@ -43,9 +43,9 @@
                                         {% for thread in related_threads %}
                                             <tr>
                                                 <td><span class="badge" style="background: #{{ thread.prefix.color }};color:white;">{{ thread.prefix.name }}</span> <a href="{% url 'forum-thread' thread_title=thread.title %}">{{ thread.title }}</a></td>
-                                                <td><img src="{{ thread.author|avatar }}" class="img-fluid avatar-mini" alt="{{ thread.author.username }}'s avatar"> <a href="{% url "accounts-profile" username=thread.author.username %}">{{ thread.author }}</a></td>
+                                                <td><img src="{{ thread.author|avatar }}" class="img-fluid avatar-mini" alt="{{ thread.author.username }}'s avatar"> <a href="{% url "members-profile" username=thread.author.username %}">{{ thread.author }}</a></td>
                                                 <td>{{ thread.get_first_message.date_posted }}</td>
-                                                <td>{% if thread.get_last_message == thread.get_first_message  %}/{% else %}<img src="{{ thread.get_last_message.author|avatar }}" class="img-fluid avatar-mini" alt="{{ subcategory.get_latest_thread.author.username }}'s avatar"> <a href="{% url "accounts-profile" username=thread.get_last_message.author.username %}">{{ thread.get_last_message.author }}</a>{% endif %}</td>
+                                                <td>{% if thread.get_last_message == thread.get_first_message  %}/{% else %}<img src="{{ thread.get_last_message.author|avatar }}" class="img-fluid avatar-mini" alt="{{ subcategory.get_latest_thread.author.username }}'s avatar"> <a href="{% url "members-profile" username=thread.get_last_message.author.username %}">{{ thread.get_last_message.author }}</a>{% endif %}</td>
                                                 <td>{% if thread.get_last_message == thread.get_first_message  %}/{% else %}{{ thread.get_last_message.date_posted }}{% endif %}</td>
                                             </tr>
                                         {% endfor %}
@@ -77,7 +77,7 @@
                                                 <tr>
                                                     <td>{{ message.content|striptags }}</td>
                                                     <td><span class="badge" style="background: #{{ message.thread.prefix.color }};color:white;">{{ message.thread.prefix.name }}</span> <a href="{% url 'forum-thread' thread_title=message.thread.title %}">{{ message.thread.title }}</a></td>
-                                                    <td><img src="{{ message.author|avatar }}" class="img-fluid avatar-mini" alt="{{ message.author.username }}'s avatar"> <a href="{% url "accounts-profile" username=message.author.username %}">{{ message.author.username }}</a></td>
+                                                    <td><img src="{{ message.author|avatar }}" class="img-fluid avatar-mini" alt="{{ message.author.username }}'s avatar"> <a href="{% url "members-profile" username=message.author.username %}">{{ message.author.username }}</a></td>
                                                     <td>{{ message.date_posted }}</td>
                                                     <td>{% if message.date_edited is None  %}/{% else %}{{ message.date_edited }}{% endif %}</td>
                                                 </tr>
@@ -97,7 +97,7 @@
                             No users related to the query could be found.
                         {% endif %}
                         {% for user in related_users %}
-                            <img src="{{ user|avatar }}" class="img-fluid avatar-mini" alt="{{ user.username }}'s avatar"> <a href="{% url "accounts-profile" username=user.username %}">{{ user.username }}</a>
+                            <img src="{{ user|avatar }}" class="img-fluid avatar-mini" alt="{{ user.username }}'s avatar"> <a href="{% url "members-profile" username=user.username %}">{{ user.username }}</a>
                             {% if not forloop.last %}
                                 <hr>
                             {% endif %}

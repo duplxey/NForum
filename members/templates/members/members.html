@@ -34,7 +34,7 @@
                             {% for member in page.object_list %}
                                 <tr>
                                     <td>{{ member.pk }}</td>
-                                    <td><img src="{{ member|avatar }}" class="img-fluid avatar-mini" alt="{{ subcategory.get_latest_thread.author.username }}'s avatar"> <a href="{% url 'accounts-profile' username=member.username %}">{{ member.username }}</a></td>
+                                    <td><img src="{{ member|avatar }}" class="img-fluid avatar-mini" alt="{{ subcategory.get_latest_thread.author.username }}'s avatar"> <a href="{% url 'members-profile' username=member.username %}">{{ member.username }}</a></td>
                                     <td>
                                         {% for group in member.groups.all %}
                                             <span class="badge badge-primary">{{ group }}</span>

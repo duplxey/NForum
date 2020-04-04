@@ -31,7 +31,7 @@
                                             {% if subcategory.get_latest_thread == null %}
                                                 <small>No threads found.</small>
                                             {% else %}
-                                                <small>Latest thread:<br><a href="{% url 'forum-thread' thread_title=subcategory.get_latest_thread.title %}">{{ subcategory.get_latest_thread.title }}</a> by <a href="{% url 'accounts-profile' username=subcategory.get_latest_thread.author %}">{{ subcategory.get_latest_thread.author }}</a></small>
+                                                <small>Latest thread:<br><a href="{% url 'forum-thread' thread_title=subcategory.get_latest_thread.title %}">{{ subcategory.get_latest_thread.title }}</a> by <a href="{% url 'members-profile' username=subcategory.get_latest_thread.author %}">{{ subcategory.get_latest_thread.author }}</a></small>
                                             {% endif %}
                                         </div>
                                     </div>
@@ -54,7 +54,7 @@
                         {% if recent_messages %}
                             {% for recent_message in recent_messages %}
                                 {% if forloop.counter is not 1 %}<hr>{% endif %}
-                                <img src="{{ recent_message.author|avatar }}" class="avatar-mini" alt="{{ recent_message.author.username }}'s avatar"> <a href="{% url 'forum-thread' thread_title=recent_message.thread.title %}">{{ recent_message.thread.title }}</a><br><small>Last reply: <a href="{% url 'accounts-profile' username=recent_message.author.username %}">{{ recent_message.author.username }}</a> ({{ recent_message.date_posted }})<br>Subcategory: {{ recent_message.thread.subcategory.title }}</small>
+                                <img src="{{ recent_message.author|avatar }}" class="avatar-mini" alt="{{ recent_message.author.username }}'s avatar"> <a href="{% url 'forum-thread' thread_title=recent_message.thread.title %}">{{ recent_message.thread.title }}</a><br><small>Last reply: <a href="{% url 'members-profile' username=recent_message.author.username %}">{{ recent_message.author.username }}</a> ({{ recent_message.date_posted }})<br>Subcategory: {{ recent_message.thread.subcategory.title }}</small>
                             {% endfor %}
                         {% else %}
                             There are no recent messages yet.

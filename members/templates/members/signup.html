@@ -5,7 +5,7 @@
 {% block subtitle %}Sign up{% endblock %}
 
 {% block card-body %}
-	<form action="{% url 'accounts-signup' %}" method="post" novalidate>
+	<form action="{% url 'members-signup' %}" method="post" novalidate>
 		{% csrf_token %}
     	{{ form|crispy }}
 		<div class="text-center">
@@ -15,5 +15,5 @@
 {% endblock %}
 
 {% block card-under %}
-	Already have an account? <a href="{% url "accounts-login" %}" class="light">Log in</a>.
+	Already have an account? <a href="{% url "members-login" %}" class="light">Log in</a>.
 {% endblock %}

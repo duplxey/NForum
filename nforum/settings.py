@@ -35,7 +35,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'search.apps.SearchConfig',
-    'accounts.apps.AccountsConfig',
+    'members.apps.MembersConfig',
     'home.apps.HomeConfig',
     'wiki.apps.WikiConfig',
     'forum.apps.ForumConfig',
@@ -124,7 +124,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LOGIN_URL = "/accounts/login/"
+LOGIN_URL = "/members/login/"
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/

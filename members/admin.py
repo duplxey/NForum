@@ -1,5 +1,5 @@
 from django.contrib import admin
-from accounts.models import UserProfile, Alert, Achievement, UserAchievement
+from .models import UserProfile, Alert, Achievement, UserAchievement
 
 admin.site.register(UserProfile)
 admin.site.register(Alert)

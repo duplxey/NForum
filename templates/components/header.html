@@ -30,7 +30,7 @@
 						<a class="nav-link" href="{% url 'forum-forum' %}">Forums</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="{% url 'accounts-members' %}">Members</a>
+						<a class="nav-link" href="{% url 'members-members' %}">Members</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="{% url 'wiki-index' %}">Wiki</a>
@@ -44,24 +44,24 @@
 									Logged in as {{ user.username }}
 								</a>
 								<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-									<a class="dropdown-item" href="{% url "accounts-profile" username=user.username %}">Your profile</a>
-                                    <a class="dropdown-item" href="{% url "accounts-achievement" %}">Achievements</a>
-									<a class="dropdown-item" href="{% url "accounts-settings" %}">Settings</a>
+									<a class="dropdown-item" href="{% url "members-profile" username=user.username %}">Your profile</a>
+                                    <a class="dropdown-item" href="{% url "members-achievement" %}">Achievements</a>
+									<a class="dropdown-item" href="{% url "members-settings" %}">Settings</a>
 									<div class="dropdown-divider"></div>
-									<a class="dropdown-item" href="{% url "accounts-logout" %}">Logout</a>
+									<a class="dropdown-item" href="{% url "members-logout" %}">Logout</a>
 								</div>
 							</li>
                             <li class="nav-item">
-						        <a class="nav-link" href="{% url 'accounts-alert' %}">
+						        <a class="nav-link" href="{% url 'members-alert' %}">
                                     <span class="{% if user|unseen_alert_count > 0 %}text-warning{% endif %}"><i class="fas fa-bell"></i><sup>{% if user|unseen_alert_count > 0 %}{{ user|unseen_alert_count }}{% endif %}</sup></span>
                                 </a>
 					        </li>
 						{% else %}
 							<li class="nav-item">
-								<a class="nav-link" href="{% url 'accounts-login' %}"><i class="fas fa-sign-in-alt"></i> Login</a>
+								<a class="nav-link" href="{% url 'members-login' %}"><i class="fas fa-sign-in-alt"></i> Login</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="{% url 'accounts-signup' %}"><i class="fas fa-user-plus"></i> Sign up</a>
+								<a class="nav-link" href="{% url 'members-signup' %}"><i class="fas fa-user-plus"></i> Sign up</a>
 							</li>
 						{% endif %}
 						<li class="nav-item">

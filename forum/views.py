@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.views.decorators.http import require_http_methods
 
-from accounts.models import Achievement, Alert
+from members.models import Achievement, Alert
 from forum.forms import CreateThreadForm, PostReplyForm, PostDeleteForm
 from nforum.errors import insufficient_permission, unknown_thread, unknown_subcategory, unknown_message
 from .models import *

@@ -1,7 +1,6 @@
 from django import template
-
-from accounts.models import Alert
 from forum.models import Message, Thread
+from members.models import Alert
 
 register = template.Library()
 

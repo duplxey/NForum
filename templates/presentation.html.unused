@@ -68,7 +68,7 @@
 		<div class="container">
             <div class="text-center m-5">
                 <h2>Join NForum today!</h2>
-			    <a href="{% url 'accounts-signup' %}" class="btn btn-primary">Sign up - it's free!</a>
+			    <a href="{% url 'members-signup' %}" class="btn btn-primary">Sign up - it's free!</a>
             </div>
 		</div>
 	</div>
