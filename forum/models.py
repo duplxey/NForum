@@ -60,6 +60,14 @@ class Thread(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE)
     prefix = models.ForeignKey(ThreadPrefix, blank=True, null=True, on_delete=models.SET_DEFAULT, default=None)
+    locked = models.BooleanField(default=False)
+    locked_by = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL, related_name="locker")
+
+    class Meta:
+        permissions = [
+            ("lock_thread", "Can lock a thread."),
+            ("locked_thread_reply", "Can reply to a locked thread.")
+        ]
 
     def get_messages(self):
         return Message.objects.filter(thread=self).order_by('pk')
