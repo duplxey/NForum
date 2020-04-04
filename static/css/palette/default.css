@@ -1,10 +1,13 @@
 :root {
     --special: #2E86AB;
+    --special-dark: #065A82;
 
     --background: #FFFFFF;
-    --background-mid: #065A82;
     --background-gray: #E9ECEF;
     --background-dark: #2d2d2d;
+
+    --link: #007BFF;
+    --link-hover: #0056B3;
 
     --text-color: #282828;
     --text-color-hover: #232323;
@@ -13,25 +16,41 @@
 }
 
 .bg-special {
-    background: var(--special)
+    background: var(--special);
+}
+
+.bg-special-dark {
+    background: var(--special-dark);
 }
 
 .bg-normal {
-    background: var(--background)
-}
-
-.bg-mid {
-    background: var(--background-mid)
+    background: var(--background);
 }
 
 .bg-dark {
-    background: var(--background-dark)
+    background: var(--background-dark);
+}
+
+.cl-link {
+    color: var(--link);
+}
+
+.cl-link-hover {
+    color: var(--link-hover);
 }
 
 .cl-text {
-    color: var(--text-color)
+    color: var(--text-color);
+}
+
+.cl-text-hover {
+    color: var(--text-color-hover);
 }
 
 .cl-text-light {
-    color: var(--text-color-light)
+    color: var(--text-color-light);
+}
+
+.cl-text-light-hover {
+    color: var(--text-color-light-hover);
 }

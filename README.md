@@ -7,10 +7,12 @@ or talk in already existing ones. It has a built-in upvote/downvote (reputation)
 ## Features
 - Extremely easy to use UI.
 - Admin is able to create different thread subcategories that are grouped in thread categories.
-- Users are able to create their own threads (topics).
+- Users are able to create their own threads (topics) or talk in already existing ones.
+- Each user gets his own profile (with changeable description + avatar)
 - Reputation system (users can upvote or downvote each others' messages).
 - Achievement system (based on thread count, post count, upvotes, downvotes)
 - Alerts (users get a notification when someone responds to their thread, are mentioned or their post is rated)
+- Wiki pages (community can create wiki pages)
 
 ## Preparing the development environment
 1. Install Python and pip (https://www.python.org/downloads/).

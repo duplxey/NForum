@@ -1,3 +1,7 @@
 from django.contrib import admin
+from solo.admin import SingletonModelAdmin
 
-# Register your models here.
+from home.models import SiteConfiguration, SiteSocialNetwork
+
+admin.site.register(SiteConfiguration, SingletonModelAdmin)
+admin.site.register(SiteSocialNetwork)

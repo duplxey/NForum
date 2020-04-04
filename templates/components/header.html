@@ -1,11 +1,17 @@
 {% load static %}
 {% load user_filters %}
+{% load solo_tags %}
 
 <header>
 	<div class="header-top">
 		<div class="container">
-            <a href="{% url 'forum-index' %}">
-                <img src="{% static "img/logo.png" %}" alt="NForum Logo">
+            <a href="{% url 'forum-forum' %}">
+                {% get_solo 'home.SiteConfiguration' as site_config %}
+                {% if site_config.logo %}
+                    <img src="{{ site_config.logo.url }}" alt="{{ site_config.name }} Logo">
+                {% else %}
+                    <img src="{% static "img/logo.png" %}" alt="NForum Logo">
+                {% endif %}
             </a>
     	</div>
 	</div>
@@ -17,13 +23,11 @@
 			<div class="collapse navbar-collapse" id="navbarToggler">
 				<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                     <!-- Hide home/presentation page from logged in users, highly doubt they will ever click it -->
-                    {% if not user.is_authenticated %}
-                        <li class="nav-item">
-						    <a class="nav-link" href="{% url 'home-index' %}">Home</a>
-					    </li>
-                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'forum-home' %}">Home</a>
+                    </li>
 					<li class="nav-item">
-						<a class="nav-link" href="{% url 'forum-index' %}">Forums</a>
+						<a class="nav-link" href="{% url 'forum-forum' %}">Forums</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="{% url 'accounts-members' %}">Members</a>

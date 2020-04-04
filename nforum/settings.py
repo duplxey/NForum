@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'home.apps.HomeConfig',
     'wiki.apps.WikiConfig',
     'forum.apps.ForumConfig',
+    'solo.apps.SoloAppConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

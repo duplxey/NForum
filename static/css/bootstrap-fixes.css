@@ -1,13 +1,13 @@
 .bg-dark {
-    background: var(--background-mid) !important;
+    background: var(--special-dark) !important;
 }
 
 .breadcrumb {
-    margin-top: 12px;
+    margin-top: 1rem;
 }
 
 .card {
-    margin: 12px 0;
+    margin: 1rem 0;
 }
 
 .nav-link {

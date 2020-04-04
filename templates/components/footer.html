@@ -1,23 +1,29 @@
+{% load site_settings %}
+{% load solo_tags %}
+
 <footer>
 	<div class="footer-top">
 		<div class="container">
 			<div class="row">
 				<div class="col-12 col-md-6">
-					Another forum software written in Python using the Django web framework.
+                    {% get_solo 'home.SiteConfiguration' as site_config %}
+                    <b>{{ site_config.name }}</b><br>
+                    {{ site_config.description_short }}
 				</div>
 				<div class="col-12 col-md-6">
-					<ul class="social float-right">
-						<li class="social-item"><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="light-link"><i class="fab fa-facebook-f fa-lg"></i></a></li>
-						<li class="social-item"><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="light-link"><i class="fab fa-twitter fa-lg"></i></a></li>
-						<li class="social-item"><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="light-link"><i class="fab fa-youtube fa-lg"></i></a></li>
-					</ul>
+					<div class="social float-right">
+                        {% social_networks as networks %}
+                        {% for network in networks  %}
+                            <a href="{{ network.url }}" class="light pl-2"><i class="{{ network.fa_icon }} fa-lg"></i></a>
+                        {% endfor %}
+					</div>
 				</div>
 			</div>
     	</div>
 	</div>
 	<div class="footer-bottom">
-		<div class="container">
-			Made with <i class="fas fa-heart text-danger"></i> by duplxey.
+		<div class="container text-center">
+            <a href="https://github.com/duplxey/NForum" class="light"><small class="transparent">Powered by NForum</small></a>
 		</div>
 	</div>
 </footer>
