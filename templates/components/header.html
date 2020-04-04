@@ -5,7 +5,7 @@
 <header>
 	<div class="header-top">
 		<div class="container">
-            <a href="{% url 'forum-forum' %}">
+            <a href="{% url 'forum-index' %}">
                 {% get_solo 'home.SiteConfiguration' as site_config %}
                 {% if site_config.logo %}
                     <img src="{{ site_config.logo.url }}" alt="{{ site_config.name }} Logo">
@@ -24,10 +24,10 @@
 				<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                     <!-- Hide home/presentation page from logged in users, highly doubt they will ever click it -->
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'forum-home' %}">Home</a>
+                        <a class="nav-link" href="{% url 'home-index' %}">Home</a>
                     </li>
 					<li class="nav-item">
-						<a class="nav-link" href="{% url 'forum-forum' %}">Forums</a>
+						<a class="nav-link" href="{% url 'forum-index' %}">Forums</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="{% url 'members-members' %}">Members</a>
@@ -36,7 +36,7 @@
 						<a class="nav-link" href="{% url 'wiki-index' %}">Wiki</a>
 					</li>
 				</ul>
-				<form class="form-inline my-2 my-lg-0" method="GET" action="{% url "search-search" %}">
+				<form class="form-inline my-2 my-lg-0" method="GET" action="{% url "search-index" %}">
 					<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 						{% if user.is_authenticated %}
 							<li class="nav-item dropdown">
