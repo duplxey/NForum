@@ -66,7 +66,8 @@ class Thread(models.Model):
     class Meta:
         permissions = [
             ("lock_thread", "Can lock a thread."),
-            ("locked_thread_reply", "Can reply to a locked thread.")
+            ("locked_thread_reply", "Can reply to a locked thread."),
+            ("delete_other_threads", "Can delete other people's threads."),
         ]
 
     def get_messages(self):

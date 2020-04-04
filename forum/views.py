@@ -164,7 +164,7 @@ def message_remove_view(request, message_id):
         return unknown_message(request)
     thread = message.thread
 
-    if not message.author == request.user:
+    if not message.author == request.user and not request.user.has_perm("forum.delete_other_threads"):
         return insufficient_permission(request)
 
     form = PostDeleteForm()
