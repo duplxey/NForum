@@ -1,7 +1,7 @@
 <div class="card">
 	<div class="card-header">Wiki navigation</div>
 	<div class="card-body">
-		<ol>
+		<ol class="mb-0">
 			{% for wiki_page in wiki_pages %}
 				<li><a href="{% url "wiki-page" url=wiki_page.url %}">{{ wiki_page }}</a></li>
 			{% endfor %}

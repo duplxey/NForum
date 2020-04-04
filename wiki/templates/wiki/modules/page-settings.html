@@ -1,14 +1,14 @@
-{% if user_permissions.add or user_permissions.change or user_permissions.delete %}
+{% if perms.wiki.add_wikipage or perms.wiki.change_wikipage or perms.wiki.delete_wikipage %}
     <div class="card">
         <div class="card-header">Wiki settings</div>
         <div class="card-body">
-            {% if user_permissions.add %}
+            {% if perms.wiki.add_wikipage %}
                 <a href="{% url 'wiki-page-add' %}" class="btn btn-primary w-100 mb-2">Add a new page</a><br>
             {% endif %}
-            {% if user_permissions.change %}
+            {% if perms.wiki.change_wikipage %}
                 <a href="{% url 'wiki-page-change' url=wiki_page.url %}" class="btn btn-warning w-100 mb-2">Change (this) page</a><br>
             {% endif %}
-            {% if user_permissions.delete %}
+            {% if perms.wiki.delete_wikipage %}
                 <a href="{% url 'wiki-page-delete' url=wiki_page.url %}" class="btn btn-danger w-100 mb-2">Delete (this) page</a><br>
             {% endif %}
         </div>

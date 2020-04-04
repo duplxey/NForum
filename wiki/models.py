@@ -37,5 +37,9 @@ class WikiPage(models.Model):
         except WikiPage.DoesNotExist:
             return None
 
+    @staticmethod
+    def get_first_empty():
+        return WikiPage.objects.last().display_index + 1
+
     def __str__(self):
         return self.title

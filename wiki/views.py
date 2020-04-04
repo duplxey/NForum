@@ -6,41 +6,34 @@ from nforum.errors import *
 from wiki.forms import PageAddForm, PageChangeForm, PageDeleteForm
 from .models import WikiPage
 
+landing_wiki_text = \
+    "<p style='text-align: center; font-weight:600;'>Welcome to NForum.</p>" \
+    "<p style='text-align: center;'>NForum is a simple light-weight forum written in Python using Django. It allows users to create their own threads or talk in already existing ones. It has a built-in upvote/downvote (reputation) system, achievements, alerts & more!</p>" \
+    "<p style='text-align: center;'><img src='https://i.imgur.com/JVuVPFA.gif' alt='' width='300' height='169'/></p>" \
+    "<p style='text-align: center;'>The project is completely open-sourced on GitHub:</p>" \
+    "<p style='text-align: center;'><a href='https://github.com/duplxey/NForum'>https://github.com/duplxey/NForum</a></p>"
+
 
 def index_view(request):
     # If there are no pages yet, let's create a landing one
     if WikiPage.objects.count() == 0:
-        WikiPage.objects.create(display_index=1, title="Wiki Index", url="index", content=
-            "<p style='text-align: center; font-weight:600;'>Welcome to NForum.</p>"
-            "<p style='text-align: center;'>NForum is a simple light-weight forum written in Python using Django. It allows users to create their own threads or talk in already existing ones. It has a built-in upvote/downvote (reputation) system, achievements, alerts & more!</p>"
-            "<p style='text-align: center;'><img src='https://i.imgur.com/JVuVPFA.gif' alt='' width='300' height='169'/></p>"
-            "<p style='text-align: center;'>The project is completely open-sourced on GitHub:</p>"
-            "<p style='text-align: center;'><a href='https://github.com/duplxey/NForum'>https://github.com/duplxey/NForum</a></p>")
+        WikiPage.objects.create(display_index=1, title="Wiki Index", url="index", content=landing_wiki_text)
+
     return page_view(request, WikiPage.objects.first().url)
 
 
 def page_view(request, url):
-    passed = dict()
-
     try:
         wiki_page = WikiPage.objects.get(url=url)
     except WikiPage.DoesNotExist:
         return unknown_wiki_page(request)
 
-    passed['wiki_page'] = wiki_page
-    passed['next_wiki_page'] = wiki_page.get_next_page
-    passed['previous_wiki_page'] = wiki_page.get_previous_page
-    passed['wiki_pages'] = WikiPage.objects.all()
-
-    if request.user.is_authenticated:
-        permissions = {
-            'add': request.user.has_perm('wiki.add_wikipage'),
-            'change': request.user.has_perm('wiki.change_wikipage'),
-            'delete': request.user.has_perm('wiki.delete_wikipage'),
-        }
-        passed['user_permissions'] = permissions
-
-    return render(request, 'wiki/view.html', passed)
+    return render(request, 'wiki/view.html', {
+        'wiki_page': wiki_page,
+        'next_wiki_page': wiki_page.get_next_page,
+        'previous_wiki_page': wiki_page.get_previous_page,
+        'wiki_pages': WikiPage.objects.all()
+    })
 
 
 @login_required
@@ -48,10 +41,10 @@ def page_add(request):
     if not request.user.has_perm('wiki.add_wikipage'):
         return insufficient_permission(request)
 
-    form = PageAddForm()
+    form = PageAddForm(initial={'display_index': WikiPage.get_first_empty()})
 
     if request.method == 'POST':
-        form = PageAddForm(data=request.POST)
+        form = PageAddForm(data=request.POST, initial={'display_index': WikiPage.get_first_empty()})
 
         if form.is_valid():
             display_index = form.cleaned_data['display_index']
