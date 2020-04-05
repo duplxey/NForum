@@ -1,6 +1,6 @@
 from django import template
 
-from home.models import SiteSocialNetwork
+from settings.models import SiteSocialNetwork
 
 register = template.Library()
 
