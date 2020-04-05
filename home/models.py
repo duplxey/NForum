@@ -9,7 +9,6 @@ class SiteConfiguration(SingletonModel):
     keywords = models.TextField(max_length=750, default="keyword1, keyword2, keyword3, keyword4")
     favicon = models.ImageField(null=True, blank=True)
     logo = models.ImageField(null=True, blank=True)
-    maintenance_mode = models.BooleanField(default=False)
 
     def __str__(self):
         return "Site configuration"
