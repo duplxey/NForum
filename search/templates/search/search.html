@@ -19,7 +19,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h3>Search</h3>
-                        <p>Searching for '{{ keyword }}'.</p>
+                        Searching for '{{ keyword }}'.
                     </div>
                 </div>
                 <div class="card">
@@ -69,17 +69,15 @@
                                                 <th scope="col">Thread</th>
                                                 <th scope="col">Author</th>
                                                 <th scope="col">Time posted</th>
-                                                <th scope="col">Time edited</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {% for message in related_messages %}
                                                 <tr>
-                                                    <td>{{ message.content|striptags }}</td>
+                                                    <td>{{ message.content|striptags|truncatewords:5 }}</td>
                                                     <td><span class="badge" style="background: #{{ message.thread.prefix.color }};color:white;">{{ message.thread.prefix.name }}</span> <a href="{% url 'forum-thread' thread_title=message.thread.title %}">{{ message.thread.title }}</a></td>
                                                     <td><img src="{{ message.author|avatar }}" class="img-fluid avatar-mini" alt="{{ message.author.username }}'s avatar"> <a href="{% url "members-profile" username=message.author.username %}">{{ message.author.username }}</a></td>
                                                     <td>{{ message.date_posted }}</td>
-                                                    <td>{% if message.date_edited is None  %}/{% else %}{{ message.date_edited }}{% endif %}</td>
                                                 </tr>
                                             {% endfor %}
                                         </tbody>
