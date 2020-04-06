@@ -64,9 +64,11 @@ class Thread(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE)
     prefix = models.ForeignKey(ThreadPrefix, blank=True, null=True, on_delete=models.SET_DEFAULT, default=None)
+    pinned = models.BooleanField(default=False)
     locked = models.BooleanField(default=False)
 
     class Meta:
+        ordering = ["-pinned", "-pk"]
         permissions = [
             ("lock_thread", "Can lock a thread."),
             ("locked_thread_reply", "Can reply to a locked thread."),

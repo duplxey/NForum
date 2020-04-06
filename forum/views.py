@@ -246,7 +246,7 @@ def subcategory_view(request, subcategory_name):
     except Subcategory.DoesNotExist:
         return unknown_subcategory(request)
 
-    paginator = Paginator(Thread.objects.filter(subcategory=subcategory).order_by('-pk'), 12)
+    paginator = Paginator(Thread.objects.filter(subcategory=subcategory), 12)
     page = paginator.get_page(request.GET.get('page', 1))
 
     return render(request, 'forum/subcategory.html', {
