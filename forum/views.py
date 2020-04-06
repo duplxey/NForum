@@ -16,12 +16,14 @@ from .models import *
 def home_view(request):
     forum_config = ForumConfiguration.get_solo()
 
-    threads = []
+    page = []
     if forum_config.index_category:
-        threads = reversed(Thread.objects.filter(subcategory__category=forum_config.index_category))
+        paginator = Paginator(Thread.objects.filter(subcategory__category=forum_config.index_category), 5)
+        page = paginator.get_page(request.GET.get('page', 1))
 
     return render(request, 'forum/home.html', {
-        'threads': threads,
+        'category': forum_config.index_category,
+        'page': page,
         'recent_messages': Message.get_recent_messages(5),
         'thread_count': Thread.objects.count(),
         'message_count': Message.objects.count(),
@@ -181,7 +183,7 @@ def message_remove_view(request, message_id):
         return unknown_message(request)
     thread = message.thread
 
-    if not message.author == request.user and not request.user.has_perm("forum.delete_other_threads"):
+    if not message.author == request.user:
         return insufficient_permission(request)
 
     form = PostDeleteForm()

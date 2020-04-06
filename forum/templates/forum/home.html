@@ -11,11 +11,12 @@
 			<div class="col-12 col-md-9">
                 <nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
-						<li class="breadcrumb-item active">Home</li>
+                        <li class="breadcrumb-item active">Home</li>
+                        <li class="breadcrumb-item active">{{ category.title }}</li>
 					</ol>
 				</nav>
-                {% if threads %}
-                    {% for thread in threads %}
+                {% if page %}
+                    {% for thread in page.object_list %}
                         <div class="card">
                             <div class="card-body">
                                 <h5><span class="badge" style="background: #{{ thread.prefix.color }};color:white;">{{ thread.prefix.name }}</span> {{ thread.title }}</h5>
@@ -29,6 +30,7 @@
                             </div>
                         </div>
                     {% endfor %}
+                    {% include "components/pagination.html" with center=True hideable=False %}
                 {% else %}
                     <div class="card">
                         <div class="card-body">

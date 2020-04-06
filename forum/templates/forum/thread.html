@@ -22,22 +22,18 @@
 				<div class="card-body">
                     {% if forloop.counter == 1 %}
                         <h3><span class="badge" style="background: #{{ thread.prefix.color }};color:white;">{{ thread.prefix.name }}</span> {{ thread.title }}</h3>
-                        {% if perms.forum.delete_thread %}
-                            <a href="{% url 'forum-message-remove' message_id=message.pk %}" class="btn-sm btn-danger btn-xs">Delete thread</a>
-                        {% endif %}
-                        {% if perms.forum.lock_thread %}
-                            <a href="#" class="btn-sm btn-warning btn-xs">Lock thread</a>
-                        {% endif %}
                         <hr>
                     {% endif %}
 					<div class="row">
 						<div class="col-6 col-md-3 text-center">
-							<img src="{{ message.author|avatar }}" class="img-fluid avatar" alt="{{ message.author.username }}'s avatar"><br>
-                            <h5><a href="{% url "members-profile" username=message.author.username %}">{{ message.author }}</a></h5>
-							{% for group in message.author.groups.all %}
-								{% if forloop.counter == 1 %}{% endif %}
-								<h6><span class="badge badge-primary">{{ group }}</span></h6>
-							{% endfor %}
+                            <div style="border: 1px solid lightgray;padding:1rem;border-radius: 5px;">
+                                <img src="{{ message.author|avatar }}" class="img-fluid avatar" alt="{{ message.author.username }}'s avatar"><br>
+                                <h5><a href="{% url "members-profile" username=message.author.username %}">{{ message.author }}</a></h5>
+                                {% for group in message.author.groups.all %}
+                                    {% if forloop.counter == 1 %}{% endif %}
+                                    <h6><span class="badge badge-primary">{{ group }}</span></h6>
+                                {% endfor %}
+                            </div>
 						</div>
 						<div class="col-6 col-md-9">
 							<p>{{ message.content|safe }}</p>

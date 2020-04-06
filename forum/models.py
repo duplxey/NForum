@@ -65,7 +65,6 @@ class Thread(models.Model):
     subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE)
     prefix = models.ForeignKey(ThreadPrefix, blank=True, null=True, on_delete=models.SET_DEFAULT, default=None)
     locked = models.BooleanField(default=False)
-    locked_by = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL, related_name="locker")
 
     class Meta:
         permissions = [
