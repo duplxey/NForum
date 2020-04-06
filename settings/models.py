@@ -17,6 +17,17 @@ class SiteConfiguration(SingletonModel):
         verbose_name = "Site configuration"
 
 
+class SiteColorPalette(SingletonModel):
+    special_color = models.CharField(max_length=6, default="2E86AB")
+    special_dark_color = models.CharField(max_length=6, default="065A82")
+
+    def __str__(self):
+        return "Site color palette"
+
+    class Meta:
+        verbose_name = "Site color palette"
+
+
 class SiteSocialNetwork(models.Model):
     name = models.CharField(max_length=32)
     url = models.CharField(max_length=255)

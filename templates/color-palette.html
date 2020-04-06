@@ -1,0 +1,9 @@
+{# Because you can't use django tags in CSS files I've created this file to get colors out of the config #}
+{% load solo_tags %}
+{% get_solo 'settings.SiteColorPalette' as color_palette %}
+<style>
+    :root {
+        --special: #{{ color_palette.special_color }};
+        --special-dark: #{{ color_palette.special_dark_color }};
+    }
+</style>
