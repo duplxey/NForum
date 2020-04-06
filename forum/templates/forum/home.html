@@ -7,14 +7,14 @@
 
 {% block content %}
 	<div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active">Home</li>
+                <li class="breadcrumb-item active">{{ category.title }}</li>
+            </ol>
+        </nav>
 		<div class="row">
 			<div class="col-12 col-md-9">
-                <nav aria-label="breadcrumb">
-					<ol class="breadcrumb">
-                        <li class="breadcrumb-item active">Home</li>
-                        <li class="breadcrumb-item active">{{ category.title }}</li>
-					</ol>
-				</nav>
                 {% if page %}
                     {% for thread in page.object_list %}
                         <div class="card">

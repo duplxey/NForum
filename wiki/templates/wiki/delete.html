@@ -6,16 +6,16 @@
 
 {% block content %}
 	<div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url "index" %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url "wiki-index" %}">Wiki</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ wiki_page.title }}</li>
+                <li class="breadcrumb-item active" aria-current="page">Delete</li>
+            </ol>
+        </nav>
 		<div class="row">
 			<div class="col-12 col-md-9">
-				<nav aria-label="breadcrumb">
-				<ol class="breadcrumb">
-					<li class="breadcrumb-item"><a href="{% url "index" %}">Home</a></li>
-					<li class="breadcrumb-item"><a href="{% url "wiki-index" %}">Wiki</a></li>
-					<li class="breadcrumb-item active" aria-current="page">{{ wiki_page.title }}</li>
-                    <li class="breadcrumb-item active" aria-current="page">Delete</li>
-				</ol>
-				</nav>
 				<div class="card">
 					<div class="card-body">
                         <h3>Deleting {{ wiki_page.title }}</h3>
