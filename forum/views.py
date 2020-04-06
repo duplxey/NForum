@@ -13,6 +13,23 @@ from nforum.errors import insufficient_permission, unknown_thread, unknown_subca
 from .models import *
 
 
+def home_view(request):
+    forum_config = ForumConfiguration.get_solo()
+
+    threads = []
+    if forum_config.home_category:
+        threads = reversed(Thread.objects.filter(subcategory__category=forum_config.home_category))
+
+    return render(request, 'forum/home.html', {
+        'threads': threads,
+        'recent_messages': Message.get_recent_messages(5),
+        'thread_count': Thread.objects.count(),
+        'message_count': Message.objects.count(),
+        'registered_user_count': User.objects.count(),
+        'active_user_count': User.objects.filter(is_active=True).count(),
+    })
+
+
 def forum_view(request):
     return render(request, 'forum/index.html', {
         'categories': Category.objects.all(),

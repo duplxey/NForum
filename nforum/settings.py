@@ -36,7 +36,6 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'search.apps.SearchConfig',
     'members.apps.MembersConfig',
-    'home.apps.HomeConfig',
     'wiki.apps.WikiConfig',
     'forum.apps.ForumConfig',
     'settings.apps.SettingsConfig',

@@ -19,15 +19,17 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 
+from forum import views as f_views
+
 admin.site.site_header = "NForum"
 admin.site.site_title = "Welcome to the Control Panel."
 admin.site.index_title = "Welcome to the Control Panel."
 
 urlpatterns = [
-    path('', include('home.urls')),
+    path('', f_views.home_view, name='index'),
+    path('forum/', include('forum.urls')),
     path('search/', include('search.urls')),
     path('wiki/', include('wiki.urls')),
-    path('forum/', include('forum.urls')),
     path('members/', include('members.urls')),
     path('admin/', admin.site.urls),
     url(r'^tinymce/', include('tinymce.urls')),
