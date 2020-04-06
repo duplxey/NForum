@@ -18,9 +18,11 @@ class ThreadPrefix(models.Model):
 class Subcategory(models.Model):
     title = models.CharField(max_length=32)
     description = models.TextField(max_length=250)
+    y_display = models.SmallIntegerField(default=-1)
 
     class Meta:
         verbose_name_plural = "subcategories"
+        ordering = ["-y_display"]
 
     def get_threads(self):
         return Thread.objects.all().filter(subcategory=self)
@@ -47,9 +49,11 @@ class Category(models.Model):
     title = models.CharField(max_length=32)
     description = models.TextField(max_length=250)
     subcategories = models.ManyToManyField(Subcategory, blank=True)
+    y_display = models.SmallIntegerField(default=-1)
 
     class Meta:
         verbose_name_plural = "categories"
+        ordering = ["-y_display"]
 
     def __str__(self):
         return self.title + " (" + self.description + ")"
