@@ -12,7 +12,8 @@ def avatar(user):
         return user.userprofile.avatar.url
     else:
         special_color = SiteColorPalette.objects.get().special_color
-        return "https://eu.ui-avatars.com/api/?background=" + special_color + "&color=F3EFF5&bold=true&name=" + user.username + "&size=200"
+        text_color_light = SiteColorPalette.objects.get().text_color_light
+        return "https://eu.ui-avatars.com/api/?background=" + special_color + "&color=" + text_color_light + "&bold=true&name=" + user.username + "&size=200"
 
 
 @register.filter(name='post_count')

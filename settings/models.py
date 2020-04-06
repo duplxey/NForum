@@ -21,6 +21,18 @@ class SiteColorPalette(SingletonModel):
     special_color = models.CharField(max_length=6, default="2E86AB")
     special_dark_color = models.CharField(max_length=6, default="065A82")
 
+    background = models.CharField(max_length=6, default="FFFFFF")
+    background_gray = models.CharField(max_length=6, default="E9ECEF")
+    background_dark = models.CharField(max_length=6, default="2d2d2d")
+
+    link = models.CharField(max_length=6, default="007BFF")
+    link_hover = models.CharField(max_length=6, default="0056B3")
+
+    text_color = models.CharField(max_length=6, default="282828")
+    text_color_hover = models.CharField(max_length=6, default="232323")
+    text_color_light = models.CharField(max_length=6, default="ffffff")
+    text_color_light_hover = models.CharField(max_length=6, default="F3EFF5")
+
     def __str__(self):
         return "Site color palette"
 
