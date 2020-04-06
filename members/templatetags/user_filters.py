@@ -1,6 +1,7 @@
 from django import template
 from forum.models import Message, Thread
 from members.models import Alert
+from settings.models import SiteColorPalette
 
 register = template.Library()
 
@@ -10,7 +11,8 @@ def avatar(user):
     if user.userprofile.avatar:
         return user.userprofile.avatar.url
     else:
-        return "https://eu.ui-avatars.com/api/?background=2E86AB&color=F3EFF5&bold=true&name=" + user.username + "&size=200"
+        special_color = SiteColorPalette.objects.get().special_color
+        return "https://eu.ui-avatars.com/api/?background=" + special_color + "&color=F3EFF5&bold=true&name=" + user.username + "&size=200"
 
 
 @register.filter(name='post_count')
