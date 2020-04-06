@@ -20,26 +20,11 @@
                             <div class="card-body">
                                 <h5><span class="badge" style="background: #{{ thread.prefix.color }};color:white;">{{ thread.prefix.name }}</span> {{ thread.title }}</h5>
                                 <hr>
-                                <div class="row">
-                                    <div class="col-6 col-md-3 text-center">
-                                        <img src="{{ thread.get_first_message.author|avatar }}" class="img-fluid avatar" alt="{{ thread.get_first_message.author.username }}'s avatar"><br>
-                                        <h5><a href="{% url "members-profile" username=thread.get_first_message.author.username %}">{{ thread.get_first_message.author }}</a></h5>
-                                        {% for group in thread.get_first_message.author.groups.all %}
-                                            {% if forloop.counter == 1 %}{% endif %}
-                                            <h6><span class="badge badge-primary">{{ group }}</span></h6>
-                                        {% endfor %}
-                                    </div>
-                                    <div class="col-6 col-md-9">
-                                        <p>{{ thread.get_first_message.content|safe }}</p>
-                                        <hr>
-                                        <small>{{ thread.get_first_message.author }}, posted on {{ thread.get_first_message.date_posted }} {% if thread.get_first_message.date_edited is not null %}(last edited: {{ thread.get_first_message.date_edited }}){% endif %}
-                                            {% if thread.get_first_message.author == request.user %}[ <a href="{% url 'forum-message-edit' message_id=thread.get_first_message.pk %}">Edit</a> ] [ <a href="{% url 'forum-message-remove' message_id=thread.get_first_message.pk %}">Remove</a> ]{% endif %}
-                                            <span class="float-right">
-                                                <a {% if thread.get_first_message.author != user %}id="up-{{ thread.get_first_message.pk }}"{% endif %} class="text-success"><span id="up-place-{{ thread.get_first_message.pk }}">{{ thread.get_first_message.upvoters.count }}</span> <i class="fas fa-chevron-up"></i></a>
-                                                <a {% if thread.get_first_message.author != user %}id="down-{{ thread.get_first_message.pk }}"{% endif %} class="text-danger"><span id="down-place-{{ thread.get_first_message.pk }}">{{ thread.get_first_message.downvoters.count }}</span> <i class="fas fa-chevron-down"></i></a>
-                                            </span>
-                                        </small>
-                                    </div>
+                                <small><a href="{% url "members-profile" username=thread.get_first_message.author.username %}">{{ thread.get_first_message.author }}</a>, posted on {{ thread.get_first_message.date_posted }} {% if thread.get_first_message.date_edited is not null %}(last edited: {{ thread.get_first_message.date_edited }}){% endif %}</small>
+                                <p>{{ thread.get_first_message.content|safe|truncatewords:200 }}</p>
+                                <hr>
+                                <div class="text-center">
+                                    <a href="{% url "forum-thread" thread_title=thread.title %}">View the thread</a>
                                 </div>
                             </div>
                         </div>

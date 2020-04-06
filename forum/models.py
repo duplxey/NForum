@@ -125,7 +125,7 @@ class Message(models.Model):
 
 
 class ForumConfiguration(SingletonModel):
-    home_category = models.ForeignKey(to=Category, null=True, blank=True, default=None, on_delete=models.CASCADE)
+    index_category = models.ForeignKey(to=Category, null=True, blank=True, default=None, on_delete=models.CASCADE)
 
     def __str__(self):
         return "Forum configuration"

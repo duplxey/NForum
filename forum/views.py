@@ -17,8 +17,8 @@ def home_view(request):
     forum_config = ForumConfiguration.get_solo()
 
     threads = []
-    if forum_config.home_category:
-        threads = reversed(Thread.objects.filter(subcategory__category=forum_config.home_category))
+    if forum_config.index_category:
+        threads = reversed(Thread.objects.filter(subcategory__category=forum_config.index_category))
 
     return render(request, 'forum/home.html', {
         'threads': threads,
