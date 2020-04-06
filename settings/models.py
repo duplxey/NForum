@@ -22,7 +22,7 @@ class SiteColorPalette(SingletonModel):
     special_dark_color = models.CharField(max_length=6, default="065A82")
 
     background = models.CharField(max_length=6, default="FFFFFF")
-    background_gray = models.CharField(max_length=6, default="E9ECEF")
+    background_gray = models.CharField(max_length=6, default="F3F3F3")
     background_dark = models.CharField(max_length=6, default="2d2d2d")
 
     link = models.CharField(max_length=6, default="007BFF")

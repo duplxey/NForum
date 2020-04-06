@@ -13,6 +13,8 @@ or talk in already existing ones. It has a built-in upvote/downvote (reputation)
 - Achievement system (based on thread count, post count, upvotes, downvotes)
 - Alerts (users get a notification when someone responds to their thread, are mentioned or their post is rated)
 - Wiki pages (community can create wiki pages)
+- Basic customization (site name, logo, favicon title, description, short description)
+- Customizable site color palette
 
 ## Preparing the development environment
 1. Install Python and pip (https://www.python.org/downloads/).
