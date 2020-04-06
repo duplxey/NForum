@@ -7,13 +7,13 @@
 
 {% block content %}
 	<div class="container">
-		<nav aria-label="breadcrumb">
-			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
-				<li class="breadcrumb-item"><a href="{% url 'forum-index' %}">Forums</a></li>
-				<li class="breadcrumb-item active" aria-current="page">{{ subcategory.title }}</li>
-			</ol>
-		</nav>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'forum-index' %}">Forums</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ subcategory.title }}</li>
+            </ol>
+        </nav>
 		<div class="card">
 			<div class="card-body">
                 <h3>{{ subcategory.title }}</h3>
@@ -21,7 +21,7 @@
                 <hr>
                 {% include "forum/block/thread-create.html" %}
                 {% include "components/pagination.html" %}
-				{% if not page.object_list|length %}
+				{% if not page.object_list %}
                     <hr>
 					There are no threads under this category yet or your page number is too high.
                     <hr>

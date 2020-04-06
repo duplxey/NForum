@@ -68,7 +68,7 @@ class Thread(models.Model):
     locked = models.BooleanField(default=False)
 
     class Meta:
-        ordering = ["-pinned", "-pk"]
+        ordering = ["-pk"]
         permissions = [
             ("lock_thread", "Can lock a thread."),
             ("locked_thread_reply", "Can reply to a locked thread."),
