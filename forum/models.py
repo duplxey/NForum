@@ -50,6 +50,7 @@ class Category(models.Model):
     description = models.TextField(max_length=250)
     subcategories = models.ManyToManyField(Subcategory, blank=True)
     y_display = models.SmallIntegerField(default=-1)
+    staff_only = models.BooleanField(default=False)
 
     class Meta:
         verbose_name_plural = "categories"
@@ -73,6 +74,7 @@ class Thread(models.Model):
             ("lock_thread", "Can lock a thread."),
             ("locked_thread_reply", "Can reply to a locked thread."),
             ("delete_other_threads", "Can delete other people's threads."),
+            ("create_thread_in_staff_only", "Can create threads in staff only categories."),
         ]
 
     def get_messages(self):

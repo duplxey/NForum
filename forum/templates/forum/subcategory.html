@@ -19,7 +19,13 @@
                 <h3>{{ subcategory.title }}</h3>
                 <p>{{ subcategory.description }}</p>
                 <hr>
-                {% include "forum/block/thread-create.html" %}
+                <div class="float-right">
+                    {% if user.is_authenticated %}
+                        <a class="btn btn-primary" href="{% url 'forum-thread-create' subcategory_name=subcategory.title %}">Create a new thread</a>
+                    {% else %}
+                        <a class="btn btn-danger" href="#">You are not logged in.</a>
+                    {% endif %}
+                </div>
                 {% include "components/pagination.html" %}
 				{% if not page.object_list %}
                     <hr>
@@ -51,7 +57,13 @@
                         </table>
                     </div>
 				{% endif %}
-                {% include "forum/block/thread-create.html" %}
+                <div class="float-right">
+                    {% if user.is_authenticated %}
+                        <a class="btn btn-primary" href="{% url 'forum-thread-create' subcategory_name=subcategory.title %}">Create a new thread</a>
+                    {% else %}
+                        <a class="btn btn-danger" href="#">You are not logged in.</a>
+                    {% endif %}
+                </div>
                 {% include "components/pagination.html" %}
 			</div>
 		</div>
