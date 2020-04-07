@@ -21,7 +21,7 @@
                             <div class="card-body">
                                 <h3>{{ category.title }}</h3>
                                 <p>{{ category.description }}</p>
-                                {% for subcategory in category.subcategories.all %}
+                                {% for subcategory in category.get_subcategories %}
                                     <hr>
                                     <div class="row">
                                         <div class="col-9">

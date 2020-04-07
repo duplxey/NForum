@@ -15,9 +15,27 @@ class ThreadPrefix(models.Model):
         return self.name
 
 
+class Category(models.Model):
+    title = models.CharField(max_length=32)
+    description = models.TextField(max_length=250)
+    y_display = models.SmallIntegerField(default=-1)
+    staff_only = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name_plural = "categories"
+        ordering = ["-y_display"]
+
+    def get_subcategories(self):
+        return Subcategory.objects.filter(category=self)
+
+    def __str__(self):
+        return self.title + " (" + self.description + ")"
+
+
 class Subcategory(models.Model):
     title = models.CharField(max_length=32)
     description = models.TextField(max_length=250)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     y_display = models.SmallIntegerField(default=-1)
 
     class Meta:
@@ -40,21 +58,6 @@ class Subcategory(models.Model):
         for thread in Thread.objects.filter(subcategory=self):
             message_count = message_count + thread.get_messages().count()
         return message_count
-
-    def __str__(self):
-        return self.title + " (" + self.description + ")"
-
-
-class Category(models.Model):
-    title = models.CharField(max_length=32)
-    description = models.TextField(max_length=250)
-    subcategories = models.ManyToManyField(Subcategory, blank=True)
-    y_display = models.SmallIntegerField(default=-1)
-    staff_only = models.BooleanField(default=False)
-
-    class Meta:
-        verbose_name_plural = "categories"
-        ordering = ["-y_display"]
 
     def __str__(self):
         return self.title + " (" + self.description + ")"
