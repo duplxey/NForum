@@ -21,15 +21,19 @@
                 <hr>
                 <div class="float-right">
                     {% if user.is_authenticated %}
-                        <a class="btn btn-primary" href="{% url 'forum-thread-create' subcategory_name=subcategory.title %}">Create a new thread</a>
+                        {% if subcategory.category.staff_only and not perms.forum.create_thread_in_staff_only %}
+                            <small>(You have insufficient permissions to create a thread here.)</small>
+                        {% else %}
+                            <a class="btn btn-primary" href="{% url 'forum-thread-create' subcategory_name=subcategory.title %}">Create a new thread</a>
+                        {% endif %}
                     {% else %}
-                        <a class="btn btn-danger" href="#">You are not logged in.</a>
+                        <small>(You need to be logged in order to create a thread.)</small>
                     {% endif %}
                 </div>
                 {% include "components/pagination.html" %}
 				{% if not page.object_list %}
                     <hr>
-					There are no threads under this category yet or your page number is too high.
+					There are no threads in this subcategory yet.
                     <hr>
 				{% else %}
                     <div class="table-responsive">
@@ -59,9 +63,13 @@
 				{% endif %}
                 <div class="float-right">
                     {% if user.is_authenticated %}
-                        <a class="btn btn-primary" href="{% url 'forum-thread-create' subcategory_name=subcategory.title %}">Create a new thread</a>
+                        {% if subcategory.category.staff_only and not perms.forum.create_thread_in_staff_only %}
+                            <small>(You have insufficient permissions to create a thread here.)</small>
+                        {% else %}
+                            <a class="btn btn-primary" href="{% url 'forum-thread-create' subcategory_name=subcategory.title %}">Create a new thread</a>
+                        {% endif %}
                     {% else %}
-                        <a class="btn btn-danger" href="#">You are not logged in.</a>
+                        <small>(You need to be logged in order to create a thread.)</small>
                     {% endif %}
                 </div>
                 {% include "components/pagination.html" %}
