@@ -10,6 +10,12 @@ class UserProfile(models.Model):
     description = models.TextField(max_length=750, default="Another cool user.")
     avatar = models.ImageField(null=True, blank=True, upload_to='images/')
 
+    @staticmethod
+    def get_reputation_ordered_user_list():
+        unsorted = User.objects.all()
+        a = sorted(unsorted, key=lambda t: -t.userprofile.get_reputation())
+        return a
+
     def get_upvotes(self):
         a = 0
         for message in Message.objects.filter(author=self.user):

@@ -78,7 +78,7 @@ def logout_view(request):
 
 
 def members_view(request):
-    paginator = Paginator(User.objects.order_by("-pk"), 25)
+    paginator = Paginator(UserProfile.get_reputation_ordered_user_list(), 25)
     page = paginator.get_page(request.GET.get('page', 1))
 
     return render(request, 'members/members.html', {

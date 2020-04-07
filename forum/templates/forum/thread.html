@@ -38,7 +38,7 @@
 						<div class="col-6 col-md-9">
 							<p>{{ message.content|safe }}</p>
 							<hr>
-							<small>{{ message.author }}, posted on {{ message.date_posted }} {% if message.date_edited is not null %}(last edited: {{ message.date_edited }}){% endif %}
+							<small><a href="{% url "members-profile" username=message.author.username %}">{{ message.author }}</a>, posted on {{ message.date_posted }} {% if message.date_edited is not null %}(last edited: {{ message.date_edited }}){% endif %}
                                 {% if message.author == request.user %}[ <a href="{% url 'forum-message-edit' message_id=message.pk %}">Edit</a> ] [ <a href="{% url 'forum-message-remove' message_id=message.pk %}">Remove</a> ]{% endif %}
                                 <span class="float-right">
                                     <a {% if message.author != user %}id="up-{{ message.pk }}"{% endif %} class="text-success"><span id="up-place-{{ message.pk }}">{{ message.upvoters.count }}</span> <i class="fas fa-chevron-up"></i></a>

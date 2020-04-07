@@ -15,6 +15,7 @@ or talk in already existing ones. It has a built-in upvote/downvote (reputation)
 - Wiki pages (community can create wiki pages)
 - Basic customization (site name, logo, favicon title, description, short description)
 - Customizable site color palette
+- Thread locking and pinning
 
 ## Preparing the development environment
 1. Install Python and pip (https://www.python.org/downloads/).
