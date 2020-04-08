@@ -5,17 +5,17 @@ or talk in already existing ones. It has a built-in upvote/downvote (reputation)
 > :warning: The project is still under heavy development and should not be used in production in it's current state.
 
 ## Features
-- Extremely easy to use UI.
-- Admin is able to create different thread subcategories that are grouped in thread categories.
-- Users are able to create their own threads (topics) or talk in already existing ones.
-- Each user gets his own profile (with changeable description + avatar)
-- Reputation system (users can upvote or downvote each others' messages).
-- Achievement system (based on thread count, post count, upvotes, downvotes)
+- Extremely easy to use UI (+ admin panel)
+- Thread categories & subcategories
+- Thread locking & pinning
+- User profiles (avatar, description, recent threads & posts)
+- Reputation system (users can upvote or downvote each others' messages)
+- Achievement system (users get achievements based on thread count, post count, upvotes, downvotes)
 - Alerts (users get a notification when someone responds to their thread, are mentioned or their post is rated)
-- Wiki pages (community can create wiki pages)
+- Users are able to create their own threads (topics) or talk in already existing ones.
+- Wiki (community can create and edit wiki pages)
 - Basic customization (site name, logo, favicon title, description, short description)
 - Customizable site color palette
-- Thread locking and pinning
 
 ## Preparing the development environment
 1. Install Python and pip (https://www.python.org/downloads/).
