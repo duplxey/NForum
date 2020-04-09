@@ -43,7 +43,7 @@
 						{% if previous_wiki_page is not None %}
 							<li class="page-item"><a class="page-link" href="{% url 'wiki-page' url=previous_wiki_page.url %}">Previous</a></li>
 						{% endif %}
-						<li class="page-item"><a class="page-link active" href="#">{{ wiki_page.display_index }}</a></li>
+						<li class="page-item active"><a class="page-link" href="#">{{ wiki_page.display_index }}</a></li>
 						{% if next_wiki_page is not None %}
 							<li class="page-item"><a class="page-link" href="{% url 'wiki-page' url=next_wiki_page.url %}">Next</a></li>
 						{% endif %}
