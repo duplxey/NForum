@@ -143,7 +143,7 @@ def alert_view(request):
         alert.seen = timezone.now()
         alert.save()
 
-    return render(request, 'members/alert.html', {'alerts': request.user.userprofile.get_alerts()})
+    return render(request, 'members/alert.html', {})
 
 
 @login_required

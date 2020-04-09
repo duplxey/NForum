@@ -19,28 +19,29 @@
 				<div class="card">
 					<div class="card-body">
                         <h3>Alerts</h3>
-                        {% if alerts|length == 0 %}
+                        {% if request.user.userprofile.get_alerts %}
+                            {% for alert in request.user.userprofile.get_alerts %}
+                                <hr>
+                                {% if alert.type == 'ME' %}
+                                    <i class="fas fa-at"></i> <a href="{% url 'members-profile' username=alert.caused_by %}"><img src="{{ alert.caused_by|avatar }}" class="img-fluid avatar-mini" alt="{{ alert.caused_by.username }}'s avatar"> {{ alert.caused_by.username }}</a> mentioned you in <a href="{% url 'forum-thread' thread_title=alert.thread.title  %}">{{ alert.thread.title }}</a>.<br>
+                                    <small>{{ alert.message|default:"" }} {{ alert.datetime }}</small>
+                                {% elif alert.type == 'RE' %}
+                                    <i class="fas fa-bell"></i> <a href="{% url 'members-profile' username=alert.caused_by %}"><img src="{{ alert.caused_by|avatar }}" class="img-fluid avatar-mini" alt="{{ alert.caused_by.username }}'s avatar"> {{ alert.caused_by.username }}</a> responded to thread <a href="{% url 'forum-thread' thread_title=alert.thread.title  %}">{{ alert.thread.title }}</a>.<br>
+                                    <small>{{ alert.message|default:"" }} {{ alert.datetime }}</small>
+                                {% elif alert.type == 'UP' %}
+                                    <i class="fas fa-chevron-up"></i> <a href="{% url 'members-profile' username=alert.caused_by %}"><img src="{{ alert.caused_by|avatar }}" class="img-fluid avatar-mini" alt="{{ alert.caused_by.username }}'s avatar"> {{ alert.caused_by.username }}</a> upvoted your post <a href="{% url 'forum-thread' thread_title=alert.thread.title  %}">{{ alert.thread.title }}</a>.<br>
+                                    <small>{{ alert.message|default:"" }} {{ alert.datetime }}</small>
+                                {% elif alert.type == 'DO' %}
+                                    <i class="fas fa-chevron-down"></i> <a href="{% url 'members-profile' username=alert.caused_by %}"><img src="{{ alert.caused_by|avatar }}" class="img-fluid avatar-mini" alt="{{ alert.caused_by.username }}'s avatar"> {{ alert.caused_by.username }}</a> downvoted your post <a href="{% url 'forum-thread' thread_title=alert.thread.title  %}">{{ alert.thread.title }}</a>.<br>
+                                    <small>{{ alert.message|default:"" }} {{ alert.datetime }}</small>
+                                {% elif alert.type == 'AC' %}
+                                    <i class="fas fa-trophy"></i> You just got a new achievement!<br>
+                                    <small><a href="{% url 'members-achievement' %}">Click me to view your achievements.</a></small>
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
                             You do not have any alerts.
                         {% endif %}
-                        {% for alert in alerts %}
-                            <hr>
-                            {% if alert.type == 'ME' %}
-                                <i class="fas fa-at"></i> <a href="{% url 'members-profile' username=alert.caused_by %}"><img src="{{ alert.caused_by|avatar }}" class="img-fluid avatar-mini" alt="{{ alert.caused_by.username }}'s avatar"> {{ alert.caused_by.username }}</a> mentioned you in <a href="{% url 'forum-thread' thread_title=alert.thread.title  %}">{{ alert.thread.title }}</a>.<br>
-                                <small>{{ alert.message|default:"" }} {{ alert.datetime }}</small>
-                            {% elif alert.type == 'RE' %}
-                                <i class="fas fa-bell"></i> <a href="{% url 'members-profile' username=alert.caused_by %}"><img src="{{ alert.caused_by|avatar }}" class="img-fluid avatar-mini" alt="{{ alert.caused_by.username }}'s avatar"> {{ alert.caused_by.username }}</a> responded to thread <a href="{% url 'forum-thread' thread_title=alert.thread.title  %}">{{ alert.thread.title }}</a>.<br>
-                                <small>{{ alert.message|default:"" }} {{ alert.datetime }}</small>
-                            {% elif alert.type == 'UP' %}
-                                <i class="fas fa-chevron-up"></i> <a href="{% url 'members-profile' username=alert.caused_by %}"><img src="{{ alert.caused_by|avatar }}" class="img-fluid avatar-mini" alt="{{ alert.caused_by.username }}'s avatar"> {{ alert.caused_by.username }}</a> upvoted your post <a href="{% url 'forum-thread' thread_title=alert.thread.title  %}">{{ alert.thread.title }}</a>.<br>
-                                <small>{{ alert.message|default:"" }} {{ alert.datetime }}</small>
-                            {% elif alert.type == 'DO' %}
-                                <i class="fas fa-chevron-down"></i> <a href="{% url 'members-profile' username=alert.caused_by %}"><img src="{{ alert.caused_by|avatar }}" class="img-fluid avatar-mini" alt="{{ alert.caused_by.username }}'s avatar"> {{ alert.caused_by.username }}</a> downvoted your post <a href="{% url 'forum-thread' thread_title=alert.thread.title  %}">{{ alert.thread.title }}</a>.<br>
-                                <small>{{ alert.message|default:"" }} {{ alert.datetime }}</small>
-                            {% elif alert.type == 'AC' %}
-                                <i class="fas fa-trophy"></i> You just got a new achievement!<br>
-                                <small><a href="{% url 'members-achievement' %}">Click me to view your achievements.</a></small>
-                            {% endif %}
-                        {% endfor %}
 					</div>
 				</div>
 			</div>
