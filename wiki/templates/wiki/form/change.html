@@ -2,7 +2,7 @@
 
 {% load crispy_forms_tags %}
 
-{% block subtitle %}Delete a wiki page{% endblock %}
+{% block subtitle %}Edit a wiki page{% endblock %}
 
 {% block content %}
 	<div class="container">
@@ -11,21 +11,20 @@
                 <li class="breadcrumb-item"><a href="{% url "index" %}">Home</a></li>
                 <li class="breadcrumb-item"><a href="{% url "wiki-index" %}">Wiki</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{ wiki_page.title }}</li>
-                <li class="breadcrumb-item active" aria-current="page">Delete</li>
+                <li class="breadcrumb-item active" aria-current="page">Edit</li>
             </ol>
         </nav>
 		<div class="row">
 			<div class="col-12 col-md-9">
 				<div class="card">
 					<div class="card-body">
-                        <h3>Deleting {{ wiki_page.title }}</h3>
+                        <h3>Editing {{ wiki_page.title }}</h3>
                         <hr>
-						Do you really want to delete this page?
-						<form action="{% url 'wiki-page-delete' url=wiki_page.url %}" method="post" novalidate>
+						<form action="{% url 'wiki-page-change' url=wiki_page.url %}" method="post">
 							{% csrf_token %}
 							{{ form|crispy }}
 							<div class="text-center">
-								<button class="btn btn-danger" type="submit">Delete</button>
+								<button class="btn btn-primary" type="submit">Save changes</button>
 							</div>
 						</form>
 					</div>

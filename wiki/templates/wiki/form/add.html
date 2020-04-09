@@ -19,7 +19,7 @@
 					<div class="card-body">
                         <h3>Add a new page</h3>
                         <hr>
-						<form action="{% url 'wiki-page-add' %}" method="post" novalidate>
+						<form action="{% url 'wiki-page-add' %}" method="post">
 							{% csrf_token %}
 							{{ form|crispy }}
 							<div class="text-center">

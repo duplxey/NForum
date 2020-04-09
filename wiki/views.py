@@ -57,7 +57,7 @@ def page_add(request):
 
             return redirect('wiki-page', url=url)
 
-    return render(request, 'wiki/add.html', {
+    return render(request, 'wiki/form/add.html', {
         'wiki_pages': WikiPage.objects.all(),
         'form': form,
     })
@@ -88,7 +88,7 @@ def page_change(request, url):
 
             return redirect('wiki-page', url=url)
 
-    return render(request, 'wiki/change.html', {
+    return render(request, 'wiki/form/change.html', {
         'wiki_pages': WikiPage.objects.all(),
         'form': form,
         'wiki_page': wiki_page,
@@ -115,7 +115,7 @@ def page_delete(request, url):
 
             return redirect('wiki-index')
 
-    return render(request, 'wiki/delete.html', {
+    return render(request, 'wiki/form/delete.html', {
         'wiki_pages': WikiPage.objects.all(),
         'form': form,
         'wiki_page': wiki_page,
