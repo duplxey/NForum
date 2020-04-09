@@ -148,9 +148,4 @@ def alert_view(request):
 
 @login_required
 def achievement_view(request):
-    user = request.user
-
-    return render(request, 'members/achievement.html', {
-        'unlocked_achievements': user.userprofile.get_unlocked_achievements(),
-        'locked_achievements': user.userprofile.get_locked_achievements()
-    })
+    return render(request, 'members/achievement.html', {})

@@ -40,7 +40,7 @@
                         Registration: {{ passed_user.date_joined|date:"d.m.Y" }}<br>
                         Threads started: {{ passed_user.userprofile.get_thread_count }}<br>
                         Messages posted: {{ passed_user.userprofile.get_post_count }}<br>
-                        Achievements: {{ passed_user.userprofile.get_unlocked_achievements }}<br>
+                        Achievements: {{ passed_user.userprofile.get_unlocked_achievements.count }}<br>
 					</div>
 				</div>
 			</div>

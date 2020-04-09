@@ -19,29 +19,32 @@
 				<div class="card">
 					<div class="card-body">
                         <h3>Unlocked achievements</h3>
-                        {% if unlocked_achievements|length == 0 %}
+                        {% if request.user.userprofile.get_unlocked_achievements %}
+                            {% for user_achievement in request.user.userprofile.get_unlocked_achievements %}
+                                <hr>
+                                <i class="fas fa-trophy"></i> {{ user_achievement.achievement.name }} <span class="float-right">{{ user_achievement.datetime }}</span><br>
+                                {{ user_achievement.achievement.description }}
+                            {% endfor %}
+                        {% else %}
                             You haven't unlocked any achievements yet.
                         {% endif %}
-                        {% for user_achievement in unlocked_achievements %}
-                            <hr>
-                            <i class="fas fa-trophy"></i> {{ user_achievement.achievement.name }} <span class="float-right">{{ user_achievement.datetime }}</span><br>
-                            {{ user_achievement.achievement.description }}
-                        {% endfor %}
 					</div>
 				</div>
                 <div class="card">
                     <div class="card-body">
                         <h3>Locked achievements</h3>
-                        {% if locked_achievements|length == 0 %}
+                        {% if request.user.userprofile.get_locked_achievements %}
+                            <div class="transparent">
+                                {% for achievement in request.user.userprofile.get_locked_achievements %}
+                                    <hr>
+                                    <i class="fas fa-trophy"></i> {{ achievement.name }}<br>
+                                    {{ achievement.description }}
+                                {% endfor %}
+                            </div>
+                        {% else %}
                             You've unlocked all the achievements.
                         {% endif %}
-                        <div class="transparent">
-                            {% for achievement in locked_achievements %}
-                                <hr>
-                                <i class="fas fa-trophy"></i> {{ achievement.name }}<br>
-                                {{ achievement.description }}
-                            {% endfor %}
-                        </div>
+
                     </div>
                 </div>
 			</div>
