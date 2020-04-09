@@ -23,13 +23,7 @@
 							<hr>
 							<h3>{{ passed_user.username }}</h3>
                             <p>
-                                {% if passed_user|reputation > 0 %}
-                                    <span class="text-success">+{{ passed_user|reputation }}</span>
-                                {% elif passed_user|reputation < 0 %}
-                                    <span class="text-danger">{{ passed_user|reputation }}</span>
-                                {% elif passed_user|reputation == 0 %}
-                                    <span class="text-warning">{{ passed_user|reputation }}</span>
-                                {% endif %}
+                                {{ passed_user|formatted_reputation }}
                                 <small>(
                                     <span class="text-success ">{{ passed_user.userprofile.get_upvotes }} <i class="fas fa-chevron-up"></i></span>
                                     <span class="text-danger ">{{ passed_user.userprofile.get_downvotes }} <i class="fas fa-chevron-down"></i></span>
@@ -51,7 +45,7 @@
 				</div>
 			</div>
 			<div class="col-12 col-md-9">
-				<div class="card">
+				<div class="card mb-0">
 					<div class="card-header">Description</div>
 					<div class="card-body">
 						{{ passed_user.userprofile.description|safe }}

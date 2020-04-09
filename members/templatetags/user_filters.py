@@ -1,4 +1,6 @@
 from django import template
+from django.template.defaultfilters import safe
+
 from forum.models import Message, Thread
 from members.models import Alert
 from settings.models import SiteColorPalette
@@ -39,6 +41,17 @@ def downvote_count(user):
 @register.filter(name='reputation')
 def reputation(user):
     return user.userprofile.get_reputation()
+
+
+@register.filter(name='formatted_reputation')
+def formatted_reputation(user):
+    user_reputation = user.userprofile.get_reputation()
+    if user_reputation > 0:
+        return safe("<span class='text-success'>" + str(user_reputation) + "</span>")
+    elif user_reputation < 0:
+        return safe("<span class='text-danger'>" + str(user_reputation) + "</span>")
+    else:
+        return safe("<span class='text-warning'>0</span>")
 
 
 @register.filter(name='achievements')

@@ -40,13 +40,7 @@
                                             <span class="badge badge-primary">{{ group }}</span>
                                         {% endfor %}
                                     </td>
-                                    {% if member|reputation > 0 %}
-                                        <td class="text-success">+{{ member|reputation }}</td>
-                                    {% elif member|reputation < 0 %}
-                                        <td class="text-danger">{{ member|reputation }}</td>
-                                    {% elif member|reputation == 0 %}
-                                        <td class="text-warning">{{ member|reputation }}</td>
-                                    {% endif %}
+                                    <td>{{ member|formatted_reputation }}</td>
                                     <td>{{ member|post_count }}</td>
                                     <td>{{ member|thread_count }}</td>
                                 </tr>
