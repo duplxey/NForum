@@ -23,10 +23,10 @@
 							<hr>
 							<h3>{{ passed_user.username }}</h3>
                             <p>
-                                {{ passed_user|formatted_reputation }}
+                                {{ passed_user|reputation }}
                                 <small>(
-                                    <span class="text-success ">{{ passed_user.userprofile.get_upvotes }} <i class="fas fa-chevron-up"></i></span>
-                                    <span class="text-danger ">{{ passed_user.userprofile.get_downvotes }} <i class="fas fa-chevron-down"></i></span>
+                                    <span class="text-success ">{{ passed_user.userprofile.get_upvote_count }} <i class="fas fa-chevron-up"></i></span>
+                                    <span class="text-danger ">{{ passed_user.userprofile.get_downvote_count }} <i class="fas fa-chevron-down"></i></span>
                                 )</small>
                             </p>
 							{% for group in passed_user.groups.all %}
@@ -38,9 +38,9 @@
 							<hr>
 						</div>
                         Registration: {{ passed_user.date_joined|date:"d.m.Y" }}<br>
-                        Threads started: {{ passed_user|thread_count }}<br>
-                        Messages posted: {{ passed_user|post_count }}<br>
-                        Achievements: {{ passed_user|achievements }}<br>
+                        Threads started: {{ passed_user.userprofile.get_thread_count }}<br>
+                        Messages posted: {{ passed_user.userprofile.get_post_count }}<br>
+                        Achievements: {{ passed_user.userprofile.get_unlocked_achievements }}<br>
 					</div>
 				</div>
 			</div>

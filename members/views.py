@@ -3,11 +3,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
+from django.utils import timezone
 
-from .forms import LoginForm, SignupForm, SettingsForm
-from .models import UserProfile, Alert, Achievement
 from forum.models import Message, Thread
 from nforum.errors import unknown_user, already_authenticated
+from .forms import LoginForm, SignupForm, SettingsForm
+from .models import UserProfile
 
 
 def login_view(request):
@@ -138,10 +139,18 @@ def settings_view(request):
 
 @login_required
 def alert_view(request):
-    Alert.clear_unseen_alerts(user=request.user)
-    return render(request, 'members/alert.html', {'alerts': Alert.get_latest_alerts(request.user, 10)})
+    for alert in request.user.userprofile.get_unseen_alerts():
+        alert.seen = timezone.now()
+        alert.save()
+
+    return render(request, 'members/alert.html', {'alerts': request.user.userprofile.get_alerts()})
 
 
 @login_required
 def achievement_view(request):
-    return render(request, 'members/achievement.html', {'unlocked_achievements': Achievement.get_unlocked_achievements(request.user), 'locked_achievements': Achievement.get_locked_achievements(request.user)})
+    user = request.user
+
+    return render(request, 'members/achievement.html', {
+        'unlocked_achievements': user.userprofile.get_unlocked_achievements(),
+        'locked_achievements': user.userprofile.get_locked_achievements()
+    })

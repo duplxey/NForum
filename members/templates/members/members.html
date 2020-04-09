@@ -40,9 +40,9 @@
                                             <span class="badge badge-primary">{{ group }}</span>
                                         {% endfor %}
                                     </td>
-                                    <td>{{ member|formatted_reputation }}</td>
-                                    <td>{{ member|post_count }}</td>
-                                    <td>{{ member|thread_count }}</td>
+                                    <td>{{ member|reputation }}</td>
+                                    <td>{{ member.userprofile.get_post_count }}</td>
+                                    <td>{{ member.userprofile.get_thread_count }}</td>
                                 </tr>
                             {% endfor %}
                         </tbody>
