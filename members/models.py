@@ -7,7 +7,7 @@ from forum.models import Message, Thread
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     description = models.TextField(max_length=750, default="Another cool user.")
-    avatar = models.ImageField(null=True, blank=True, upload_to='images/')
+    avatar = models.ImageField(null=True, blank=True, upload_to='avatars/')
 
     # ---------------------------------------------------------
     # > Alerts
