@@ -7,9 +7,11 @@
 	<p>Please wait another <span id="seconds-left">3</span> second(s).</p>
 	<script>
         $(document).ready(function() {
+            let span = $("#seconds-left");
             let left = span.text();
+
             setInterval(function() {
-                $("#seconds-left").text(--left);
+                span.text(--left);
                 if (left <= 0) {
                     window.location.href="{% url "index" %}";
                 }

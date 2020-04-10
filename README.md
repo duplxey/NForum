@@ -8,6 +8,7 @@ or talk in already existing ones. It has a built-in upvote/downvote (reputation)
 - Extremely easy to use UI (+ admin panel)
 - Thread categories & subcategories
 - Thread locking & pinning
+- Thread prefixes
 - User profiles (avatar, description, recent threads & posts)
 - Reputation system (users can upvote or downvote each others' messages)
 - Achievement system (users get achievements based on thread count, post count, upvotes, downvotes)
