@@ -74,9 +74,7 @@ class Thread(models.Model):
     class Meta:
         ordering = ["-pk"]
         permissions = [
-            ("lock_thread", "Can lock a thread."),
             ("locked_thread_reply", "Can reply to a locked thread."),
-            ("delete_other_threads", "Can delete other people's threads."),
             ("create_thread_in_staff_only", "Can create threads in staff only categories."),
         ]
 

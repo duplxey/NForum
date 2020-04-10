@@ -66,6 +66,9 @@ def thread_create_view(request, subcategory_name):
     except Subcategory.DoesNotExist:
         return unknown_subcategory(request)
 
+    if subcategory.category.staff_only and not request.user.has_perm("create_thread_in_staff_only"):
+        return insufficient_permission(request)
+
     form = CreateThreadForm()
 
     if request.method == 'POST':
@@ -107,6 +110,9 @@ def thread_post_view(request, thread_title):
         thread = Thread.objects.get(title=thread_title)
     except Thread.DoesNotExist:
         return unknown_thread(request)
+
+    if thread.locked and not request.user.has_perm("locked_thread_reply"):
+        return insufficient_permission(request)
 
     form = PostReplyForm()
 

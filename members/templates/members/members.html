@@ -16,8 +16,7 @@
 		<div class="card">
 			<div class="card-body">
                 <h3>Members</h3>
-                <hr>
-                {% include "components/pagination.html" %}
+                {% include "components/pagination.html" with upper_border=True hideable=True %}
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
@@ -48,7 +47,7 @@
                         </tbody>
                     </table>
                 </div>
-                {% include "components/pagination.html" %}
+                {% include "components/pagination.html" with hideable=True %}
 			</div>
 		</div>
 	</div>

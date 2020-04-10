@@ -20,8 +20,8 @@
 					<div class="card-body">
                         <h3>Alerts</h3>
                         {% if page %}
+                            <hr>
                             {% for alert in page %}
-                                <hr>
                                 {% if alert.type == 'ME' %}
                                     <i class="fas fa-at"></i> <a href="{% url 'members-profile' username=alert.caused_by %}"><img src="{{ alert.caused_by|avatar }}" class="img-fluid avatar-mini" alt="{{ alert.caused_by.username }}'s avatar"> {{ alert.caused_by.username }}</a> mentioned you in <a href="{% url 'forum-thread' thread_title=alert.thread.title  %}">{{ alert.thread.title }}</a>.<br>
                                     <small>{{ alert.message|default:"" }} {{ alert.datetime }}</small>
@@ -38,12 +38,14 @@
                                     <i class="fas fa-trophy"></i> You just got a new achievement!<br>
                                     <small><a href="{% url 'members-achievement' %}">Click me to view your achievements.</a></small>
                                 {% endif %}
+                                {% if not forloop.last %}
+                                    <hr>
+                                {% endif %}
                             {% endfor %}
                         {% else %}
                             You do not have any alerts.
                         {% endif %}
-                        <hr>
-                        {% include "components/pagination.html" with center=True %}
+                        {% include "components/pagination.html" with center=True upper_border=True hideable=True %}
 					</div>
 				</div>
 			</div>
