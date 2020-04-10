@@ -18,6 +18,10 @@ or talk in already existing ones. It has a built-in upvote/downvote (reputation)
 - Basic customization (site name, logo, favicon title, description, short description)
 - Customizable site color palette
 
+## Gallery
+Here a few pictures so you can see how NForum looks in action:  
+<https://imgur.com/a/rmhtj9q>
+
 ## Preparing the development environment
 1. Install Python and pip (https://www.python.org/downloads/).
 1. Create a new virtual environment (https://docs.python.org/3/tutorial/venv.html).
