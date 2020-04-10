@@ -17,7 +17,7 @@
 			</ol>
 		</nav>
         {% csrf_token %}
-		{% for message in thread.get_messages %}
+		{% for message in page %}
 			<div class="card" {% if forloop.counter == 1 %}style="background: var(--background-gray);"{% endif %}>
 				<div class="card-body">
                     {% if forloop.counter == 1 %}
@@ -50,6 +50,7 @@
 				</div>
 			</div>
 		{% endfor %}
+        {% include "components/pagination.html" with center=True %}
         {% if user.is_authenticated %}
             <script>
                 function update(data) {

@@ -49,8 +49,12 @@ def thread_view(request, thread_title):
     except Thread.DoesNotExist:
         return unknown_thread(request)
 
+    paginator = Paginator(thread.get_messages(), 10)
+    page = paginator.get_page(request.GET.get('page', 1))
+
     return render(request, 'forum/thread.html', {
         'thread': thread,
+        'page': page,
         'form': PostReplyForm()
     })
 
