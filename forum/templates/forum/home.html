@@ -2,6 +2,7 @@
 
 {% load static %}
 {% load user_filters %}
+{% load forum_filters %}
 
 {% block subtitle %}Forum{% endblock %}
 
@@ -19,7 +20,7 @@
                     {% for thread in page.object_list %}
                         <div class="card">
                             <div class="card-body">
-                                <h5><span class="badge" style="background: #{{ thread.prefix.color }};color:white;">{{ thread.prefix.name }}</span> {{ thread.title }}</h5>
+                                <h5>{{ thread|with_prefix }}</h5>
                                 <hr>
                                 <small><a href="{% url "members-profile" username=thread.get_first_message.author.username %}">{{ thread.get_first_message.author }}</a>, posted on {{ thread.get_first_message.date_posted }} {% if thread.get_first_message.date_edited is not null %}(last edited: {{ thread.get_first_message.date_edited }}){% endif %}</small>
                                 <p>{{ thread.get_first_message.content|safe|truncatewords:200 }}</p>
@@ -40,28 +41,7 @@
                 {% endif %}
             </div>
 			<div class="col-12 col-md-3">
-				<div class="card">
-					<div class="card-header"><i class="fas fa-folder-open"></i> Recent posts</div>
-					<div class="card-body">
-                        {% if recent_messages %}
-                            {% for recent_message in recent_messages %}
-                                {% if forloop.counter is not 1 %}<hr>{% endif %}
-                                <img src="{{ recent_message.author|avatar }}" class="avatar-mini" alt="{{ recent_message.author.username }}'s avatar"> <a href="{% url 'forum-thread' thread_title=recent_message.thread.title %}">{{ recent_message.thread.title }}</a><br><small>Last reply: <a href="{% url 'members-profile' username=recent_message.author.username %}">{{ recent_message.author.username }}</a> ({{ recent_message.date_posted }})<br>Subcategory: {{ recent_message.thread.subcategory.title }}</small>
-                            {% endfor %}
-                        {% else %}
-                            There are no recent messages yet.
-                        {% endif %}
-					</div>
-				</div>
-				<div class="card">
-					<div class="card-header"><i class="fas fa-signal"></i> Statistics</div>
-					<div class="card-body">
-						Threads: {{ thread_count }}<br>
-						Messages: {{ message_count }}<br>
-						Active users: {{ active_user_count }}<br>
-						Registered users: {{ registered_user_count }}<br>
-					</div>
-				</div>
+				{% include "forum/modules/sidebar-pack.html" %}
 			</div>
 		</div>
 	</div>
