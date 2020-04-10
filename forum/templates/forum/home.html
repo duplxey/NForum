@@ -11,7 +11,7 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item active">Home</li>
-                <li class="breadcrumb-item active">{{ category.title }}</li>
+                <li class="breadcrumb-item active">{{ category.title|default:"Not configured" }}</li>
             </ol>
         </nav>
 		<div class="row">
@@ -35,7 +35,7 @@
                 {% else %}
                     <div class="card">
                         <div class="card-body">
-                            There are no categories is selected home category or home category is not configured yet.
+                            There are no categories in selected home category or home category hasn't been configured yet.
                         </div>
                     </div>
                 {% endif %}
