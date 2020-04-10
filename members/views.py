@@ -143,7 +143,12 @@ def alert_view(request):
         alert.seen = timezone.now()
         alert.save()
 
-    return render(request, 'members/alert.html', {})
+    paginator = Paginator(request.user.userprofile.get_alerts(), 8)
+    page = paginator.get_page(request.GET.get('page', 1))
+
+    return render(request, 'members/alert.html', {
+        'page': page,
+    })
 
 
 @login_required
