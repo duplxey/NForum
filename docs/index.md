@@ -15,4 +15,7 @@ NForum is a simple light-weight forum written in Python using Django. It allows 
 - Basic customization (site name, logo, favicon title, description, short description)
 - Customizable site color palette
 
-![NForum preview](https://i.imgur.com/dQipib1_d.webp?maxwidth=760&fidelity=grand)
+<div style="display: flex">
+  <img src="https://i.imgur.com/aa39Xso_d.webp?maxwidth=760&fidelity=grand" alt="NForum list">
+  <img src="https://i.imgur.com/pvzKnAp_d.webp?maxwidth=760&fidelity=grand" alt="NForum thread">
+</div>
