@@ -1,37 +1,44 @@
-## Welcome to GitHub Pages
+# NForum
+NForum is a simple light-weight forum written in Python using Django. It allows users to create their own threads
+or talk in already existing ones. It has a built-in upvote/downvote (reputation) system, achievements, alerts & more!
 
-You can use the [editor on GitHub](https://github.com/duplxey/NForum/edit/master/docs/index.md) to maintain and preview the content for your website in Markdown files.
+> :warning: The project is still under heavy development and should not be used in production in it's current state.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## Features
+- Extremely easy to use UI (+ admin panel)
+- Thread categories & subcategories
+- Thread locking & pinning
+- Thread prefixes
+- User profiles (avatar, description, recent threads & posts)
+- Reputation system (users can upvote or downvote each others' messages)
+- Achievement system (users get achievements based on thread count, post count, upvotes, downvotes)
+- Alerts (users get a notification when someone responds to their thread, are mentioned or their post is rated)
+- Users are able to create their own threads (topics) or talk in already existing ones.
+- Wiki (community can create and edit wiki pages)
+- Basic customization (site name, logo, favicon title, description, short description)
+- Customizable site color palette
 
-### Markdown
+## Gallery
+Here a few pictures so you can see how NForum looks in action:  
+<https://imgur.com/a/rmhtj9q>
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+## Preparing the development environment
+1. Install Python and pip (https://www.python.org/downloads/).
+1. Create a new virtual environment (https://docs.python.org/3/tutorial/venv.html).
+1. Create a new `.env` file (in this directory) containing the following:
+    ```
+    SECRET_KEY = <django-secret-key>
+    DATABASE_NAME = <name>
+    DATABASE_USER = <user>
+    DATABASE_PASSWORD = <password>
+    DATABASE_PORT = <port>
+    DATABASE_HOST = <host>
+    ```
+1. Install the packages in requirements.txt (`pip install -r requirements.txt`).
+1. Run the server! (`python manage.py runserver`)
 
-```markdown
-Syntax highlighted code block
+NOTE: You also need a database (preferably MySQL) running in the background. Provide your database credentials in `.env`.
 
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/duplxey/NForum/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+## Admin panel
+You'll first need to create a super user using the following command:  
+`python manage.py createsuperuser`
